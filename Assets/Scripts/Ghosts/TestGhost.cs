@@ -1,6 +1,6 @@
 namespace Ghosts
 {
-    public class TestGhost
+    public class TestGhost : IGhost
     {
         
     }
