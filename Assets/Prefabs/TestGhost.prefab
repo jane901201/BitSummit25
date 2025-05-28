@@ -243,7 +243,8 @@ MonoBehaviour:
   currentHP: 0
   scoreValue: 10
   gaugeValue: 5
-  moveSpeed: 10
+  attackPower: 10
+  moveSpeed: 5
   cameraTransform: {fileID: 0}
   rigidbody: {fileID: 5867544394327965813}
   isAttackable: 0

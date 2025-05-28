@@ -46,3 +46,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ghosts:
   - {fileID: 5057532432556813064, guid: 799f197008eaa9b4f9468645f69887d7, type: 3}
+  totalScore: 0
+  maxPlayerHp: 100
+  currentPlayerHp: 0
+  attackOriginalRangePoint: {fileID: 0}
+  ghostSpawnTime: 4
+  ghostSpawnPoint: {fileID: 0}
+  spawnRange: {x: 3, y: 2, z: 5}
+  maxGhostCount: 20
+  currentGhostCount: 0
+  attackPower: 10
+  enhancedAttackPower: 20
+  currentAttackPower: 0
+  currentGauge: 0
+  maxGauge: 100
+  gaugeTime: 10

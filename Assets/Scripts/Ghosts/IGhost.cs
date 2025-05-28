@@ -80,7 +80,7 @@ public class IGhost : MonoBehaviour
         // スコアとゲージ加算
         GameManager.Instance.AddScore(scoreValue);
         GameManager.Instance.AddGauge(gaugeValue);
-
+        
         // 自身を削除
         Destroy(gameObject);
     }

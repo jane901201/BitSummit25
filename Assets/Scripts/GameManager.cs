@@ -17,7 +17,8 @@ public class GameManager : MonoBehaviour
     [Header("Ghost")]
     [SerializeField] private float ghostSpawnTime = 4f;
     [SerializeField] private Transform ghostSpawnPoint;
-    [FormerlySerializedAs("totalGhostCount")] [SerializeField] private int maxGhostCount = 20;
+    [SerializeField] private Vector3 spawnRange = new Vector3(5f, 0f, 5f);
+    [SerializeField] private int maxGhostCount = 20;
     [SerializeField] private int currentGhostCount = 0;
     
     [Header("Attack")]
@@ -31,6 +32,12 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float gaugeTime = 10f;
     
     public static GameManager Instance { get; private set; }
+    
+    public int CurrentPlayerHp => currentPlayerHp;
+    public int CurrentAttackPower => currentAttackPower;
+    public int CurrentGauge => currentGauge;
+    public int TotalScore => totalScore;
+    public int CurrentGhostCount => currentGhostCount;
     
     private void Awake()
     {
@@ -56,7 +63,17 @@ public class GameManager : MonoBehaviour
     {
         yield return new WaitForSeconds(ghostSpawnTime);
         int index = Random.Range(0, ghosts.Count);
-        Instantiate(ghosts[index], ghostSpawnPoint.position, ghostSpawnPoint.rotation);
+        
+        Vector3 randomOffset = new Vector3(
+            Random.Range(-spawnRange.x, spawnRange.x),
+            Random.Range(-spawnRange.y, spawnRange.y),
+            Random.Range(-spawnRange.z, spawnRange.z)
+        );
+
+        // 基準点からオフセットを加えた位置に生成
+        Vector3 spawnPosition = ghostSpawnPoint.position + randomOffset;
+        
+        Instantiate(ghosts[index], spawnPosition, ghostSpawnPoint.rotation);
         StartCoroutine(SpawnGhost());
     }
 
