@@ -7,6 +7,7 @@ public class IGhost : MonoBehaviour
     [SerializeField] protected int currentHP;
     [SerializeField] protected int scoreValue = 10;
     [SerializeField] protected int gaugeValue = 5;
+    [SerializeField] protected int attackPower = 10;
     [SerializeField] protected float moveSpeed = 1f;
     [SerializeField] protected Transform cameraTransform;
     [SerializeField] protected Rigidbody rigidbody;
@@ -17,6 +18,8 @@ public class IGhost : MonoBehaviour
     [SerializeField] protected bool isSpecialAttackRequired;
     //TODO:HPBar 可以直接掛在角色身上嗎? 
     private Vector3 forward;
+    
+    public int GetAttackPower() => attackPower;
 
     private void Awake()
     {

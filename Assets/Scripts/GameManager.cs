@@ -12,10 +12,14 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int totalScore = 0;
     [SerializeField] private int maxPlayerHp = 100; 
     [SerializeField] private int currentPlayerHp = 0;
-    [SerializeField] private Transform ghostSpawnPoint;
     [SerializeField] private Transform attackOriginalRangePoint;
+    
+    [Header("Ghost")]
     [SerializeField] private float ghostSpawnTime = 4f;
-
+    [SerializeField] private Transform ghostSpawnPoint;
+    [FormerlySerializedAs("totalGhostCount")] [SerializeField] private int maxGhostCount = 20;
+    [SerializeField] private int currentGhostCount = 0;
+    
     [Header("Attack")]
     [SerializeField] private int attackPower = 10;
     [SerializeField] private int enhancedAttackPower = 20;
@@ -100,6 +104,23 @@ public class GameManager : MonoBehaviour
     {
         currentGauge += gaugeValue;
         GaugeBarUpdate();
+    }
+    
+    public void TakeDamage(int damage)
+    {
+        currentPlayerHp -= damage;
+    }
+
+    public void CheckGameResult()
+    {
+        if (currentPlayerHp <= 0)
+        {
+            GameOver();
+        }
+        else if(currentGhostCount == maxGhostCount)
+        {
+            Victory();
+        }
     }
 
     public void Victory()
