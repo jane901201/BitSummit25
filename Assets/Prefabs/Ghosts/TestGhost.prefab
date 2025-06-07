@@ -99,7 +99,7 @@ GameObject:
   - component: {fileID: 7979176008910029881}
   - component: {fileID: 2198977812252314960}
   - component: {fileID: 5867544394327965813}
-  - component: {fileID: 5282845514403340815}
+  - component: {fileID: 3093034541503473523}
   m_Layer: 0
   m_Name: TestGhost
   m_TagString: Untagged
@@ -227,7 +227,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &5282845514403340815
+--- !u!114 &3093034541503473523
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -236,7 +236,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5057532432556813064}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a0c03c4766f8493c9e244f97358cadfb, type: 3}
+  m_Script: {fileID: 11500000, guid: d7ef96c7f67f4e238b5d6a1f892f3534, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   maxHP: 100
@@ -244,10 +244,10 @@ MonoBehaviour:
   scoreValue: 10
   gaugeValue: 5
   attackPower: 10
-  moveSpeed: 5
+  moveSpeed: 3
   cameraTransform: {fileID: 0}
-  rigidbody: {fileID: 5867544394327965813}
-  isAttackable: 0
+  rigidbody: {fileID: 0}
+  isInAttackableRange: 0
   attackableIcon: {fileID: 0}
   isSpecialAttackRequired: 0
 --- !u!1 &5623792092236663660

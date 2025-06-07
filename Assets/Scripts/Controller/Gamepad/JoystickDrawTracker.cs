@@ -69,6 +69,7 @@ public class JoystickDrawTracker : MonoBehaviour
                 SwingSpeed swingSpeed = JudgeSpeed(speed);
 
                 Debug.Log($"方向: {swingDir}, 速度: {speed:F2} → {swingSpeed}");
+                GameManager.Instance.TakeGhostsDamage(swingDir, swingSpeed);
                 
             }
             

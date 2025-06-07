@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7627666358162503938}
   - component: {fileID: 1120688943821564796}
+  - component: {fileID: 8561113786562538482}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -46,6 +47,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ghosts:
   - {fileID: 5057532432556813064, guid: 799f197008eaa9b4f9468645f69887d7, type: 3}
+  - {fileID: 6202637143529411349, guid: 3e0af15d8cdc35f4b9f3a9f0df418b3d, type: 3}
   totalScore: 0
   maxPlayerHp: 100
   currentPlayerHp: 0
@@ -54,10 +56,24 @@ MonoBehaviour:
   ghostSpawnPoint: {fileID: 0}
   spawnRange: {x: 3, y: 2, z: 5}
   maxGhostCount: 20
-  currentGhostCount: 0
-  attackPower: 10
+  attackPower: 100
   enhancedAttackPower: 20
   currentAttackPower: 0
   currentGauge: 0
   maxGauge: 100
   gaugeTime: 10
+--- !u!114 &8561113786562538482
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 303586515412108768}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_FirstSelected: {fileID: 0}
+  m_sendNavigationEvents: 1
+  m_DragThreshold: 10

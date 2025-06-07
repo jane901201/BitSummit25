@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using Ghosts;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
@@ -19,7 +21,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Transform ghostSpawnPoint;
     [SerializeField] private Vector3 spawnRange = new Vector3(5f, 0f, 5f);
     [SerializeField] private int maxGhostCount = 20;
-    [SerializeField] private int currentGhostCount = 0;
     
     [Header("Attack")]
     [SerializeField] private int attackPower = 10;
@@ -37,7 +38,12 @@ public class GameManager : MonoBehaviour
     public int CurrentAttackPower => currentAttackPower;
     public int CurrentGauge => currentGauge;
     public int TotalScore => totalScore;
-    public int CurrentGhostCount => currentGhostCount;
+    
+    
+    private List<IGhost> ghostsList = new List<IGhost>();
+    private List<IGhost> deadGhostsList = new List<IGhost>();
+    private int currentDeadGhostCount = 0;
+
     
     private void Awake()
     {
@@ -53,7 +59,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-
+        currentAttackPower = attackPower;
         currentPlayerHp = maxPlayerHp;
         StartCoroutine(SpawnGhost());
     }
@@ -73,7 +79,8 @@ public class GameManager : MonoBehaviour
         // 基準点からオフセットを加えた位置に生成
         Vector3 spawnPosition = ghostSpawnPoint.position + randomOffset;
         
-        Instantiate(ghosts[index], spawnPosition, ghostSpawnPoint.rotation);
+        GameObject ghost = Instantiate(ghosts[index], spawnPosition, ghostSpawnPoint.rotation);
+        ghostsList.Add(ghost.GetComponent<IGhost>());
         StartCoroutine(SpawnGhost());
     }
 
@@ -122,10 +129,46 @@ public class GameManager : MonoBehaviour
         currentGauge += gaugeValue;
         GaugeBarUpdate();
     }
+
+    public void AddCurrentDeadGhostCount()
+    {
+        currentDeadGhostCount++;
+    }
     
     public void TakeDamage(int damage)
     {
         currentPlayerHp -= damage;
+        CheckGameResult();
+    }
+
+    public void TakeGhostsDamage(SwingDirection direction, SwingSpeed speed)
+    {
+        for (int i = ghostsList.Count - 1; i >= 0; i--)
+        {
+            if(ghostsList[i].GetIsAttackable(direction, speed))
+            {
+                ghostsList[i].TakeDamage(currentAttackPower);
+            }
+            if (ghostsList[i].IsDead())
+            {
+                ghostsList[i].Die();
+                deadGhostsList.Add(ghostsList[i]);
+                ghostsList.RemoveAt(i);
+            }
+        }
+        deadGhostsList.ForEach(ghost => Destroy(ghost.gameObject));
+        deadGhostsList.Clear();
+        CheckGameResult();
+    }
+
+    public void RemoveGhost(IGhost ghost)
+    {
+        int index = deadGhostsList.FindIndex(x => x == ghost);
+        if (index >= 0)
+        {
+            ghostsList[index].Die();
+            deadGhostsList.Add(ghostsList[index]); 
+        }
     }
 
     public void CheckGameResult()
@@ -134,7 +177,7 @@ public class GameManager : MonoBehaviour
         {
             GameOver();
         }
-        else if(currentGhostCount == maxGhostCount)
+        else if(currentDeadGhostCount == maxGhostCount)
         {
             Victory();
         }

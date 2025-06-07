@@ -1,5 +1,5 @@
-using System;
 using UnityEngine;
+using Ghosts;
 
 public class BeAttackedTrigger : MonoBehaviour
 {
@@ -11,6 +11,7 @@ public class BeAttackedTrigger : MonoBehaviour
     
     private void OnTriggerExit(Collider other)
     {
-        Destroy(other.gameObject);
+        GameManager.Instance.RemoveGhost(other.GetComponent<IGhost>());
+        other.gameObject.SetActive(false);
     }
 }
