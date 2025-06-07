@@ -1,6 +1,5 @@
 using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Ghosts
 {
@@ -14,7 +13,6 @@ namespace Ghosts
         [SerializeField] protected float moveSpeed = 1f;
         [SerializeField] protected Transform cameraTransform;
         [SerializeField] protected Rigidbody rigidbody;
-        [FormerlySerializedAs("isAttackable")]
         [Tooltip("プレイヤーに攻撃されることができる")]
         [SerializeField] protected bool isInAttackableRange; 
         [SerializeField] protected Sprite attackableIcon;
@@ -30,9 +28,10 @@ namespace Ghosts
         {
             if(cameraTransform == null)
                 cameraTransform = Camera.main.transform;
+            
         } 
         
-        private void Start()
+        protected virtual void Start()
         {
             currentHP = maxHP;
             if(rigidbody == null)
@@ -63,7 +62,7 @@ namespace Ghosts
         public void SetIsInAttackableRange(bool isAttackable)
         {
             isInAttackableRange = isAttackable;
-            Debug.Log(isAttackable);
+            //Debug.Log(isAttackable);
         }
         
         public void SetAttackableIcon(Sprite attackableIcon, bool isActive)
@@ -80,7 +79,7 @@ namespace Ghosts
         public void TakeDamage(int damage)
         {
             currentHP -= damage;
-            Debug.Log("TakeDamage");
+            //Debug.Log("TakeDamage");
         }
 
         public void Die()

@@ -46,8 +46,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ghosts:
-  - {fileID: 5057532432556813064, guid: 799f197008eaa9b4f9468645f69887d7, type: 3}
   - {fileID: 6202637143529411349, guid: 3e0af15d8cdc35f4b9f3a9f0df418b3d, type: 3}
+  - {fileID: 3762797861846921434, guid: 200d3cff74a822b478da6c4d87dab453, type: 3}
+  - {fileID: 4869664622610503681, guid: 24b1b7df7716c5248be796cfa4d28d7a, type: 3}
+  - {fileID: 6380899317308937555, guid: c1200e516fb73b3418e1e54fdcbf200f, type: 3}
+  - {fileID: 887212374700446702, guid: ab2d5f62028ed4e40bcca4ab6da3ca13, type: 3}
+  - {fileID: 7258513955768044482, guid: af2fab733f82a66409950fe8f11e03d4, type: 3}
   totalScore: 0
   maxPlayerHp: 100
   currentPlayerHp: 0

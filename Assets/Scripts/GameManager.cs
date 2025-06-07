@@ -31,6 +31,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int currentGauge = 0;
     [SerializeField] private int maxGauge = 100;
     [SerializeField] private float gaugeTime = 10f;
+
+    [SerializeField] private GameObject PlayerPointer;
+    [SerializeField] private float overlapThreshold = 20f;
     
     public static GameManager Instance { get; private set; }
     
@@ -90,6 +93,8 @@ public class GameManager : MonoBehaviour
         {
             
         }
+        
+        
     }
 
     private void AttackRange()
@@ -171,6 +176,32 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void VisualOverlapDetector(GameObject object1, GameObject object2)
+    {
+        // Camera からスクリーン座標に変換
+        Vector3 obj1ScreenPos = Camera.main.WorldToScreenPoint(object1.transform.position);
+        Vector3 obj2ScreenPos = Camera.main.WorldToScreenPoint(object2.transform.position);
+
+        // 距離を測定
+        float screenDistance = Vector2.Distance(
+            new Vector2(obj1ScreenPos.x, obj1ScreenPos.y),
+            new Vector2(obj2ScreenPos.x, obj2ScreenPos.y)
+        );
+
+        // しきい値（ピクセル）で重なりを判定
+        if (screenDistance < overlapThreshold)
+        {
+            // 見た目上重なっていると判定 → トリガー処理
+            OnOverlapDetected();
+        }
+
+    }
+
+    private void OnOverlapDetected()
+    {
+        Debug.Log("Overlap Detected!");   
+    }
+
     public void CheckGameResult()
     {
         if (currentPlayerHp <= 0)
@@ -185,11 +216,11 @@ public class GameManager : MonoBehaviour
 
     public void Victory()
     {
-        
+        Debug.Log("Victory");
     }
 
     public void GameOver()
     {
-        
+        Debug.Log("GameOver");
     }
 }

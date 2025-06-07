@@ -202,7 +202,7 @@ Transform:
   m_GameObject: {fileID: 322519122}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.1, y: -0.9, z: 4.5}
+  m_LocalPosition: {x: 0.1, y: -0.9, z: 0}
   m_LocalScale: {x: 90, y: 50, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1097,7 +1097,7 @@ GameObject:
   - component: {fileID: 2074308152}
   - component: {fileID: 2074308153}
   m_Layer: 0
-  m_Name: Triangle
+  m_Name: PlayerPointer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1295,6 +1295,7 @@ MonoBehaviour:
   lineRenderer: {fileID: 2074308151}
   baseMoveSpeed: 5
   moveSpeed: 5
+  fastSwingThreshold: 2.5
 --- !u!114 &2074308153
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1547,6 +1548,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: TestGhost
       objectReference: {fileID: 0}
+    - target: {fileID: 5057532432556813064, guid: 799f197008eaa9b4f9468645f69887d7, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5282845514403340815, guid: 799f197008eaa9b4f9468645f69887d7, type: 3}
       propertyPath: cameraTransform
       value: 
@@ -1567,6 +1572,10 @@ PrefabInstance:
     - target: {fileID: 6202637143529411349, guid: 3e0af15d8cdc35f4b9f3a9f0df418b3d, type: 3}
       propertyPath: m_Name
       value: NormalGhost
+      objectReference: {fileID: 0}
+    - target: {fileID: 6202637143529411349, guid: 3e0af15d8cdc35f4b9f3a9f0df418b3d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9126151030305993388, guid: 3e0af15d8cdc35f4b9f3a9f0df418b3d, type: 3}
       propertyPath: m_LocalPosition.x

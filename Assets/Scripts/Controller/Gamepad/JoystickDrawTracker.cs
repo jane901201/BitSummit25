@@ -7,6 +7,7 @@ public class JoystickDrawTracker : MonoBehaviour
     public LineRenderer lineRenderer;
     public float baseMoveSpeed = 5f;
     public float moveSpeed = 5f;
+    [SerializeField] private float fastSwingThreshold	= 2.5f;
     private List<Vector3> recordedPositions = new List<Vector3>();
     private bool isDrawing = false;
 
@@ -80,15 +81,15 @@ public class JoystickDrawTracker : MonoBehaviour
     
     public SwingDirection JudgeDirection(Vector3 dir)
     {
-        // 横：X成分が強い、縦：Z成分が強い、斜め：同じくらい
+        Debug.Log($"X: {dir.x}, Y: {dir.y}, Z: {dir.z}");
         float absX = Mathf.Abs(dir.x);
-        float absZ = Mathf.Abs(dir.z);
+        float absY = Mathf.Abs(dir.y);
 
-        if (Mathf.Abs(absX - absZ) < 0.3f)
+        if (Mathf.Abs(absX - absY) < 0.3f)
         {
             return SwingDirection.Diagonal;
         }
-        else if (absX > absZ)
+        else if (absX > absY)
         {
             return SwingDirection.Horizontal;
         }
@@ -100,6 +101,6 @@ public class JoystickDrawTracker : MonoBehaviour
     
     private SwingSpeed JudgeSpeed(float avgSpeed)
     {
-        return avgSpeed >= 2.5f ? SwingSpeed.Fast : SwingSpeed.Slow;
+        return avgSpeed >= fastSwingThreshold ? SwingSpeed.Fast : SwingSpeed.Slow;
     }
 }

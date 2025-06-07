@@ -8,6 +8,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 452002048204006977, guid: 3e0af15d8cdc35f4b9f3a9f0df418b3d, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 5c64ef82eece86448b53330351e225c2, type: 2}
     - target: {fileID: 6202637143529411349, guid: 3e0af15d8cdc35f4b9f3a9f0df418b3d, type: 3}
       propertyPath: m_Name
       value: FastGhost
