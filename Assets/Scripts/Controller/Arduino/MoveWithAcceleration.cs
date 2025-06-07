@@ -23,7 +23,7 @@ public class MoveWithAcceleration : MonoBehaviour
     {
         if (reader != null)
         {
-            Vector3 raw = reader.acceleration;
+            Vector3 raw = reader.swingAccel;
             smoothedAccel = Vector3.Lerp(smoothedAccel, raw, 1.0f - smoothFactor);
             processedAccel = (smoothedAccel.magnitude < threshold) ? Vector3.zero : smoothedAccel;
             transform.position += processedAccel * Time.deltaTime * 10.0f; // 速度調整のためにスケーリング
