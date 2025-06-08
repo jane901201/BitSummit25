@@ -74,6 +74,7 @@ namespace Ghosts
 
         public virtual void AttackAnimation()
         {
+            isStopped = true;
             // 攻撃アニメーション再生（必要ならアンコメント）
             // attackAnimator.SetTrigger("Attack");
 

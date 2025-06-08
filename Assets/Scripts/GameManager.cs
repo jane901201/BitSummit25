@@ -182,7 +182,7 @@ public class GameManager : MonoBehaviour
             ghostsList[index].Die();
             ghostsList.RemoveAt(index);
         }
-        deadGhostsList.ForEach(ghost => Destroy(ghost.gameObject));
+        //deadGhostsList.ForEach(ghost => Destroy(ghost.gameObject));
         deadGhostsList.Clear();
     }
     public void CheckVisualOverlaps()
