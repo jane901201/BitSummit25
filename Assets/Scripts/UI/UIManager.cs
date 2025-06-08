@@ -10,10 +10,14 @@ namespace UI
 
         private List<GameObject> hps;
         private string hpPrefix = "HP_";
+
+        private void Awake()
+        {
+            hps = new List<GameObject>();
+        } 
         
         private void Start()
         {
-            hps = new List<GameObject>();
             for (int i = 0; i < hpPanel.transform.childCount; i++)
             {
                 hps.Add(hpPanel.transform.GetChild(i).gameObject);
