@@ -148,6 +148,7 @@ public class GameManager : MonoBehaviour
 
     public void TakeGhostsDamage(SwingDirection direction, SwingSpeed speed)
     {
+        SoundManager.Instance.PlayDamageMakeSound(); // 追加
         for (int i = ghostsList.Count - 1; i >= 0; i--)
         {
             if(ghostsList[i].GetIsAttackable(direction, speed))
