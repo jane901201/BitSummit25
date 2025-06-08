@@ -243,13 +243,12 @@ MonoBehaviour:
   currentHP: 0
   scoreValue: 10
   gaugeValue: 5
-  attackPower: 10
+  attackPower: 1
   moveSpeed: 3
   cameraTransform: {fileID: 0}
   rigidbody: {fileID: 0}
   isInAttackableRange: 0
   attackableIcon: {fileID: 0}
-  isSpecialAttackRequired: 0
 --- !u!1 &5623792092236663660
 GameObject:
   m_ObjectHideFlags: 0

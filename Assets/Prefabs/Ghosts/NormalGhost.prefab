@@ -153,7 +153,7 @@ MonoBehaviour:
   currentHP: 0
   scoreValue: 10
   gaugeValue: 5
-  attackPower: 10
+  attackPower: 1
   moveSpeed: 5
   cameraTransform: {fileID: 0}
   rigidbody: {fileID: 0}
