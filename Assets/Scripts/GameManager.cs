@@ -32,7 +32,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int maxGauge = 100;
     [SerializeField] private float gaugeTime = 10f;
 
-    [SerializeField] private GameObject PlayerPointer;
+    [FormerlySerializedAs("PlayerPointer")] [SerializeField] private GameObject playerPointer;
     [SerializeField] private float overlapThreshold = 20f;
     
     public static GameManager Instance { get; private set; }
@@ -94,7 +94,7 @@ public class GameManager : MonoBehaviour
             
         }
         
-        
+        //CheckVisualOverlaps();
     }
 
     private void AttackRange()
@@ -168,38 +168,52 @@ public class GameManager : MonoBehaviour
 
     public void RemoveGhost(IGhost ghost)
     {
-        int index = deadGhostsList.FindIndex(x => x == ghost);
+        int index = ghostsList.FindIndex(x => x == ghost);
         if (index >= 0)
         {
-            ghostsList[index].Die();
             deadGhostsList.Add(ghostsList[index]); 
+            ghostsList[index].Die();
+            ghostsList.RemoveAt(index);
         }
+        deadGhostsList.ForEach(ghost => Destroy(ghost.gameObject));
+        deadGhostsList.Clear();
     }
-
-    public void VisualOverlapDetector(GameObject object1, GameObject object2)
+    public void CheckVisualOverlaps()
     {
-        // Camera からスクリーン座標に変換
-        Vector3 obj1ScreenPos = Camera.main.WorldToScreenPoint(object1.transform.position);
-        Vector3 obj2ScreenPos = Camera.main.WorldToScreenPoint(object2.transform.position);
+        Debug.Log("CheckVisualOverlaps");
+        Vector3 pointerScreenPos = Camera.main.WorldToScreenPoint(playerPointer.transform.position);
 
-        // 距離を測定
-        float screenDistance = Vector2.Distance(
-            new Vector2(obj1ScreenPos.x, obj1ScreenPos.y),
-            new Vector2(obj2ScreenPos.x, obj2ScreenPos.y)
-        );
-
-        // しきい値（ピクセル）で重なりを判定
-        if (screenDistance < overlapThreshold)
+        foreach (var ghost in ghostsList)
         {
-            // 見た目上重なっていると判定 → トリガー処理
-            OnOverlapDetected();
+            if (ghost == null) continue;
+
+            Vector3 ghostScreenPos = Camera.main.WorldToScreenPoint(ghost.gameObject.transform.position);
+
+            float screenDistance = Vector2.Distance(
+                new Vector2(pointerScreenPos.x, pointerScreenPos.y),
+                new Vector2(ghostScreenPos.x, ghostScreenPos.y)
+            );
+
+            if (screenDistance < overlapThreshold)
+            {
+                OnOverlapDetected(ghost); // どのゴーストが当たったか渡せるように
+            }
         }
-
     }
-
-    private void OnOverlapDetected()
+    
+    public void ResetOverlapDetectedFlag()
     {
-        Debug.Log("Overlap Detected!");   
+        Debug.Log("ResetOverlapDetectedFlag");
+        foreach (var ghost in ghostsList)
+        {
+            ghost.IsOverlapDetected = false;
+        }
+    }
+    
+    private void OnOverlapDetected(IGhost ghost)
+    {
+        Debug.Log("Overlap Detected!");
+        ghost.IsOverlapDetected = true;
     }
 
     public void CheckGameResult()

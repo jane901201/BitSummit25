@@ -1,3 +1,4 @@
+using DG.Tweening;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -14,14 +15,30 @@ namespace Ghosts
         [SerializeField] protected Transform cameraTransform;
         [SerializeField] protected Rigidbody rigidbody;
         [Tooltip("プレイヤーに攻撃されることができる")]
-        [SerializeField] protected bool isInAttackableRange; 
-        [SerializeField] protected Sprite attackableIcon;
+        [SerializeField] protected bool isInAttackableRange;
+
+        [SerializeField] protected Animator attackAnimator;
+        [SerializeField] protected float shakeDuration = 0.5f;
+        [SerializeField] protected float shakeStrength = 0.2f;
+        [SerializeField] protected float destroyDelay = 1f;
+
+        
+        private bool isStopped = false;
+
+
+        
         //TODO:HPBar 可以直接掛在角色身上嗎? 
         private Vector3 forward;
+        private bool isOverlapDetected;
         
         public int GetAttackPower() => attackPower;
         public int GetHp() => currentHP;
         public bool IsDead() => currentHP <= 0;
+        public bool IsOverlapDetected
+        {
+            get => isOverlapDetected;
+            set => isOverlapDetected = value;
+        }
         public bool GetIsInAttackableRange() => isInAttackableRange;
 
         protected void Awake()
@@ -50,26 +67,37 @@ namespace Ghosts
 
         public virtual void Move()
         {
+            if (isStopped)
+                return;
             rigidbody.MovePosition(rigidbody.position + forward * moveSpeed * Time.deltaTime);
         }
 
+        public virtual void AttackAnimation()
+        {
+            // 攻撃アニメーション再生（必要ならアンコメント）
+            // attackAnimator.SetTrigger("Attack");
 
+            // DOTweenで震えた後、1秒後にオブジェクトを削除
+            transform.DOShakePosition(shakeDuration, shakeStrength)
+                .OnComplete(() =>
+                {
+                    // 震えが終わってから1秒待って破棄
+                    DOVirtual.DelayedCall(destroyDelay, () =>
+                    {
+                        GameManager.Instance.RemoveGhost(this);
+                    });
+                });
+        }
+        
         public virtual bool GetIsAttackable(SwingDirection swingDirection, SwingSpeed swingSpeed)
         {
             return isInAttackableRange; 
         }
-
+        
         public void SetIsInAttackableRange(bool isAttackable)
         {
             isInAttackableRange = isAttackable;
             //Debug.Log(isAttackable);
-        }
-        
-        public void SetAttackableIcon(Sprite attackableIcon, bool isActive)
-        {
-            if(isActive)
-                this.attackableIcon = attackableIcon;
-            attackableIcon.GameObject().SetActive(isActive);
         }
         
         public void HpBarUpdate()
@@ -90,5 +118,4 @@ namespace Ghosts
             GameManager.Instance.AddCurrentDeadGhostCount();
         }
     }
-    
 }

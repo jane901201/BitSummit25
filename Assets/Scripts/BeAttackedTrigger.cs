@@ -11,7 +11,8 @@ public class BeAttackedTrigger : MonoBehaviour
     
     private void OnTriggerExit(Collider other)
     {
-        GameManager.Instance.RemoveGhost(other.GetComponent<IGhost>());
-        other.gameObject.SetActive(false);
+        other.GetComponent<IGhost>()?.AttackAnimation();
+        //GameManager.Instance.RemoveGhost(other.GetComponent<IGhost>());
+        //other.gameObject.SetActive(false);
     }
 }
