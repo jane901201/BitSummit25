@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Ghosts;
+using UI;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
@@ -32,8 +33,11 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int maxGauge = 100;
     [SerializeField] private float gaugeTime = 10f;
 
-    [FormerlySerializedAs("PlayerPointer")] [SerializeField] private GameObject playerPointer;
+    [SerializeField] private GameObject playerPointer;
     [SerializeField] private float overlapThreshold = 20f;
+    
+    [Header("UI")]
+    [SerializeField] UIManager uiManager;
     
     public static GameManager Instance { get; private set; }
     
@@ -62,6 +66,8 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        uiManager = GameObject.Find("UIManager").GetComponent<UIManager>();
+        uiManager.SetHpPanel(maxPlayerHp);
         currentAttackPower = attackPower;
         currentPlayerHp = maxPlayerHp;
         StartCoroutine(SpawnGhost());
@@ -143,6 +149,7 @@ public class GameManager : MonoBehaviour
     public void TakeDamage(int damage)
     {
         currentPlayerHp -= damage;
+        uiManager.SetHpPanel(currentPlayerHp);
         CheckGameResult();
     }
 
@@ -176,7 +183,7 @@ public class GameManager : MonoBehaviour
             ghostsList[index].Die();
             ghostsList.RemoveAt(index);
         }
-        deadGhostsList.ForEach(ghost => Destroy(ghost.gameObject));
+        //deadGhostsList.ForEach(ghost => Destroy(ghost.gameObject));
         deadGhostsList.Clear();
     }
     public void CheckVisualOverlaps()

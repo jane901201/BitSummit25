@@ -53,7 +53,7 @@ MonoBehaviour:
   - {fileID: 887212374700446702, guid: ab2d5f62028ed4e40bcca4ab6da3ca13, type: 3}
   - {fileID: 7258513955768044482, guid: af2fab733f82a66409950fe8f11e03d4, type: 3}
   totalScore: 0
-  maxPlayerHp: 5
+  maxPlayerHp: 4
   currentPlayerHp: 0
   attackOriginalRangePoint: {fileID: 0}
   ghostSpawnTime: 4
@@ -68,6 +68,7 @@ MonoBehaviour:
   gaugeTime: 10
   playerPointer: {fileID: 0}
   overlapThreshold: 20
+  uiManager: {fileID: 0}
 --- !u!114 &8561113786562538482
 MonoBehaviour:
   m_ObjectHideFlags: 0
