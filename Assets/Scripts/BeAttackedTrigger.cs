@@ -12,8 +12,6 @@ public class BeAttackedTrigger : MonoBehaviour
     private void OnTriggerExit(Collider other)
     {
         other.GetComponent<IGhost>()?.AttackAnimation();
-        SoundManager.Instance.PlayDamageTakeSound(); // ’Ç‰Á
-        //GameManager.Instance.RemoveGhost(other.GetComponent<IGhost>());
-        //other.gameObject.SetActive(false);
+        SoundManager.Instance.PlayDamageTakeSound(); // ï¿½Ç‰ï¿½
     }
 }
