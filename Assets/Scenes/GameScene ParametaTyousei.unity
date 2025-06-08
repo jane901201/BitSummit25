@@ -5180,6 +5180,10 @@ PrefabInstance:
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 1120688943821564796, guid: feb987746ff0e4e48afa125e3d8e8d61, type: 3}
+      propertyPath: playerPointer
+      value: 
+      objectReference: {fileID: 2074308148}
+    - target: {fileID: 1120688943821564796, guid: feb987746ff0e4e48afa125e3d8e8d61, type: 3}
       propertyPath: ghostSpawnTime
       value: 1
       objectReference: {fileID: 0}
