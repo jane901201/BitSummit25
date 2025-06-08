@@ -54,6 +54,7 @@ public class GameManager : MonoBehaviour
     
     private void Awake()
     {
+        uiManager = GameObject.Find("UIManager").GetComponent<UIManager>();
         if (Instance == null)
         {
             Instance = this;
@@ -66,7 +67,6 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        uiManager = GameObject.Find("UIManager").GetComponent<UIManager>();
         uiManager.SetHpPanel(maxPlayerHp);
         currentAttackPower = attackPower;
         currentPlayerHp = maxPlayerHp;
