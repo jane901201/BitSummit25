@@ -98,7 +98,7 @@ namespace Ghosts
         public void SetIsInAttackableRange(bool isAttackable)
         {
             isInAttackableRange = isAttackable;
-            //Debug.Log(isAttackable);
+            //Debug.Log(isInAttackableRange);
         }
         
         public void HpBarUpdate()

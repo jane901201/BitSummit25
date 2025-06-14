@@ -9,6 +9,6 @@ public class AttackableTrigger : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         other.GetComponent<IGhost>()?.SetIsInAttackableRange(true);
-        Debug.Log("入った");
+        //Debug.Log("入った");
     }
 }
