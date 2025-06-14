@@ -46,8 +46,9 @@ public class GameManager : MonoBehaviour
     public int CurrentGauge => currentGauge;
     public int TotalScore => totalScore;
     
-    
+    [SerializeField]
     private List<IGhost> ghostsList = new List<IGhost>();
+    
     private List<IGhost> deadGhostsList = new List<IGhost>();
     private int currentDeadGhostCount = 0;
 
@@ -166,9 +167,10 @@ public class GameManager : MonoBehaviour
             {
                 ghostsList[i].Die();
                 deadGhostsList.Add(ghostsList[i]);
-                ghostsList.RemoveAt(i);
+                //ghostsList.RemoveAt(i);
             }
         }
+        ghostsList.RemoveAll(ghost => ghost.IsDead());
         deadGhostsList.ForEach(ghost => Destroy(ghost.gameObject));
         deadGhostsList.Clear();
         CheckGameResult();
@@ -188,7 +190,7 @@ public class GameManager : MonoBehaviour
     }
     public void CheckVisualOverlaps()
     {
-        Debug.Log("CheckVisualOverlaps");
+        //Debug.Log("CheckVisualOverlaps");
         Vector3 pointerScreenPos = Camera.main.WorldToScreenPoint(playerPointer.transform.position);
 
         foreach (var ghost in ghostsList)
@@ -209,15 +211,17 @@ public class GameManager : MonoBehaviour
         }
     }
     
+    //プレイヤーのポインターが鬼から外れた
     public void ResetOverlapDetectedFlag()
     {
-        Debug.Log("ResetOverlapDetectedFlag");
+        //Debug.Log("ResetOverlapDetectedFlag");
         foreach (var ghost in ghostsList)
         {
             ghost.IsOverlapDetected = false;
         }
     }
     
+    //プレイヤーのポインターが鬼に当たっている
     private void OnOverlapDetected(IGhost ghost)
     {
         Debug.Log("Overlap Detected!");
