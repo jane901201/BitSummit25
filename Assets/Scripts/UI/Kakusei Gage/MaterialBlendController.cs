@@ -21,7 +21,7 @@ public class MaterialBlendController : MonoBehaviour
     {
         if (GameManager.Instance == null) return;
 
-        float current = GameManager.Instance.GetCurrentGauge();
+        float current = GameManager.Instance.GetCurrentGauge()*40/150;
         float max = GameManager.Instance.GetMaxGauge();
 
         if (max <= 0f) return; // 0œŽZ–hŽ~
