@@ -54,9 +54,13 @@ Shader "Custom/GageShader"
             // ローカルY方向を世界空間に変換
             float3 worldLocalUp = normalize(mul((float3x3)unity_ObjectToWorld, float3(0, 1, 0)));
 
-            // worldPos からオブジェクトの原点までのベクトルを取って、localUpに投影
-            float3 worldToOrigin = i.worldPos - mul(unity_ObjectToWorld, float4(0,0,0,1)).xyz;
-            float projectedHeight = dot(worldToOrigin, worldLocalUp); // 傾きに追従する高さ
+            // ローカル座標で「底面」にあたる位置（-0.5 * Height）をワールド座標に変換
+            float3 localBottom = float3(0, -0.5 * _ObjectHeight, 0);
+            float3 worldBottom = mul(unity_ObjectToWorld, float4(localBottom, 1)).xyz;
+
+            // worldPos から底面までの高さを求める
+            float3 worldToBottom = i.worldPos - worldBottom;
+            float projectedHeight = dot(worldToBottom, worldLocalUp); // 傾きに追従した高さ
 
             // ブレンド境界で色を分ける
             if (projectedHeight < cutoff)
@@ -68,6 +72,7 @@ Shader "Custom/GageShader"
                 return _TopColor;
             }
             }
+
 
         ENDCG
     }
