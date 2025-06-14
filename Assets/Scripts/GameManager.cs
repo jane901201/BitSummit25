@@ -124,10 +124,12 @@ public class GameManager : MonoBehaviour
     {
         
     }
-    
+
 
     #endregion
 
+    public int GetCurrentGauge() => currentGauge;
+    public int GetMaxGauge() => maxGauge;
 
     public void AddScore(int scoreValue)
     {
