@@ -47,7 +47,7 @@ namespace Controller
 
             if (timer >= analysisInterval)
             {
-                Debug.Log("2秒経過");
+                //Debug.Log("2秒経過");
                 AnalyzeAndReset();
             }
         }

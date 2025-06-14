@@ -1,11 +1,8 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using Ghosts;
 using UI;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 public class GameManager : MonoBehaviour
@@ -27,6 +24,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int attackPower = 10;
     [SerializeField] private int enhancedAttackPower = 20;
     [SerializeField] private int currentAttackPower = 0;
+    [SerializeField] private GameObject defaultAttackableTrigger;
+    [SerializeField] private GameObject enhancedAttackableTrigger;
     
     [Header("Gauge")]
     [SerializeField] private int currentGauge = 0;
@@ -51,7 +50,7 @@ public class GameManager : MonoBehaviour
     
     private List<IGhost> deadGhostsList = new List<IGhost>();
     private int currentDeadGhostCount = 0;
-
+    private bool isEnhanced = false;
     
     private void Awake()
     {
@@ -72,6 +71,8 @@ public class GameManager : MonoBehaviour
         currentAttackPower = attackPower;
         currentPlayerHp = maxPlayerHp;
         StartCoroutine(SpawnGhost());
+        defaultAttackableTrigger.SetActive(true);
+        enhancedAttackableTrigger.SetActive(false);
     }
 
     //TODO:生成範囲はどこですか？
@@ -96,17 +97,35 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if (currentGauge >= maxGauge)
+        if (!isEnhanced && currentGauge >= maxGauge)
         {
-            
+            StartCoroutine(GaugeCoroutine());
         }
         
         //CheckVisualOverlaps();
     }
 
-    private void AttackRange()
+    private IEnumerator GaugeCoroutine()
     {
-        
+        isEnhanced = true;
+
+        // 強化状態に切り替え
+        currentAttackPower = enhancedAttackPower;
+        defaultAttackableTrigger.SetActive(false);
+        enhancedAttackableTrigger.SetActive(true);
+
+        Debug.Log("強化モード突入！");
+
+        yield return new WaitForSeconds(gaugeTime);
+
+        // 元に戻す
+        currentAttackPower = attackPower;
+        defaultAttackableTrigger.SetActive(true);
+        enhancedAttackableTrigger.SetActive(false);
+        currentGauge = 0;
+        isEnhanced = false;
+
+        Debug.Log("強化モード終了");
     }
 
     #region UI
@@ -169,7 +188,6 @@ public class GameManager : MonoBehaviour
             {
                 ghostsList[i].Die();
                 deadGhostsList.Add(ghostsList[i]);
-                //ghostsList.RemoveAt(i);
             }
         }
         ghostsList.RemoveAll(ghost => ghost.IsDead());
