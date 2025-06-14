@@ -102,7 +102,7 @@ public class GameManager : MonoBehaviour
             StartCoroutine(GaugeCoroutine());
         }
         
-        //CheckVisualOverlaps();
+        CheckVisualOverlaps();
     }
 
     private IEnumerator GaugeCoroutine()
@@ -129,17 +129,7 @@ public class GameManager : MonoBehaviour
     }
 
     #region UI
-
-    public void HpBarUpdate()
-    {
-        
-    }
     
-    public void GaugeBarUpdate()
-    {
-        
-    }
-
     public void ScoreUpdate()
     {
         
@@ -160,7 +150,6 @@ public class GameManager : MonoBehaviour
     public void AddGauge(int gaugeValue)
     {
         currentGauge += gaugeValue;
-        GaugeBarUpdate();
     }
 
     public void AddCurrentDeadGhostCount()
@@ -195,19 +184,7 @@ public class GameManager : MonoBehaviour
         deadGhostsList.Clear();
         CheckGameResult();
     }
-
-    public void RemoveGhost(IGhost ghost)
-    {
-        int index = ghostsList.FindIndex(x => x == ghost);
-        if (index >= 0)
-        {
-            deadGhostsList.Add(ghostsList[index]); 
-            ghostsList[index].Die();
-            ghostsList.RemoveAt(index);
-        }
-        //deadGhostsList.ForEach(ghost => Destroy(ghost.gameObject));
-        deadGhostsList.Clear();
-    }
+    
     public void CheckVisualOverlaps()
     {
         //Debug.Log("CheckVisualOverlaps");
@@ -234,7 +211,7 @@ public class GameManager : MonoBehaviour
     //プレイヤーのポインターが鬼から外れた
     public void ResetOverlapDetectedFlag()
     {
-        //Debug.Log("ResetOverlapDetectedFlag");
+        Debug.Log("ResetOverlapDetectedFlag");
         foreach (var ghost in ghostsList)
         {
             ghost.IsOverlapDetected = false;

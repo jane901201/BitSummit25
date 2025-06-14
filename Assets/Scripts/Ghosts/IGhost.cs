@@ -29,7 +29,7 @@ namespace Ghosts
         
         //TODO:HPBar 可以直接掛在角色身上嗎? 
         private Vector3 forward;
-        private bool isOverlapDetected;
+        protected bool isOverlapDetected;
         
         public int GetAttackPower
         {
@@ -107,7 +107,7 @@ namespace Ghosts
         
         public virtual bool GetIsAttackable(SwingDirection swingDirection, SwingSpeed swingSpeed)
         {
-            return isInAttackableRange; 
+            return isInAttackableRange && isOverlapDetected; 
         }
         
         public void SetIsInAttackableRange(bool isAttackable)

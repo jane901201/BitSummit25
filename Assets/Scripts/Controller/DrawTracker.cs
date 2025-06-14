@@ -19,27 +19,9 @@ namespace Controller
             analysisInterval = interval;
             fastSwingThreshold = threshold;
         }
-
-        public void StartTracking()
-        {
-            isTracking = true;
-            timer = 0f;
-            recordedPositions.Clear();
-            lineRenderer.positionCount = 0;
-        }
-
-        public void StopTracking()
-        {
-            isTracking = false;
-            timer = 0f;
-            recordedPositions.Clear();
-            lineRenderer.positionCount = 0;
-        }
-
+        
         public void UpdateTracking(Vector3 position, float deltaTime)
         {
-           // if (!isTracking) return;
-
             timer += deltaTime;
             recordedPositions.Add(position);
             lineRenderer.positionCount = recordedPositions.Count;
@@ -47,7 +29,6 @@ namespace Controller
 
             if (timer >= analysisInterval)
             {
-                //Debug.Log("2秒経過");
                 AnalyzeAndReset();
             }
         }
@@ -68,6 +49,7 @@ namespace Controller
             }
 
             recordedPositions.Clear();
+            GameManager.Instance.ResetOverlapDetectedFlag();
             lineRenderer.positionCount = 0;
             timer = 0f;
         }
