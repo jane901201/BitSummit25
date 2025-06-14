@@ -13,7 +13,7 @@ public class GoheiFollower : MonoBehaviour
             Vector3 cursorPos = cursorTransform.position;
             Vector3 masterPos = masterTransform.position;
 
-            transform.position = new Vector3(cursorPos.x/5, currentPosition.y, currentPosition.z);
+            transform.position = new Vector3(masterPos.x + cursorPos.x/5, currentPosition.y, currentPosition.z);
             // カーソル方向へのベクトルを取得
             Vector3 direction;
             direction.y = cursorPos.y - masterPos.y - 10;
