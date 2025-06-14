@@ -22,7 +22,7 @@ namespace Ghosts
         [SerializeField] protected float shakeStrength = 0.2f;
         [SerializeField] protected float destroyDelay = 1f;
 
-        
+        private bool hasAttacked = false;
         private bool isStopped = false;
 
 
@@ -31,7 +31,22 @@ namespace Ghosts
         private Vector3 forward;
         private bool isOverlapDetected;
         
-        public int GetAttackPower() => attackPower;
+        public int GetAttackPower
+        {
+            get
+            {
+                if (!hasAttacked)
+                {
+                    hasAttacked = true;
+                    return attackPower;
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+        }
+
         public int GetHp() => currentHP;
         public bool IsDead() => currentHP <= 0;
         public bool IsOverlapDetected

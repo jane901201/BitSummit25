@@ -68,7 +68,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        uiManager.SetHpPanel(maxPlayerHp);
+        uiManager.InitinalHpPanel(maxPlayerHp);
         currentAttackPower = attackPower;
         currentPlayerHp = maxPlayerHp;
         StartCoroutine(SpawnGhost());

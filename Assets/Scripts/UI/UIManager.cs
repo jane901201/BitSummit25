@@ -1,46 +1,81 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace UI
 {
     public class UIManager: MonoBehaviour
     {
         [SerializeField] private GameObject hpPanel;
+        [SerializeField] private GameObject hp;
 
-        private List<GameObject> hps;
+        [SerializeField] private Sprite heart_Full;
+        [SerializeField] private Sprite heart_3;
+        [SerializeField] private Sprite heart_2;
+        [SerializeField] private Sprite heart_1;
+        [SerializeField] private Sprite heart_Empty;
+
         private string hpPrefix = "HP_";
-
-        private void Awake()
-        {
-            hps = new List<GameObject>();
-        } 
+        private string heartPrefix = "HeartGroup_";
         
-        private void Start()
+        public void InitinalHpPanel(int hp)
         {
-            for (int i = 0; i < hpPanel.transform.childCount; i++)
+            int heartCount = Mathf.CeilToInt(hp / 4f); // 4ごとに1個、切り上げ
+
+            // 古いアイコンを削除（再初期化用）
+            foreach (Transform child in hpPanel.transform)
             {
-                hps.Add(hpPanel.transform.GetChild(i).gameObject);
+                Destroy(child.gameObject);
+            }
+
+            // 新しく生成
+            for (int i = 0; i < heartCount; i++)
+            {
+                Instantiate(this.hp, hpPanel.transform);
             }
         }
 
         public void SetHpPanel(int hp)
         {
-            string hpStr = hpPrefix + hp;
-            for (int i = 0; i < hps.Count; i++)
+            if (hp <= 0)
             {
-                if (hp <= 0)
+                // HPが0以下のとき：全てEmptyにして終了
+                foreach (Transform child in hpPanel.transform)
                 {
-                    hps.Find(x => x.name == hpPrefix + 0).SetActive(true);
+                    var image = child.GetComponent<UnityEngine.UI.Image>();
+                    if (image != null)
+                        image.sprite = heart_Empty;
                 }
-                else if (hps[i].name ==hpStr)
+                return;
+            }
+
+            int remainingHp = hp;
+            foreach (Transform child in hpPanel.transform)
+            {
+                var image = child.GetComponent<UnityEngine.UI.Image>();
+                if (image == null) continue;
+
+                int currentHeartHp = Mathf.Min(remainingHp, 4);
+
+                switch (currentHeartHp)
                 {
-                    hps[i].SetActive(true);
+                    case 4:
+                        image.sprite = heart_Full;
+                        break;
+                    case 3:
+                        image.sprite = heart_3;
+                        break;
+                    case 2:
+                        image.sprite = heart_2;
+                        break;
+                    case 1:
+                        image.sprite = heart_1;
+                        break;
+                    default:
+                        image.sprite = heart_Empty;
+                        break;
                 }
-                else
-                {
-                    hps[i].SetActive(false);
-                }
+
+                remainingHp -= 4;
             }
         }
     }
