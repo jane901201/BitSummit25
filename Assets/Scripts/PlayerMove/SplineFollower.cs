@@ -1,13 +1,13 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using UnityEngine.Splines;
 
 public class SplineFollower : MonoBehaviour
 {
     [Header("Spline Settings")]
-    public SplineContainer splineContainer; // ƒqƒGƒ‰ƒ‹ƒL[ã‚ÌSpline‚ğw’è
-    public GameObject objectToMove;         // ˆÚ“®‚³‚¹‚½‚¢ƒIƒuƒWƒFƒNƒg
-    public float moveSpeed = 1f;            // ˆÚ“®‘¬“x
-    public bool loop = true;                // I“_‚É’B‚µ‚½‚çÅ‰‚É–ß‚é‚©
+    public SplineContainer splineContainer; // ãƒ’ã‚¨ãƒ©ãƒ«ã‚­ãƒ¼ä¸Šã®Splineã‚’æŒ‡å®š
+    public GameObject objectToMove;         // ç§»å‹•ã•ã›ãŸã„ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+    public float moveSpeed = 1f;            // ç§»å‹•é€Ÿåº¦
+    public bool loop = true;                // çµ‚ç‚¹ã«é”ã—ãŸã‚‰æœ€åˆã«æˆ»ã‚‹ã‹
 
     private float t = 0f;
 
@@ -27,11 +27,11 @@ public class SplineFollower : MonoBehaviour
                 t = 1f;
         }
 
-        // ƒXƒvƒ‰ƒCƒ“ã‚ÌˆÊ’u‚ÆŒü‚«‚ğæ“¾
+        // ã‚¹ãƒ—ãƒ©ã‚¤ãƒ³ä¸Šã®ä½ç½®ã¨å‘ãã‚’å–å¾—
         Vector3 rawPosition = splineContainer.Spline.EvaluatePosition(t);
         Vector3 rawTangent = splineContainer.Spline.EvaluateTangent(t);
 
-        // X‚ÆY‚Ì•„†‚ğ”½“]iZ‚Í‚»‚Ì‚Ü‚Üj
+        // Xã¨Yã®ç¬¦å·ã‚’åè»¢ï¼ˆZã¯ãã®ã¾ã¾ï¼‰
         Vector3 position = new Vector3(-rawPosition.x, -rawPosition.y, -rawPosition.z);
         Vector3 tangent = new Vector3(-rawTangent.x, -rawTangent.y, rawTangent.z);
 
