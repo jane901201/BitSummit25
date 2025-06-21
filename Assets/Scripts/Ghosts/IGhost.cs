@@ -93,16 +93,7 @@ namespace Ghosts
             // 攻撃アニメーション再生（必要ならアンコメント）
             // attackAnimator.SetTrigger("Attack");
 
-            // DOTweenで震えた後、1秒後にオブジェクトを削除
             transform.DOShakePosition(shakeDuration, shakeStrength);
-                // .OnComplete(() =>
-                // {
-                //     // 震えが終わってから1秒待って破棄
-                //     DOVirtual.DelayedCall(destroyDelay, () =>
-                //     {
-                //         GameManager.Instance.RemoveGhost(this);
-                //     });
-                // });
         }
         
         public virtual bool GetIsAttackable(SwingDirection swingDirection, SwingSpeed swingSpeed)

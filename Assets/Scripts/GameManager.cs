@@ -13,8 +13,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int maxPlayerHp = 100; 
     [SerializeField] private int currentPlayerHp = 0;
     [SerializeField] private Transform attackOriginalRangePoint;
-    
-    [Header("Ghost")]
+
+    [Header("Ghost")] 
+    [SerializeField] private GameObject ghostGroup;
     [SerializeField] private float ghostSpawnTime = 4f;
     [SerializeField] private Transform ghostSpawnPoint;
     [SerializeField] private Vector3 spawnRange = new Vector3(5f, 0f, 5f);
@@ -63,6 +64,8 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        
+        ghostGroup = GameObject.Find("Ghosts").gameObject;
     } 
 
     private void Start()
@@ -91,6 +94,7 @@ public class GameManager : MonoBehaviour
         Vector3 spawnPosition = ghostSpawnPoint.position + randomOffset;
         
         GameObject ghost = Instantiate(ghosts[index], spawnPosition, ghostSpawnPoint.rotation);
+        ghost.transform.SetParent(ghostGroup.transform, true);
         ghostsList.Add(ghost.GetComponent<IGhost>());
         StartCoroutine(SpawnGhost());
     }
@@ -102,7 +106,8 @@ public class GameManager : MonoBehaviour
             StartCoroutine(GaugeCoroutine());
         }
         
-        CheckVisualOverlaps();
+        //CheckVisualOverlaps();
+        CheckVisualOverlaps_Viewport();
     }
 
     private IEnumerator GaugeCoroutine()
@@ -204,6 +209,34 @@ public class GameManager : MonoBehaviour
             if (screenDistance < overlapThreshold)
             {
                 OnOverlapDetected(ghost); // どのゴーストが当たったか渡せるように
+            }
+        }
+    }
+    
+    public void CheckVisualOverlaps_Viewport()
+    {
+        // Pointer の Viewport 座標（x: 横方向の割合, y: 縦方向の割合, z: カメラからの距離）
+        Vector3 pointerViewport = Camera.main.WorldToViewportPoint(playerPointer.transform.position);
+
+        foreach (var ghost in ghostsList)
+        {
+            if (ghost == null) continue;
+
+            Vector3 ghostViewport = Camera.main.WorldToViewportPoint(ghost.transform.position);
+
+            // zが負ならカメラの背後にいるのでスキップ
+            if (ghostViewport.z < 0 || pointerViewport.z < 0) continue;
+
+            // Viewport 座標上での2D距離（XYだけ使う）
+            float dist = Vector2.Distance(
+                new Vector2(pointerViewport.x, pointerViewport.y),
+                new Vector2(ghostViewport.x, ghostViewport.y)
+            );
+
+            // しきい値は Viewport 単位なので 0.05 ～ 0.1 程度が目安（画面全体の5〜10%以内）
+            if (dist < 0.05f)
+            {
+                OnOverlapDetected(ghost);
             }
         }
     }
