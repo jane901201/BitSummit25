@@ -78,7 +78,6 @@ public class GameManager : MonoBehaviour
         enhancedAttackableTrigger.SetActive(false);
     }
 
-    //TODO:生成範囲はどこですか？
     private IEnumerator SpawnGhost()
     {
         yield return new WaitForSeconds(ghostSpawnTime);
@@ -233,8 +232,8 @@ public class GameManager : MonoBehaviour
                 new Vector2(ghostViewport.x, ghostViewport.y)
             );
 
-            // しきい値は Viewport 単位なので 0.05 ～ 0.1 程度が目安（画面全体の5〜10%以内）
-            if (dist < 0.05f)
+            // しきい値は Viewport 単位なので 0.05 ～ 0.1 程度が目安
+            if (dist < overlapThreshold)
             {
                 OnOverlapDetected(ghost);
             }
