@@ -28,11 +28,16 @@ public class SplineFollower : MonoBehaviour
         }
 
         // スプライン上の位置と向きを取得
-        var position = splineContainer.Spline.EvaluatePosition(t);
-        var tangent = splineContainer.Spline.EvaluateTangent(t);
+        Vector3 rawPosition = splineContainer.Spline.EvaluatePosition(t);
+        Vector3 rawTangent = splineContainer.Spline.EvaluateTangent(t);
+
+        // XとYの符号を反転（Zはそのまま）
+        Vector3 position = new Vector3(-rawPosition.x, -rawPosition.y, -rawPosition.z);
+        Vector3 tangent = new Vector3(-rawTangent.x, -rawTangent.y, rawTangent.z);
 
         objectToMove.transform.position = position;
         objectToMove.transform.rotation = Quaternion.LookRotation(tangent);
+
     }
 }
 
