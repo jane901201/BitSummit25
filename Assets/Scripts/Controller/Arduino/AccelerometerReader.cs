@@ -1,60 +1,66 @@
-﻿using UnityEngine;
-using System.IO.Ports;
+﻿using System.IO.Ports;
+using System.Threading;
+using UnityEngine;
 
 public class AccelerometerReader : MonoBehaviour
 {
-    [Header("Serial")]
+    private SerialPort serial;
     public string portName = "COM3";
     public int baudRate = 115200;
 
-    [Header("High-Pass Filter")]
-    [Range(0.80f, 0.99f)]
-    public float alpha = 0.95f;      // 大きいほど「重力追従が速い＝カット帯域が低い」
+    public Vector3 latestAcceleration { get; private set; } = Vector3.zero;
+    public Vector3 latestGyro { get; private set; } = Vector3.zero;
 
-    [Range(0f, 0.3f)]
-    public float deadZone = 0.03f;   // G単位：ここ未満は完全に0
-
-    public Vector3 swingAccel;       // 剣の“振り”成分（Unity空間へマッピング後）
-
-    // ─────────────────────────
-    SerialPort serial;
-    Vector3 gravity;                 // ローパスで追従する重力ベクトル
+    private Thread readThread;
+    private bool keepReading = true;
 
     void Start()
     {
-        serial = new SerialPort(portName, baudRate) { ReadTimeout = 100 };
-        try { serial.Open(); } catch (System.Exception e) { Debug.LogError(e); }
-    }
+        serial = new SerialPort(portName, baudRate);
+        serial.ReadTimeout = 100;
 
-    void Update()
-    {
-        if (serial?.IsOpen == true && TryRead(out Vector3 raw))
-        {
-            // 1) Android流ローパスで重力を推定
-            gravity = Vector3.Lerp(gravity, raw, 1f - alpha);
-
-            // 2) ハイパス：動き成分
-            Vector3 motion = raw - gravity;
-
-            // 3) デッドゾーン
-            swingAccel = (motion.magnitude < deadZone) ? Vector3.zero : motion;
-
-            // ※ 必要なら XYZ → Unity 座標系の軸入替えをここで行う
-        }
-    }
-
-    bool TryRead(out Vector3 v)
-    {
-        v = Vector3.zero;
         try
         {
-            string[] sp = serial.ReadLine().Split(',');
-            if (sp.Length != 3) return false;
-            v = new Vector3(float.Parse(sp[0]), float.Parse(sp[1]), float.Parse(sp[2]));
-            return true;
+            serial.Open();
+            readThread = new Thread(ReadSerial);
+            readThread.Start();
         }
-        catch { return false; }
+        catch (System.Exception e)
+        {
+            Debug.LogError("Serial port failed: " + e.Message);
+        }
     }
 
-    void OnDestroy() { if (serial?.IsOpen == true) serial.Close(); }
+    private void ReadSerial()
+    {
+        while (keepReading && serial != null && serial.IsOpen)
+        {
+            try
+            {
+                string line = serial.ReadLine();
+                string[] values = line.Split(',');
+
+                if (values.Length == 6)
+                {
+                    float ax = float.Parse(values[0]);
+                    float ay = float.Parse(values[1]);
+                    float az = float.Parse(values[2]);
+                    float gx = float.Parse(values[3]);
+                    float gy = float.Parse(values[4]);
+                    float gz = float.Parse(values[5]);
+
+                    latestAcceleration = new Vector3(ax, ay, az);
+                    latestGyro = new Vector3(gx, gy, gz);
+                }
+            }
+            catch { /* skip invalid lines */ }
+        }
+    }
+
+    void OnDestroy()
+    {
+        keepReading = false;
+        if (readThread != null && readThread.IsAlive) readThread.Join();
+        if (serial != null && serial.IsOpen) serial.Close();
+    }
 }
