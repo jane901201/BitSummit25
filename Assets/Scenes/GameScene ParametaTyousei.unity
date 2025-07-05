@@ -36030,7 +36030,7 @@ PrefabInstance:
       objectReference: {fileID: 398795934}
     - target: {fileID: 1120688943821564796, guid: feb987746ff0e4e48afa125e3d8e8d61, type: 3}
       propertyPath: ghostsList.Array.size
-      value: 6
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1120688943821564796, guid: feb987746ff0e4e48afa125e3d8e8d61, type: 3}
       propertyPath: defaultAttackableTrigger
@@ -36039,23 +36039,23 @@ PrefabInstance:
     - target: {fileID: 1120688943821564796, guid: feb987746ff0e4e48afa125e3d8e8d61, type: 3}
       propertyPath: 'ghostsList.Array.data[0]'
       value: 
-      objectReference: {fileID: 4104362076686637963, guid: 3e0af15d8cdc35f4b9f3a9f0df418b3d, type: 3}
+      objectReference: {fileID: 3071722054073381869, guid: c1200e516fb73b3418e1e54fdcbf200f, type: 3}
     - target: {fileID: 1120688943821564796, guid: feb987746ff0e4e48afa125e3d8e8d61, type: 3}
       propertyPath: 'ghostsList.Array.data[1]'
       value: 
-      objectReference: {fileID: -2735196396271223350, guid: 24b1b7df7716c5248be796cfa4d28d7a, type: 3}
+      objectReference: {fileID: 3071722054073381869, guid: c1200e516fb73b3418e1e54fdcbf200f, type: 3}
     - target: {fileID: 1120688943821564796, guid: feb987746ff0e4e48afa125e3d8e8d61, type: 3}
       propertyPath: 'ghostsList.Array.data[2]'
       value: 
-      objectReference: {fileID: 6444796009899038801, guid: 200d3cff74a822b478da6c4d87dab453, type: 3}
+      objectReference: {fileID: 3071722054073381869, guid: c1200e516fb73b3418e1e54fdcbf200f, type: 3}
     - target: {fileID: 1120688943821564796, guid: feb987746ff0e4e48afa125e3d8e8d61, type: 3}
       propertyPath: 'ghostsList.Array.data[3]'
       value: 
-      objectReference: {fileID: 3869354454835422613, guid: ab2d5f62028ed4e40bcca4ab6da3ca13, type: 3}
+      objectReference: {fileID: 3071722054073381869, guid: c1200e516fb73b3418e1e54fdcbf200f, type: 3}
     - target: {fileID: 1120688943821564796, guid: feb987746ff0e4e48afa125e3d8e8d61, type: 3}
       propertyPath: 'ghostsList.Array.data[4]'
       value: 
-      objectReference: {fileID: -4619719529418349477, guid: af2fab733f82a66409950fe8f11e03d4, type: 3}
+      objectReference: {fileID: 3071722054073381869, guid: c1200e516fb73b3418e1e54fdcbf200f, type: 3}
     - target: {fileID: 1120688943821564796, guid: feb987746ff0e4e48afa125e3d8e8d61, type: 3}
       propertyPath: 'ghostsList.Array.data[5]'
       value: 
