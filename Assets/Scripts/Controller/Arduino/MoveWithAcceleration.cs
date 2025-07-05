@@ -1,4 +1,6 @@
 ﻿using UnityEngine;
+using UnityEngine.VFX;
+using static UnityEngine.Rendering.DebugUI;
 
 public class MoveWithAcceleration : MonoBehaviour
 {
@@ -6,6 +8,7 @@ public class MoveWithAcceleration : MonoBehaviour
     private Vector3 smoothedAccel = Vector3.zero;
     private Vector3 velocity = Vector3.zero;
     private Quaternion sensorRotation = Quaternion.identity; // 姿勢追跡用
+    [SerializeField] private float gravityCalibration = -1.043f; // 重力補正値
 
     public float smoothFactor = 0.9f;
     public float threshold = 0.05f;
@@ -14,9 +17,20 @@ public class MoveWithAcceleration : MonoBehaviour
     public float gyroSensitivity = 1.0f; // 回転速度の積分係数
     public float gyroDeadZone = 0.9f;
 
-    public float accelThreshold = 0.002f;
+    public float accelThreshold = 0.02f;
     public float accelMax = 0.08f;
     public float accelScale = 100.0f;
+
+    // ───────── パラメータ追加（Inspectorで調整）
+    [Range(0f, 1f)] public float accelLPF = 0.2f;   // 0.1~0.3 で滑らか
+    public float velocityDamp = 0.99f;            // 0.98~0.995 慣性減衰
+
+    // ───── 追加パラメータ
+    public float g2ms = 9.80665f;   // g から m/s² へ
+    public float accelGain = 40f;   // 1 g → 40 m/s 相当
+
+    // ───────── 変数追加
+    private Vector3 filteredAccel;                 // 1段ローパス後の加速度
 
     [Range(0f, 1f)] public float compGain = 0.12f;  // 加速度で補正する割合
     public float horizProject = 1f;                 // 0=水平面固定 / 1=重力面固定
@@ -61,7 +75,7 @@ public class MoveWithAcceleration : MonoBehaviour
         sensorRotation.Normalize();
 
         // 3) 最新の重力ベクトル -------------------------
-        Vector3 gravity = sensorRotation * Vector3.down;
+        Vector3 gravity = sensorRotation * new Vector3(0, gravityCalibration, 0); ;
 
         // 4) 重力除去
         Vector3 correctedAccel = accel - gravity;
@@ -70,33 +84,28 @@ public class MoveWithAcceleration : MonoBehaviour
         //     (センサの向きに依存しない移動ベクトルになる)
         Vector3 worldAccel = sensorRotation * correctedAccel;   // <-- 追加
 
-        // 5) ★ 高域成分のみ抽出（10 Hz 以上）
-        float hpAlpha = 0.9f;                 // 0.8〜0.95
-        Vector3 highPass = hpAlpha * (hpPrev + correctedAccel - smoothedAccel);
-        hpPrev = smoothedAccel;               // 次回用に保存
+        Vector3 motionInput = worldAccel;
 
-        //Vector3 motionInput = Vector3.Lerp(highPass, highPass, 1f); // ← そのまま使用
+        // accelThreshold以下の値は無視
+        motionInput = Threshold(motionInput, accelThreshold);
 
-        // 今回は上下移動も生かしたいとのことなので、そのまま使う
-        Vector3 motionInput = worldAccel;                       // <-- 変更
+        // 6') ★ 低域ノイズ除去用ローパス（指数移動平均）
+        filteredAccel = Vector3.Lerp(filteredAccel, motionInput, 1f - accelLPF);
 
-        // 6) 平滑化・スケーリング
-        //smoothedAccel = Vector3.Lerp(smoothedAccel, motionInput, 1f - smoothFactor);
-        //Vector3 drive = ProcessedAccel(motionInput);
-        Vector3 drive = motionInput * accelToSpeedScale; // ← 変更
+        // 6)   LPF 後の線形加速度を m/s² に換算
+        Vector3 linAcc = filteredAccel * g2ms;
 
         // 7) 移動処理
-        velocity += drive * Time.deltaTime;
-        velocity *= damping;
-        transform.position += velocity;
+        velocity += linAcc * accelGain * Time.deltaTime;   // a → v
+        velocity *= velocityDamp;
+        transform.position += velocity * Time.deltaTime;   // v → x
 
         // 8) 回転処理（ジャイロ）
         transform.Rotate(gyro * gyroSensitivity * Time.deltaTime, Space.Self);
 
-        // ◉ 表示（必要なら）
-        Debug.Log($"Corrected Accel: {correctedAccel:F3} | Gravity: {gravity:F3}");
-        // Drive: {drive:F3} | Velocity: {velocity:F3}");
-        //Debug.Log($"Position: {transform.position:F3} | Sensor Rotation: {sensorRotation.eulerAngles:F3}");
+        // ◉ 表示
+        // キャリブレーション前後の加速度と検出した重力を表示
+        Debug.Log($"Corrected accel: {correctedAccel:F3} | velocity: {velocity:F3} | motionInput: {motionInput:F3} | Gravity: {gravity:F3}");
 
         // Rキーで位置リセット
         if (Input.GetKeyDown(KeyCode.R))
@@ -118,5 +127,14 @@ public class MoveWithAcceleration : MonoBehaviour
 
         float normalized = Mathf.InverseLerp(accelThreshold, accelMax, mag);
         return input.normalized * normalized * accelScale;
+    }
+
+    Vector3 Threshold(Vector3 value, float threshold)
+    {
+        return new Vector3(
+        Mathf.Abs(value.x) < threshold ? 0f : value.x,
+        Mathf.Abs(value.y) < threshold ? 0f : value.y,
+        Mathf.Abs(value.z) < threshold ? 0f : value.z
+    );
     }
 }
