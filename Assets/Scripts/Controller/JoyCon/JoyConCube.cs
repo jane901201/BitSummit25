@@ -18,6 +18,8 @@ public class JoyConCube : MonoBehaviour
     private Vector3 position = Vector3.zero;
     public float accelerationFactor = 5.0f; // 動きの大きさを調整
     public float damping = 0.98f; // 減衰（ドリフト防止）
+    private Quaternion joyconToUnity = Quaternion.Euler(-90, 0, 0); // 軸変換補正
+
 
     void Start()
     {
@@ -31,7 +33,7 @@ public class JoyConCube : MonoBehaviour
         }
         Joycon j = joycons[jc_ind];
         // Joy-Conを縦持ちしている前提で初期姿勢を取得
-        initialOrientation = Quaternion.Inverse(j.GetVector());
+        initialOrientation = Quaternion.Inverse(joyconToUnity * j.GetVector());
     }
 
     void Update()
@@ -53,11 +55,11 @@ public class JoyConCube : MonoBehaviour
             velocity += deltaAccel * Time.deltaTime * accelerationFactor;
             velocity *= damping; // Apply damping to reduce drift
             position += velocity * Time.deltaTime;
-            gameObject.transform.position = position;
+            //gameObject.transform.position = position;
 
             // Rotation
             gyro = TruncateVector3(j.GetGyro(), 2);
-            orientation = initialOrientation * j.GetVector();
+            orientation = initialOrientation * joyconToUnity * j.GetVector();
             gameObject.transform.rotation = orientation;
         }
     }

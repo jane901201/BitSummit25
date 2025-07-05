@@ -365,10 +365,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8451f0bfe9461664bad7d90308ee8f6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gravityCalibration: -1.043
   smoothFactor: 0.9
   threshold: 0.05
   accelToSpeedScale: 2
   damping: 0.98
+  gyroSensitivity: 1
+  gyroDeadZone: 0.9
+  accelThreshold: 0.02
+  accelMax: 0.08
+  accelScale: 100
+  accelLPF: 0.2
+  velocityDamp: 0.99
+  g2ms: 9.80665
+  accelGain: 40
+  compGain: 0.12
+  horizProject: 1
 --- !u!114 &1157026591
 MonoBehaviour:
   m_ObjectHideFlags: 0
