@@ -16,7 +16,7 @@ public class MoveWithAcceleration : MonoBehaviour
 
     public float accelThreshold = 0.002f;
     public float accelMax = 0.08f;
-    public float accelScale = 4000.0f;
+    public float accelScale = 100.0f;
 
     [Range(0f, 1f)] public float compGain = 0.12f;  // 加速度で補正する割合
     public float horizProject = 1f;                 // 0=水平面固定 / 1=重力面固定
@@ -75,14 +75,15 @@ public class MoveWithAcceleration : MonoBehaviour
         Vector3 highPass = hpAlpha * (hpPrev + correctedAccel - smoothedAccel);
         hpPrev = smoothedAccel;               // 次回用に保存
 
-        Vector3 motionInput = Vector3.Lerp(highPass, highPass, 1f); // ← そのまま使用
+        //Vector3 motionInput = Vector3.Lerp(highPass, highPass, 1f); // ← そのまま使用
 
         // 今回は上下移動も生かしたいとのことなので、そのまま使う
-        //Vector3 motionInput = worldAccel;                       // <-- 変更
+        Vector3 motionInput = worldAccel;                       // <-- 変更
 
         // 6) 平滑化・スケーリング
-        smoothedAccel = Vector3.Lerp(smoothedAccel, motionInput, 1f - smoothFactor);
-        Vector3 drive = ProcessedAccel(smoothedAccel);
+        //smoothedAccel = Vector3.Lerp(smoothedAccel, motionInput, 1f - smoothFactor);
+        //Vector3 drive = ProcessedAccel(motionInput);
+        Vector3 drive = motionInput * accelToSpeedScale; // ← 変更
 
         // 7) 移動処理
         velocity += drive * Time.deltaTime;
@@ -95,7 +96,7 @@ public class MoveWithAcceleration : MonoBehaviour
         // ◉ 表示（必要なら）
         Debug.Log($"Corrected Accel: {correctedAccel:F3} | Gravity: {gravity:F3}");
         // Drive: {drive:F3} | Velocity: {velocity:F3}");
-        Debug.Log($"Position: {transform.position:F3} | Sensor Rotation: {sensorRotation.eulerAngles:F3}");
+        //Debug.Log($"Position: {transform.position:F3} | Sensor Rotation: {sensorRotation.eulerAngles:F3}");
 
         // Rキーで位置リセット
         if (Input.GetKeyDown(KeyCode.R))
