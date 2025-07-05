@@ -22,16 +22,31 @@ namespace Ghosts
         [SerializeField] protected float shakeStrength = 0.2f;
         [SerializeField] protected float destroyDelay = 1f;
 
-        
+        private bool hasAttacked = false;
         private bool isStopped = false;
 
 
         
         //TODO:HPBar 可以直接掛在角色身上嗎? 
         private Vector3 forward;
-        private bool isOverlapDetected;
+        protected bool isOverlapDetected;
         
-        public int GetAttackPower() => attackPower;
+        public int GetAttackPower
+        {
+            get
+            {
+                if (!hasAttacked)
+                {
+                    hasAttacked = true;
+                    return attackPower;
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+        }
+
         public int GetHp() => currentHP;
         public bool IsDead() => currentHP <= 0;
         public bool IsOverlapDetected
@@ -78,27 +93,18 @@ namespace Ghosts
             // 攻撃アニメーション再生（必要ならアンコメント）
             // attackAnimator.SetTrigger("Attack");
 
-            // DOTweenで震えた後、1秒後にオブジェクトを削除
             transform.DOShakePosition(shakeDuration, shakeStrength);
-                // .OnComplete(() =>
-                // {
-                //     // 震えが終わってから1秒待って破棄
-                //     DOVirtual.DelayedCall(destroyDelay, () =>
-                //     {
-                //         GameManager.Instance.RemoveGhost(this);
-                //     });
-                // });
         }
         
         public virtual bool GetIsAttackable(SwingDirection swingDirection, SwingSpeed swingSpeed)
         {
-            return isInAttackableRange; 
+            return isInAttackableRange && isOverlapDetected; 
         }
         
         public void SetIsInAttackableRange(bool isAttackable)
         {
             isInAttackableRange = isAttackable;
-            //Debug.Log(isAttackable);
+            //Debug.Log(isInAttackableRange);
         }
         
         public void HpBarUpdate()

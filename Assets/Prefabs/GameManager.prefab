@@ -56,6 +56,7 @@ MonoBehaviour:
   maxPlayerHp: 4
   currentPlayerHp: 0
   attackOriginalRangePoint: {fileID: 0}
+  ghostGroup: {fileID: 0}
   ghostSpawnTime: 4
   ghostSpawnPoint: {fileID: 0}
   spawnRange: {x: 3, y: 2, z: 5}
@@ -63,12 +64,15 @@ MonoBehaviour:
   attackPower: 100
   enhancedAttackPower: 20
   currentAttackPower: 0
+  defaultAttackableTrigger: {fileID: 0}
+  enhancedAttackableTrigger: {fileID: 0}
   currentGauge: 0
   maxGauge: 100
   gaugeTime: 10
   playerPointer: {fileID: 0}
-  overlapThreshold: 20
+  overlapThreshold: 0.1
   uiManager: {fileID: 0}
+  ghostsList: []
 --- !u!114 &8561113786562538482
 MonoBehaviour:
   m_ObjectHideFlags: 0

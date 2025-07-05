@@ -6,7 +6,7 @@ namespace Ghosts
     {
         public override bool GetIsAttackable(SwingDirection swingDirection, SwingSpeed speed)
         {
-            if (isInAttackableRange && speed == SwingSpeed.Slow)
+            if (isInAttackableRange && speed == SwingSpeed.Slow && isOverlapDetected)
                 return true;
             else
             {

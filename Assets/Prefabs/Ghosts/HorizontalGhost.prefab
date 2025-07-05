@@ -91,8 +91,11 @@ MonoBehaviour:
   scoreValue: 10
   gaugeValue: 5
   attackPower: 1
-  moveSpeed: 5
+  moveSpeed: 2
   cameraTransform: {fileID: 0}
   rigidbody: {fileID: 0}
   isInAttackableRange: 0
-  attackableIcon: {fileID: 0}
+  attackAnimator: {fileID: 0}
+  shakeDuration: 0.5
+  shakeStrength: 0.2
+  destroyDelay: 1

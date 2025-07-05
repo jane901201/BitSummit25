@@ -1,11 +1,8 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using Ghosts;
 using UI;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 public class GameManager : MonoBehaviour
@@ -16,8 +13,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int maxPlayerHp = 100; 
     [SerializeField] private int currentPlayerHp = 0;
     [SerializeField] private Transform attackOriginalRangePoint;
-    
-    [Header("Ghost")]
+
+    [Header("Ghost")] 
+    [SerializeField] private GameObject ghostGroup;
     [SerializeField] private float ghostSpawnTime = 4f;
     [SerializeField] private Transform ghostSpawnPoint;
     [SerializeField] private Vector3 spawnRange = new Vector3(5f, 0f, 5f);
@@ -27,6 +25,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int attackPower = 10;
     [SerializeField] private int enhancedAttackPower = 20;
     [SerializeField] private int currentAttackPower = 0;
+    [SerializeField] private GameObject defaultAttackableTrigger;
+    [SerializeField] private GameObject enhancedAttackableTrigger;
     
     [Header("Gauge")]
     [SerializeField] private int currentGauge = 0;
@@ -46,11 +46,12 @@ public class GameManager : MonoBehaviour
     public int CurrentGauge => currentGauge;
     public int TotalScore => totalScore;
     
-    
+    [SerializeField]
     private List<IGhost> ghostsList = new List<IGhost>();
+    
     private List<IGhost> deadGhostsList = new List<IGhost>();
     private int currentDeadGhostCount = 0;
-
+    private bool isEnhanced = false;
     
     private void Awake()
     {
@@ -63,17 +64,20 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        
+        ghostGroup = GameObject.Find("Ghosts").gameObject;
     } 
 
     private void Start()
     {
-        uiManager.SetHpPanel(maxPlayerHp);
+        uiManager.InitinalHpPanel(maxPlayerHp);
         currentAttackPower = attackPower;
         currentPlayerHp = maxPlayerHp;
         StartCoroutine(SpawnGhost());
+        defaultAttackableTrigger.SetActive(true);
+        enhancedAttackableTrigger.SetActive(false);
     }
 
-    //TODO:生成範囲はどこですか？
     private IEnumerator SpawnGhost()
     {
         yield return new WaitForSeconds(ghostSpawnTime);
@@ -89,45 +93,57 @@ public class GameManager : MonoBehaviour
         Vector3 spawnPosition = ghostSpawnPoint.position + randomOffset;
         
         GameObject ghost = Instantiate(ghosts[index], spawnPosition, ghostSpawnPoint.rotation);
+        ghost.transform.SetParent(ghostGroup.transform, true);
         ghostsList.Add(ghost.GetComponent<IGhost>());
         StartCoroutine(SpawnGhost());
     }
 
     private void Update()
     {
-        if (currentGauge >= maxGauge)
+        if (!isEnhanced && currentGauge >= maxGauge)
         {
-            
+            StartCoroutine(GaugeCoroutine());
         }
         
         //CheckVisualOverlaps();
+        CheckVisualOverlaps_Viewport();
     }
 
-    private void AttackRange()
+    private IEnumerator GaugeCoroutine()
     {
-        
+        isEnhanced = true;
+
+        // 強化状態に切り替え
+        currentAttackPower = enhancedAttackPower;
+        defaultAttackableTrigger.SetActive(false);
+        enhancedAttackableTrigger.SetActive(true);
+
+        Debug.Log("強化モード突入！");
+
+        yield return new WaitForSeconds(gaugeTime);
+
+        // 元に戻す
+        currentAttackPower = attackPower;
+        defaultAttackableTrigger.SetActive(true);
+        enhancedAttackableTrigger.SetActive(false);
+        currentGauge = 0;
+        isEnhanced = false;
+
+        Debug.Log("強化モード終了");
     }
 
     #region UI
-
-    public void HpBarUpdate()
-    {
-        
-    }
     
-    public void GaugeBarUpdate()
-    {
-        
-    }
-
     public void ScoreUpdate()
     {
         
     }
-    
+
 
     #endregion
 
+    public int GetCurrentGauge() => currentGauge;
+    public int GetMaxGauge() => maxGauge;
 
     public void AddScore(int scoreValue)
     {
@@ -138,7 +154,6 @@ public class GameManager : MonoBehaviour
     public void AddGauge(int gaugeValue)
     {
         currentGauge += gaugeValue;
-        GaugeBarUpdate();
     }
 
     public void AddCurrentDeadGhostCount()
@@ -155,40 +170,28 @@ public class GameManager : MonoBehaviour
 
     public void TakeGhostsDamage(SwingDirection direction, SwingSpeed speed)
     {
-        SoundManager.Instance.PlayDamageMakeSound(); // 追加
         for (int i = ghostsList.Count - 1; i >= 0; i--)
         {
             if(ghostsList[i].GetIsAttackable(direction, speed))
             {
+                SoundManager.Instance.PlayDamageMakeSound(); // 追加
                 ghostsList[i].TakeDamage(currentAttackPower);
             }
             if (ghostsList[i].IsDead())
             {
                 ghostsList[i].Die();
                 deadGhostsList.Add(ghostsList[i]);
-                ghostsList.RemoveAt(i);
             }
         }
+        ghostsList.RemoveAll(ghost => ghost.IsDead());
         deadGhostsList.ForEach(ghost => Destroy(ghost.gameObject));
         deadGhostsList.Clear();
         CheckGameResult();
     }
-
-    public void RemoveGhost(IGhost ghost)
-    {
-        int index = ghostsList.FindIndex(x => x == ghost);
-        if (index >= 0)
-        {
-            deadGhostsList.Add(ghostsList[index]); 
-            ghostsList[index].Die();
-            ghostsList.RemoveAt(index);
-        }
-        //deadGhostsList.ForEach(ghost => Destroy(ghost.gameObject));
-        deadGhostsList.Clear();
-    }
+    
     public void CheckVisualOverlaps()
     {
-        Debug.Log("CheckVisualOverlaps");
+        //Debug.Log("CheckVisualOverlaps");
         Vector3 pointerScreenPos = Camera.main.WorldToScreenPoint(playerPointer.transform.position);
 
         foreach (var ghost in ghostsList)
@@ -209,6 +212,35 @@ public class GameManager : MonoBehaviour
         }
     }
     
+    public void CheckVisualOverlaps_Viewport()
+    {
+        // Pointer の Viewport 座標（x: 横方向の割合, y: 縦方向の割合, z: カメラからの距離）
+        Vector3 pointerViewport = Camera.main.WorldToViewportPoint(playerPointer.transform.position);
+
+        foreach (var ghost in ghostsList)
+        {
+            if (ghost == null) continue;
+
+            Vector3 ghostViewport = Camera.main.WorldToViewportPoint(ghost.transform.position);
+
+            // zが負ならカメラの背後にいるのでスキップ
+            if (ghostViewport.z < 0 || pointerViewport.z < 0) continue;
+
+            // Viewport 座標上での2D距離（XYだけ使う）
+            float dist = Vector2.Distance(
+                new Vector2(pointerViewport.x, pointerViewport.y),
+                new Vector2(ghostViewport.x, ghostViewport.y)
+            );
+
+            // しきい値は Viewport 単位なので 0.05 ～ 0.1 程度が目安
+            if (dist < overlapThreshold)
+            {
+                OnOverlapDetected(ghost);
+            }
+        }
+    }
+    
+    //プレイヤーのポインターが鬼から外れた
     public void ResetOverlapDetectedFlag()
     {
         Debug.Log("ResetOverlapDetectedFlag");
@@ -218,6 +250,7 @@ public class GameManager : MonoBehaviour
         }
     }
     
+    //プレイヤーのポインターが鬼に当たっている
     private void OnOverlapDetected(IGhost ghost)
     {
         Debug.Log("Overlap Detected!");
