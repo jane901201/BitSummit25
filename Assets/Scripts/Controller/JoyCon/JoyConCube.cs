@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Runtime.Remoting;
 
 public class JoyConCube : MonoBehaviour
 {
@@ -43,24 +44,45 @@ public class JoyConCube : MonoBehaviour
         {
             Joycon j = joycons[jc_ind];
 
+            // Rotation
+            gyro = TruncateVector3(j.GetGyro(), 2);
+            orientation = initialOrientation * joyconToUnity * j.GetVector();
+            gameObject.transform.rotation = orientation;
+
+            // 重力
+            //Vector3 gravity = orientation * Vector3.down; // Unityの重力方向を取得
+
+            // Position
+            accel = j.GetAccel();
+            Vector3 unityAxisAccel = Vector3.zero;
+            unityAxisAccel.x = accel.y;
+            unityAxisAccel.y = -accel.x; // Joy-Conの座標系からUnityの座標系への変換
+            unityAxisAccel.z = -accel.z;
+            //unityAxisAccel = unityAxisAccel - gravity; // 重力を除去
+            //velocity += unityAxisAccel * accelerationFactor * Time.deltaTime; // 加速度を速度に変換
+            //transform.position += velocity * Time.deltaTime; // 速度を位置に変換
+
+            // ① Joy-Con加速度（ローカル）→ Unityワールド座標へ変換
+            Vector3 worldAccel = orientation * j.GetAccel();
+
+            // ② 重力ベクトル（Unityの世界で "下" 方向 = Vector3.down）
+            Vector3 gravity = Vector3.down;
+
+            // ③ 重力を除去した線形加速度（地面に置いた状態ならほぼゼロになる）
+            Vector3 linearAccel = worldAccel - gravity;
+
+            // ④ 移動反映
+            velocity += linearAccel * accelerationFactor * Time.deltaTime;
+            transform.position += velocity * Time.deltaTime;
+
+            // 
+            Debug.Log($"JoyConAccel: {j.GetAccel()} | WorldAccel: {worldAccel}");
+
             // Bボタンでセンター位置のリセット
             if (j.GetButtonDown(Joycon.Button.DPAD_DOWN))
             {
                 Recenter();
             }
-
-            // Position
-            accel = TruncateVector3(j.GetAccel(), 2);
-            Vector3 deltaAccel = new Vector3(accel.x, accel.y, accel.z);
-            velocity += deltaAccel * Time.deltaTime * accelerationFactor;
-            velocity *= damping; // Apply damping to reduce drift
-            position += velocity * Time.deltaTime;
-            //gameObject.transform.position = position;
-
-            // Rotation
-            gyro = TruncateVector3(j.GetGyro(), 2);
-            orientation = initialOrientation * joyconToUnity * j.GetVector();
-            gameObject.transform.rotation = orientation;
         }
     }
 
@@ -84,5 +106,6 @@ public class JoyConCube : MonoBehaviour
             j.Recenter();
             initialOrientation = Quaternion.Inverse(j.GetVector());
         }
+        position = Vector3.zero; // Reset position to origin
     }
 }
