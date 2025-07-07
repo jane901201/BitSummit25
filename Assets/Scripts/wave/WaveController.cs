@@ -24,9 +24,14 @@ public class WaveController : MonoBehaviour
         if (!isDisplaying && currentWave < maxWave)
         {
             currentWave++;
+
+            // Wave”‚ðGameManager‚É“`‚¦‚é
+            GameManager.Instance?.SetCurrentWave(currentWave);
+
             StartCoroutine(ShowWaveText());
         }
     }
+
 
     private IEnumerator ShowWaveText()
     {

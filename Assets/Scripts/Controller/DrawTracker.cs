@@ -33,6 +33,8 @@ namespace Controller
             }
         }
 
+        public SwingSpeed CurrentSwingSpeed { get; private set; } = SwingSpeed.Slow;
+
         private void AnalyzeAndReset()
         {
             if (recordedPositions.Count >= 2)

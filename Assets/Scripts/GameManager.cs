@@ -45,14 +45,30 @@ public class GameManager : MonoBehaviour
     public int CurrentAttackPower => currentAttackPower;
     public int CurrentGauge => currentGauge;
     public int TotalScore => totalScore;
-    
+
+
     [SerializeField]
     private List<IGhost> ghostsList = new List<IGhost>();
     
     private List<IGhost> deadGhostsList = new List<IGhost>();
     private int currentDeadGhostCount = 0;
     private bool isEnhanced = false;
-    
+   
+    public bool IsEnhanced => isEnhanced;
+
+    [System.Serializable]
+    public class GhostSpawnInfo
+    {
+        public GameObject ghostPrefab;
+        [Range(0f, 1f)]
+        public float[] spawnRatesPerWave; // Waveごとのスポーン率（例：Wave1〜5で5要素）
+    }
+
+    [SerializeField]
+    private List<GhostSpawnInfo> ghostSpawnInfos;
+
+    private int currentWave = 0; // Wave数をGameManagerにも保持
+
     private void Awake()
     {
         uiManager = GameObject.Find("UIManager").GetComponent<UIManager>();
@@ -91,11 +107,14 @@ public class GameManager : MonoBehaviour
 
         // 基準点からオフセットを加えた位置に生成
         Vector3 spawnPosition = ghostSpawnPoint.position + randomOffset;
-        
-        GameObject ghost = Instantiate(ghosts[index], spawnPosition, ghostSpawnPoint.rotation);
+
+        // 出現割合に従って敵を選ぶ
+        GameObject selectedGhost = GetRandomGhostForCurrentWave();
+        GameObject ghost = Instantiate(selectedGhost, spawnPosition, ghostSpawnPoint.rotation);
         ghost.transform.SetParent(ghostGroup.transform, true);
         ghostsList.Add(ghost.GetComponent<IGhost>());
         StartCoroutine(SpawnGhost());
+
     }
 
     private void Update()
@@ -256,6 +275,37 @@ public class GameManager : MonoBehaviour
         Debug.Log("Overlap Detected!");
         ghost.IsOverlapDetected = true;
     }
+
+    public void SetCurrentWave(int wave)
+    {
+        currentWave = wave;
+    }
+
+    private GameObject GetRandomGhostForCurrentWave()
+    {
+        if (ghostSpawnInfos.Count == 0) return null;
+        if (currentWave == 0) return null;
+
+        // Wave数が1始まりなので-1（例：Wave1→index0）
+        int waveIndex = Mathf.Clamp(currentWave - 1, 0, ghostSpawnInfos[0].spawnRatesPerWave.Length - 1);
+
+        // 合計が1.0になる前提
+        float randomValue = Random.value; // 0〜1
+        float cumulative = 0f;
+
+        foreach (var info in ghostSpawnInfos)
+        {
+            cumulative += info.spawnRatesPerWave[waveIndex];
+            if (randomValue <= cumulative)
+            {
+                return info.ghostPrefab;
+            }
+        }
+
+        // 万が一合計が1未満の場合、最後のを返す
+        return ghostSpawnInfos[ghostSpawnInfos.Count - 1].ghostPrefab;
+    }
+
 
     public void CheckGameResult()
     {
