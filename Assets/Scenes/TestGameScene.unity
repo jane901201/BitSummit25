@@ -557,8 +557,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lineRenderer: {fileID: 739291707}
   baseMoveSpeed: 5
-  moveSpeed: 5
   fastSwingThreshold: 2.5
+  analysisInterval: 2
 --- !u!120 &739291707
 LineRenderer:
   serializedVersion: 2

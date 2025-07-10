@@ -851,8 +851,11 @@ MonoBehaviour:
   stick: []
   gyro: {x: 0, y: 0, z: 0}
   accel: {x: 0, y: 0, z: 0}
+  startGyro: {x: 0, y: 0, z: 0}
   jc_ind: 0
   orientation: {x: 0, y: 0, z: 0, w: 0}
+  accelerationFactor: 5
+  damping: 0.98
 --- !u!1 &1384427393
 GameObject:
   m_ObjectHideFlags: 0
