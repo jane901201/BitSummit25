@@ -7,7 +7,7 @@ public class SplineFollower : MonoBehaviour
     public SplineContainer splineContainer; // ヒエラルキー上のSplineを指定
     public GameObject objectToMove;         // 移動させたいオブジェクト
     public float moveSpeed = 1f;            // 移動速度
-    public bool loop = true;                // 終点に達したら最初に戻るか
+    public bool loop = false;                // 終点に達したら最初に戻るか
 
     private float t = 0f;
 
