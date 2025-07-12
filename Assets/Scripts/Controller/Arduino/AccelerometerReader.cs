@@ -5,8 +5,8 @@ using UnityEngine;
 public class AccelerometerReader : MonoBehaviour
 {
     private SerialPort serial;
-    public string portName = "COM3";
-    public int baudRate = 115200;
+    public string portName = "COM4";
+    public int baudRate = 9600;
 
     public Vector3 latestAcceleration { get; private set; } = Vector3.zero;
     public Vector3 latestGyro { get; private set; } = Vector3.zero;
@@ -17,11 +17,11 @@ public class AccelerometerReader : MonoBehaviour
     void Start()
     {
         serial = new SerialPort(portName, baudRate);
-        serial.ReadTimeout = 100;
 
         try
         {
             serial.Open();
+            serial.ReadTimeout = 500;
             readThread = new Thread(ReadSerial);
             readThread.Start();
         }
@@ -53,14 +53,38 @@ public class AccelerometerReader : MonoBehaviour
                     latestGyro = new Vector3(gx, gy, gz);
                 }
             }
-            catch { /* skip invalid lines */ }
+            catch (System.TimeoutException)
+            {
+                // タイムアウト → loopを続ける
+            }
+            catch (System.Exception e)
+            {
+                Debug.LogWarning("Serial read error: " + e.Message);
+                // 他の例外（切断など）はループを抜ける
+                break;
+            }
         }
     }
 
     void OnDestroy()
     {
         keepReading = false;
-        if (readThread != null && readThread.IsAlive) readThread.Join();
-        if (serial != null && serial.IsOpen) serial.Close();
+
+        if (serial != null && serial.IsOpen)
+        {
+            try
+            {
+                serial.BaseStream.Flush(); // 強制 wake-up
+            }
+            catch { }
+
+            // 明示的に閉じて、ReadLineを失敗させる
+            serial.Close();
+        }
+
+        if (readThread != null && readThread.IsAlive)
+        {
+            readThread.Join(1000); // 最大1秒待つ。フリーズ対策
+        }
     }
 }
