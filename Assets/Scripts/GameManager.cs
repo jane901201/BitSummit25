@@ -333,10 +333,13 @@ public class GameManager : MonoBehaviour
     public void Victory()
     {
         Debug.Log("Victory");
+        PhantomSwing.Instance.GameData.SetScore(currentDeadGhostCount);
+        PhantomSwing.Instance.LoadGameScene("GameClearScene");
     }
 
     public void GameOver()
     {
         Debug.Log("GameOver");
+        PhantomSwing.Instance.LoadGameScene("GameOverScene");
     }
 }

@@ -25032,7 +25032,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lineRenderer: {fileID: 8325850637897464821}
-  fastSwingThreshold: 2.5
+  fastSwingThreshold: 10
   analysisInterval: 0.1
 --- !u!1 &7799386396216850511
 GameObject:
