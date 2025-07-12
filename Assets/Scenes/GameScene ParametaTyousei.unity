@@ -15497,7 +15497,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1120688943821564796, guid: feb987746ff0e4e48afa125e3d8e8d61, type: 3}
       propertyPath: 'ghostSpawnInfos.Array.data[0].spawnRatesPerWave.Array.data[0]'
-      value: 0.25
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1120688943821564796, guid: feb987746ff0e4e48afa125e3d8e8d61, type: 3}
       propertyPath: 'ghostSpawnInfos.Array.data[0].spawnRatesPerWave.Array.data[1]'
@@ -15513,7 +15513,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1120688943821564796, guid: feb987746ff0e4e48afa125e3d8e8d61, type: 3}
       propertyPath: 'ghostSpawnInfos.Array.data[1].spawnRatesPerWave.Array.data[0]'
-      value: 0.2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1120688943821564796, guid: feb987746ff0e4e48afa125e3d8e8d61, type: 3}
       propertyPath: 'ghostSpawnInfos.Array.data[1].spawnRatesPerWave.Array.data[1]'
@@ -15529,7 +15529,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1120688943821564796, guid: feb987746ff0e4e48afa125e3d8e8d61, type: 3}
       propertyPath: 'ghostSpawnInfos.Array.data[2].spawnRatesPerWave.Array.data[0]'
-      value: 0.55
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1120688943821564796, guid: feb987746ff0e4e48afa125e3d8e8d61, type: 3}
       propertyPath: 'ghostSpawnInfos.Array.data[2].spawnRatesPerWave.Array.data[1]'

@@ -9,7 +9,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4792013168773739463}
+<<<<<<< Updated upstream
   - component: {fileID: 4579720006652379200}
+=======
+>>>>>>> Stashed changes
   m_Layer: 0
   m_Name: L_front_end
   m_TagString: Untagged
@@ -32,6 +35,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 3356923627631692901}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+<<<<<<< Updated upstream
 --- !u!114 &4579720006652379200
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -102,6 +106,8 @@ MonoBehaviour:
   m_ReferenceObject: {fileID: 0}
   m_DistanceToObject: 20
   m_Multithread: 1
+=======
+>>>>>>> Stashed changes
 --- !u!1 &892828670683425817
 GameObject:
   m_ObjectHideFlags: 0
@@ -111,7 +117,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4538295196698216647}
+<<<<<<< Updated upstream
   - component: {fileID: 4447347857332732093}
+=======
+>>>>>>> Stashed changes
   m_Layer: 0
   m_Name: L_back_end
   m_TagString: Untagged
@@ -134,6 +143,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 3617436389365078860}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+<<<<<<< Updated upstream
 --- !u!114 &4447347857332732093
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -204,6 +214,8 @@ MonoBehaviour:
   m_ReferenceObject: {fileID: 0}
   m_DistanceToObject: 20
   m_Multithread: 1
+=======
+>>>>>>> Stashed changes
 --- !u!1 &2130323084784800595
 GameObject:
   m_ObjectHideFlags: 0
@@ -213,7 +225,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 944403607819991651}
+<<<<<<< Updated upstream
   - component: {fileID: 6584514206497438306}
+=======
+>>>>>>> Stashed changes
   m_Layer: 0
   m_Name: R_front
   m_TagString: Untagged
@@ -237,6 +252,7 @@ Transform:
   - {fileID: 7147809891118040862}
   m_Father: {fileID: 376551665706026767}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+<<<<<<< Updated upstream
 --- !u!114 &6584514206497438306
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -308,6 +324,8 @@ MonoBehaviour:
   m_ReferenceObject: {fileID: 0}
   m_DistanceToObject: 20
   m_Multithread: 1
+=======
+>>>>>>> Stashed changes
 --- !u!1 &3335106782360171078
 GameObject:
   m_ObjectHideFlags: 0
@@ -317,7 +335,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3356923627631692901}
+<<<<<<< Updated upstream
   - component: {fileID: 8217079269040850190}
+=======
+>>>>>>> Stashed changes
   m_Layer: 0
   m_Name: L_front
   m_TagString: Untagged
@@ -341,6 +362,7 @@ Transform:
   - {fileID: 4792013168773739463}
   m_Father: {fileID: 376551665706026767}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+<<<<<<< Updated upstream
 --- !u!114 &8217079269040850190
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -412,6 +434,8 @@ MonoBehaviour:
   m_ReferenceObject: {fileID: 0}
   m_DistanceToObject: 20
   m_Multithread: 1
+=======
+>>>>>>> Stashed changes
 --- !u!1 &3339523451345345762
 GameObject:
   m_ObjectHideFlags: 0
@@ -421,7 +445,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4010433164162077193}
+<<<<<<< Updated upstream
   - component: {fileID: 2021489947128348917}
+=======
+>>>>>>> Stashed changes
   m_Layer: 0
   m_Name: R_back_end
   m_TagString: Untagged
@@ -444,6 +471,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 7998032971462241686}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+<<<<<<< Updated upstream
 --- !u!114 &2021489947128348917
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -514,6 +542,8 @@ MonoBehaviour:
   m_ReferenceObject: {fileID: 0}
   m_DistanceToObject: 20
   m_Multithread: 1
+=======
+>>>>>>> Stashed changes
 --- !u!1 &4749184498447261078
 GameObject:
   m_ObjectHideFlags: 0
@@ -523,7 +553,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2535893487505660058}
+<<<<<<< Updated upstream
   - component: {fileID: 5550116567159112758}
+=======
+>>>>>>> Stashed changes
   m_Layer: 0
   m_Name: middle
   m_TagString: Untagged
@@ -547,6 +580,7 @@ Transform:
   - {fileID: 3623666232812667750}
   m_Father: {fileID: 376551665706026767}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+<<<<<<< Updated upstream
 --- !u!114 &5550116567159112758
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -618,6 +652,8 @@ MonoBehaviour:
   m_ReferenceObject: {fileID: 0}
   m_DistanceToObject: 20
   m_Multithread: 1
+=======
+>>>>>>> Stashed changes
 --- !u!1 &5330774825453149868
 GameObject:
   m_ObjectHideFlags: 0
@@ -627,7 +663,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1101522891996504478}
+<<<<<<< Updated upstream
   - component: {fileID: 9053147938233322009}
+=======
+>>>>>>> Stashed changes
   m_Layer: 0
   m_Name: m_back
   m_TagString: Untagged
@@ -651,6 +690,7 @@ Transform:
   - {fileID: 3981690624982707360}
   m_Father: {fileID: 376551665706026767}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+<<<<<<< Updated upstream
 --- !u!114 &9053147938233322009
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -722,6 +762,8 @@ MonoBehaviour:
   m_ReferenceObject: {fileID: 0}
   m_DistanceToObject: 20
   m_Multithread: 1
+=======
+>>>>>>> Stashed changes
 --- !u!1 &6446792436428344204
 GameObject:
   m_ObjectHideFlags: 0
@@ -731,7 +773,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3617436389365078860}
+<<<<<<< Updated upstream
   - component: {fileID: 3413314323956775026}
+=======
+>>>>>>> Stashed changes
   m_Layer: 0
   m_Name: L_back
   m_TagString: Untagged
@@ -755,6 +800,7 @@ Transform:
   - {fileID: 4538295196698216647}
   m_Father: {fileID: 376551665706026767}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+<<<<<<< Updated upstream
 --- !u!114 &3413314323956775026
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -826,6 +872,8 @@ MonoBehaviour:
   m_ReferenceObject: {fileID: 0}
   m_DistanceToObject: 20
   m_Multithread: 1
+=======
+>>>>>>> Stashed changes
 --- !u!1 &6604080841166139410
 GameObject:
   m_ObjectHideFlags: 0
@@ -835,7 +883,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 376551665706026767}
+<<<<<<< Updated upstream
   - component: {fileID: 1325020932323868613}
+=======
+>>>>>>> Stashed changes
   m_Layer: 0
   m_Name: Root
   m_TagString: Untagged
@@ -864,6 +915,7 @@ Transform:
   - {fileID: 944403607819991651}
   m_Father: {fileID: 1335423984437545110}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+<<<<<<< Updated upstream
 --- !u!114 &1325020932323868613
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -940,6 +992,8 @@ MonoBehaviour:
   m_ReferenceObject: {fileID: 0}
   m_DistanceToObject: 20
   m_Multithread: 1
+=======
+>>>>>>> Stashed changes
 --- !u!1 &7310039538399647452
 GameObject:
   m_ObjectHideFlags: 0
@@ -1107,7 +1161,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7998032971462241686}
+<<<<<<< Updated upstream
   - component: {fileID: 6858689603280480105}
+=======
+>>>>>>> Stashed changes
   m_Layer: 0
   m_Name: R_back
   m_TagString: Untagged
@@ -1131,6 +1188,7 @@ Transform:
   - {fileID: 4010433164162077193}
   m_Father: {fileID: 376551665706026767}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+<<<<<<< Updated upstream
 --- !u!114 &6858689603280480105
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1202,6 +1260,8 @@ MonoBehaviour:
   m_ReferenceObject: {fileID: 0}
   m_DistanceToObject: 20
   m_Multithread: 1
+=======
+>>>>>>> Stashed changes
 --- !u!1 &7897970414246972215
 GameObject:
   m_ObjectHideFlags: 0
@@ -1211,7 +1271,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3623666232812667750}
+<<<<<<< Updated upstream
   - component: {fileID: 1275625332227084773}
+=======
+>>>>>>> Stashed changes
   m_Layer: 0
   m_Name: middle_end
   m_TagString: Untagged
@@ -1234,6 +1297,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2535893487505660058}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+<<<<<<< Updated upstream
 --- !u!114 &1275625332227084773
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1304,6 +1368,8 @@ MonoBehaviour:
   m_ReferenceObject: {fileID: 0}
   m_DistanceToObject: 20
   m_Multithread: 1
+=======
+>>>>>>> Stashed changes
 --- !u!1 &7905191570010611069
 GameObject:
   m_ObjectHideFlags: 0
@@ -1313,7 +1379,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3981690624982707360}
+<<<<<<< Updated upstream
   - component: {fileID: 1224210850280178539}
+=======
+>>>>>>> Stashed changes
   m_Layer: 0
   m_Name: m_back_end
   m_TagString: Untagged
@@ -1336,6 +1405,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1101522891996504478}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+<<<<<<< Updated upstream
 --- !u!114 &1224210850280178539
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1406,6 +1476,8 @@ MonoBehaviour:
   m_ReferenceObject: {fileID: 0}
   m_DistanceToObject: 20
   m_Multithread: 1
+=======
+>>>>>>> Stashed changes
 --- !u!1 &8095718289624398375
 GameObject:
   m_ObjectHideFlags: 0
@@ -1509,7 +1581,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7147809891118040862}
+<<<<<<< Updated upstream
   - component: {fileID: 8073767190037902914}
+=======
+>>>>>>> Stashed changes
   m_Layer: 0
   m_Name: R_front_end
   m_TagString: Untagged
@@ -1532,6 +1607,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 944403607819991651}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+<<<<<<< Updated upstream
 --- !u!114 &8073767190037902914
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1602,3 +1678,5 @@ MonoBehaviour:
   m_ReferenceObject: {fileID: 0}
   m_DistanceToObject: 20
   m_Multithread: 1
+=======
+>>>>>>> Stashed changes
