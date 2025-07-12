@@ -100,7 +100,7 @@ Material:
     - _AlphaClip: 0
     - _AlphaToMask: 0
     - _Blend: 0
-    - _BlendAmount: 0.06666667
+    - _BlendAmount: 0.18333334
     - _ObjectHeight: 1
     m_Colors:
     - _BottomColor: {r: 1, g: 0, b: 0, a: 1}
