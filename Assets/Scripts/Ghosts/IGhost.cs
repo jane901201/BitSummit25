@@ -100,6 +100,11 @@ namespace Ghosts
         {
             return isInAttackableRange && isOverlapDetected; 
         }
+
+        public virtual bool GetIsAttackableRange()
+        {
+            return isInAttackableRange;
+        }
         
         public void SetIsInAttackableRange(bool isAttackable)
         {

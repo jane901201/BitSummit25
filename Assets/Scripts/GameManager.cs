@@ -191,10 +191,21 @@ public class GameManager : MonoBehaviour
     {
         for (int i = ghostsList.Count - 1; i >= 0; i--)
         {
-            if(ghostsList[i].GetIsAttackable(direction, speed))
+            if (isEnhanced)
             {
-                SoundManager.Instance.PlayDamageMakeSound(); // 追加
-                ghostsList[i].TakeDamage(currentAttackPower);
+                if(ghostsList[i].GetIsAttackableRange())
+                {
+                    SoundManager.Instance.PlayDamageMakeSound(); // 追加
+                    ghostsList[i].TakeDamage(currentAttackPower);
+                }
+            }
+            else
+            {
+                if(ghostsList[i].GetIsAttackable(direction, speed))
+                {
+                    SoundManager.Instance.PlayDamageMakeSound(); // 追加
+                    ghostsList[i].TakeDamage(currentAttackPower);
+                }
             }
             if (ghostsList[i].IsDead())
             {
