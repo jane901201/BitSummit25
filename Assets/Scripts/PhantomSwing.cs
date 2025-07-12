@@ -7,7 +7,12 @@ public class PhantomSwing: MonoBehaviour
     [SerializeField] private float overlapThreshold = 0.1f;
     [SerializeField] private GameObject playerPointer;
     [SerializeField] private GameData gameData;
-    
+
+    public GameData GameData
+    {
+        get { return gameData; }
+        set { gameData = value; }
+    }
 
     public static PhantomSwing Instance { get; private set; }
 
@@ -21,6 +26,7 @@ public class PhantomSwing: MonoBehaviour
     private void Awake()
     { 
         Instance = this;
+        gameData.SetScore(0);
         DontDestroyOnLoad(gameObject);
     }
 

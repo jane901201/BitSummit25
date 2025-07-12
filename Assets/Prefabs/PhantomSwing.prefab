@@ -44,3 +44,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4216f75b8cba4f98abe64fac19cc95ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  overlapThreshold: 0.1
+  playerPointer: {fileID: 0}
+  gameData: {fileID: 11400000, guid: 47f61592491292e4b94aff43867b0786, type: 2}
