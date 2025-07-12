@@ -47,11 +47,13 @@ namespace Controller
                 var swingSpeed = JudgeSpeed(speed);
 
                 Debug.Log($"方向: {swingDir}, 速度: {speed:F2} → {swingSpeed}");
-                GameManager.Instance.TakeGhostsDamage(swingDir, swingSpeed);
+                if(GameManager.Instance != null)
+                    GameManager.Instance.TakeGhostsDamage(swingDir, swingSpeed);
             }
 
             recordedPositions.Clear();
-            GameManager.Instance.ResetOverlapDetectedFlag();
+            if(GameManager.Instance != null)
+                GameManager.Instance.ResetOverlapDetectedFlag();
             lineRenderer.positionCount = 0;
             timer = 0f;
         }
