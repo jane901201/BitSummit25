@@ -21,8 +21,12 @@ public class MoveWithAcceleration : MonoBehaviour
     [SerializeField] private float accelDeadZoneY = 12f;
     [SerializeField] private float accelDeadZoneZ = 17f; // Z+回転だけ大きめ
     [SerializeField] private float accelToSpeedScale = 200.0f;
+    [SerializeField] private float shakeStartThreshold = 1.2f;
+    [SerializeField] private float shakeEndThreshold = 0.3f;
     private float flatTimer = 0f;
     private bool isCorrecting = false;
+    private bool isShaking = false;
+    private Vector3 shakeDirection = Vector3.zero;
 
     void Start()
     {
@@ -42,13 +46,15 @@ public class MoveWithAcceleration : MonoBehaviour
         // 生のセンサ値を取得
         Vector3 accel = reader.latestAcceleration;
         Vector3 gyro = reader.latestGyro;
+        Vector3 accel_raw = reader.rawLatestAcceleration;
 
         // ◉ 軸変換（センサ→Unity座標系）
-        accel = new Vector3(accel.x, -accel.z, -accel.y);
+        accel = new Vector3(-accel.x, -accel.z, -accel.y);
         gyro = new Vector3(-gyro.x, -gyro.z, -gyro.y);
+        accel_raw = new Vector3(-accel_raw.x, -accel_raw.z, -accel_raw.y);
 
         // 平置き角度を測定
-        float flatAngle = Vector3.Angle(accel.normalized, Vector3.down);
+        float flatAngle = Vector3.Angle(accel_raw.normalized, Vector3.down);
 
         // ★ ジャイロにデッドゾーン（ノイズ除去）を適用
         // 軸ごとにしきい値適用（Z+は特に大きめに設定）
@@ -89,28 +95,56 @@ public class MoveWithAcceleration : MonoBehaviour
             transform.rotation = Quaternion.Slerp(transform.rotation, target, Time.deltaTime * 2f);
         }
 
-        // 推定重力（加速度が1g前提、動いていなければ静止加速度 ≒ 重力）
-        estimatedGravity = accel.normalized * gravityMagnitude;
+        // ----- 振る判定ロジック -----
 
-        // 加速度から重力除去
-        Vector3 correctedAccel = accel - estimatedGravity;
+        if (!isShaking)
+        {
+            // 開始条件：いずれかの軸でしきい値を超えたら「振る」開始
+            if (Mathf.Abs(accel.x) > shakeStartThreshold ||
+                Mathf.Abs(accel.y) > shakeStartThreshold ||
+                Mathf.Abs(accel.z) > shakeStartThreshold)
+            {
+                isShaking = true;
+                shakeDirection = accel.normalized; // 振った瞬間の向きを保持
+                Debug.Log("振る開始");
+            }
+        }
+        else
+        {
+            // 終了条件：全軸が一定以下なら「振る」終了
+            if (Mathf.Abs(accel.x) < shakeEndThreshold &&
+                Mathf.Abs(accel.y) < shakeEndThreshold &&
+                Mathf.Abs(accel.z) < shakeEndThreshold)
+            {
+                isShaking = false;
+                velocity = Vector3.zero; // オブジェクトを止める
+                Debug.Log("振る終了");
+            }
+        }
 
-        // ノイズ除去
-        correctedAccel = ApplySoftDeadZone(correctedAccel, accelDeadZoneX, accelDeadZoneY, accelDeadZoneZ);
-
-        // 速度更新（Time.deltaTimeを積分として適用）
-        velocity += correctedAccel * accelToSpeedScale * Time.deltaTime;
-
-        transform.position += velocity * Time.deltaTime;
+        if (isShaking)
+        {
+            // 重力除去後の加速度を使って移動方向に速度を加える
+            Vector3 correctedAccel = ApplySoftDeadZone(accel, accelDeadZoneX, accelDeadZoneY, accelDeadZoneZ);
+            // 加速度ベクトルを shakeDirection に射影
+            Vector3 projectedAccel = Vector3.Project(correctedAccel, shakeDirection);
+            velocity = correctedAccel * accelToSpeedScale * Time.deltaTime;
+            transform.position += velocity * Time.deltaTime;
+        }
 
         // 緑：加速度方向
-        Debug.DrawLine(transform.position, transform.position + accel.normalized * 2f, Color.green);
+        Debug.DrawLine(transform.position, transform.position + accel_raw.normalized * 2f, Color.green);
+        // 黄：ハイパス加速度方向
+        Debug.DrawLine(transform.position, transform.position + accel.normalized * 2f, Color.yellow);
         // 赤：速度方向
         Debug.DrawLine(transform.position, transform.position + velocity.normalized * 2f, Color.red);
         // 青：推定重力方向
         Debug.DrawLine(transform.position, transform.position + estimatedGravity.normalized * 2f, Color.blue);
         // 紫：補正後の加速度
-        Debug.DrawLine(transform.position, transform.position + correctedAccel.normalized * 2f, Color.magenta);
+        //Debug.DrawLine(transform.position, transform.position + correctedAccel.normalized * 2f, Color.magenta);
+
+        // コンソール表示
+        Debug.Log($"ハイパス加速度: {accel}");
 
         // Rキーで位置リセット
         if (Input.GetKeyDown(KeyCode.R))

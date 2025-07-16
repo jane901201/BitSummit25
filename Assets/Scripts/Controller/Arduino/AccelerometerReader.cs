@@ -10,6 +10,7 @@ public class AccelerometerReader : MonoBehaviour
 
     public Vector3 latestAcceleration { get; private set; } = Vector3.zero;
     public Vector3 latestGyro { get; private set; } = Vector3.zero;
+    public Vector3 rawLatestAcceleration { get; private set; } = Vector3.zero;
 
     private Thread readThread;
     private bool keepReading = true;
@@ -40,7 +41,7 @@ public class AccelerometerReader : MonoBehaviour
                 string line = serial.ReadLine();
                 string[] values = line.Split(',');
 
-                if (values.Length == 6)
+                if (values.Length == 9)
                 {
                     float ax = float.Parse(values[0]);
                     float ay = float.Parse(values[1]);
@@ -49,8 +50,14 @@ public class AccelerometerReader : MonoBehaviour
                     float gy = float.Parse(values[4]);
                     float gz = float.Parse(values[5]);
 
+                    // ハイパス無し
+                    float ax_raw = float.Parse(values[6]);
+                    float ay_raw = float.Parse(values[7]);
+                    float az_raw = float.Parse(values[8]);
+
                     latestAcceleration = new Vector3(ax, ay, az);
                     latestGyro = new Vector3(gx, gy, gz);
+                    rawLatestAcceleration = new Vector3(ax_raw, ay_raw, az_raw);
                 }
             }
             catch (System.TimeoutException)
