@@ -21,6 +21,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Transform ghostSpawnPoint;
     [SerializeField] private Vector3 spawnRange = new Vector3(5f, 0f, 5f);
     [SerializeField] private int maxGhostCount = 20;
+    [SerializeField] private float isAttackableDistanceBetweenGhosts = 1f;
     
     [Header("Attack")]
     [SerializeField] private int attackPower = 10;
@@ -116,6 +117,8 @@ public class GameManager : MonoBehaviour
         // 出現割合に従って敵を選ぶ
         GameObject selectedGhost = GetRandomGhostForCurrentWave();
         GameObject ghost = Instantiate(selectedGhost, spawnPosition, ghostSpawnPoint.rotation);
+        //Test GameObject ghost = Instantiate(selectedGhost, ghostSpawnPoint.position, ghostSpawnPoint.rotation);
+        
         ghost.transform.SetParent(ghostGroup.transform, true);
         ghostsList.Add(ghost.GetComponent<IGhost>());
         StartCoroutine(SpawnGhost());
@@ -208,8 +211,38 @@ public class GameManager : MonoBehaviour
             {
                 if(ghostsList[i].GetIsAttackable(direction, speed))
                 {
-                    SoundManager.Instance.PlayDamageMakeSound(); // 追加
-                    ghostsList[i].TakeDamage(currentAttackPower);
+                    bool isAttackable = true;
+                    for (int j = 0; j < ghostsList.Count; j++)
+                    {
+                        
+                        //TODO:2つのオブジェクトのX距離が isAttackableDistanceBetweenGhosts より小さく、
+                        //かつこの i オブジェクトが j オブジェクトの後ろにいる。
+                        
+                        Vector3 ghostI = Camera.main.WorldToViewportPoint(ghostsList[i].gameObject.transform.position);
+                        Vector3 ghostJ = Camera.main.WorldToViewportPoint(ghostsList[j].gameObject.transform.position);
+                        
+                        float dist = Vector2.Distance(
+                            new Vector2(ghostI.x, ghostJ.y),
+                            new Vector2(ghostI.x, ghostJ.y)
+                        );
+                        
+                        // float distanceX = 
+                        //     Math.Abs(ghostI.x - 
+                        //     ghostJ.x);
+                        
+                        if (dist <= isAttackableDistanceBetweenGhosts
+                            && ghostsList[i].gameObject.transform.position.z
+                            > ghostsList[j].gameObject.transform.position.z)
+                        {
+                            isAttackable = false;
+                        }
+                    }
+
+                    if (isAttackable)
+                    {
+                        SoundManager.Instance.PlayDamageMakeSound(); // 追加
+                        ghostsList[i].TakeDamage(currentAttackPower);
+                    }
                 }
             }
             if (ghostsList[i].IsDead())
@@ -321,7 +354,7 @@ public class GameManager : MonoBehaviour
         // 万が一合計が1未満の場合、最後のを返す
         return ghostSpawnInfos[ghostSpawnInfos.Count - 1].ghostPrefab;
     }
-
+    
 
     public void CheckGameResult()
     {
