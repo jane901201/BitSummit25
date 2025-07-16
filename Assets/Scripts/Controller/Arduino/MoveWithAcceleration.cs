@@ -1,47 +1,28 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.VFX;
 using static UnityEngine.Rendering.DebugUI;
 
 public class MoveWithAcceleration : MonoBehaviour
 {
     private AccelerometerReader reader;
-    private Vector3 smoothedAccel = Vector3.zero;
     private Vector3 velocity = Vector3.zero;
     private Quaternion sensorRotation = Quaternion.identity; // 姿勢追跡用
-    [SerializeField] private float gravityCalibration = -1.043f; // 重力補正値
+    private Vector3 estimatedGravity = Vector3.down; // 重力推定用
 
-    public float smoothFactor = 0.9f;
-    public float threshold = 0.05f;
-    public float accelToSpeedScale = 2.0f;
-    public float damping = 0.98f;
     public float gyroSensitivity = 1.0f; // 回転速度の積分係数
     [SerializeField] private float gyroDeadZoneX = 13f;
     [SerializeField] private float gyroDeadZoneY = 12f;
     [SerializeField] private float gyroDeadZoneZ = 17f; // Z+回転だけ大きめ
     [SerializeField] private float flatAngleThreshold = 8f; // 平置き判定の角度（度）
     [SerializeField] private float flatDurationThreshold = 1.5f; // 平置き継続時間（秒）
+    [SerializeField] private float gravityMagnitude = 1.043f; // 重力の大きさ(g)
+    [SerializeField] private float accelDeadZoneX = 13f;
+    [SerializeField] private float accelDeadZoneY = 12f;
+    [SerializeField] private float accelDeadZoneZ = 17f; // Z+回転だけ大きめ
+    [SerializeField] private float accelToSpeedScale = 200.0f;
     private float flatTimer = 0f;
     private bool isCorrecting = false;
-
-    public float accelThreshold = 0.02f;
-    public float accelMax = 0.08f;
-    public float accelScale = 100.0f;
-
-    // ───────── パラメータ追加（Inspectorで調整）
-    [Range(0f, 1f)] public float accelLPF = 0.2f;   // 0.1~0.3 で滑らか
-    public float velocityDamp = 0.99f;            // 0.98~0.995 慣性減衰
-
-    // ───── 追加パラメータ
-    public float g2ms = 9.80665f;   // g から m/s² へ
-    public float accelGain = 40f;   // 1 g → 40 m/s 相当
-
-    // ───────── 変数追加
-    private Vector3 filteredAccel;                 // 1段ローパス後の加速度
-
-    [Range(0f, 1f)] public float compGain = 0.12f;  // 加速度で補正する割合
-    public float horizProject = 1f;                 // 0=水平面固定 / 1=重力面固定
-
-    static Vector3 hpPrev;                // 前回値を保持 (メンバでもOK)
 
     void Start()
     {
@@ -69,14 +50,11 @@ public class MoveWithAcceleration : MonoBehaviour
         // 平置き角度を測定
         float flatAngle = Vector3.Angle(accel.normalized, Vector3.down);
 
-        Debug.DrawLine(transform.position, transform.position + accel.normalized * 2f, Color.green);
-
         // ★ ジャイロにデッドゾーン（ノイズ除去）を適用
         // 軸ごとにしきい値適用（Z+は特に大きめに設定）
         gyro = ApplySoftDeadZone(gyro, gyroDeadZoneX, gyroDeadZoneY, gyroDeadZoneZ);
 
         Vector3 gyroRad = gyro * Mathf.Deg2Rad * gyroSensitivity;
-        //sensorRotation = sensorRotation * Quaternion.Euler(gyroRad * Time.deltaTime);
 
         // 8) 回転処理（ジャイロ）
         transform.Rotate(gyro * gyroSensitivity * Time.deltaTime, Space.Self);
@@ -108,57 +86,31 @@ public class MoveWithAcceleration : MonoBehaviour
             Quaternion target = Quaternion.Euler(0, currentYaw, 0);
 
             // 姿勢をゆっくり補正（補間率はお好みで調整）
-            transform.rotation = Quaternion.Slerp(transform.rotation, target, Time.deltaTime * 1.0f);
+            transform.rotation = Quaternion.Slerp(transform.rotation, target, Time.deltaTime * 2f);
         }
 
-        //// 1) ジャイロ積分 -------------------------------
-        //Vector3 gyroRad = gyro * Mathf.Deg2Rad * gyroSensitivity;
-        //sensorRotation = sensorRotation * Quaternion.Euler(gyroRad * Time.deltaTime);
-        //sensorRotation.Normalize();
+        // 推定重力（加速度が1g前提、動いていなければ静止加速度 ≒ 重力）
+        estimatedGravity = accel.normalized * gravityMagnitude;
 
-        //// 2) 簡易コンプリメンタリーフィルタで姿勢補正 --
-        //Vector3 downEst = sensorRotation * Vector3.down;    // 推定した“下”
-        //Vector3 downMeas = accel.normalized;                 // 実測“下”（加速度方向）
+        // 加速度から重力除去
+        Vector3 correctedAccel = accel - estimatedGravity;
 
-        //// 回転誤差を少しだけ補正
-        //Quaternion corr = Quaternion.FromToRotation(downEst, downMeas);
-        //sensorRotation = Quaternion.Slerp(Quaternion.identity, corr, compGain) * sensorRotation;
-        //sensorRotation.Normalize();
+        // ノイズ除去
+        correctedAccel = ApplySoftDeadZone(correctedAccel, accelDeadZoneX, accelDeadZoneY, accelDeadZoneZ);
 
-        //// 3) 最新の重力ベクトル -------------------------
-        //Vector3 gravity = sensorRotation * new Vector3(0, gravityCalibration, 0); ;
+        // 速度更新（Time.deltaTimeを積分として適用）
+        velocity += correctedAccel * accelToSpeedScale * Time.deltaTime;
 
-        //// 4) 重力除去
-        //Vector3 correctedAccel = accel - gravity;
+        transform.position += velocity * Time.deltaTime;
 
-        //// 4.5) ★ センサ座標 → ワールド座標へ変換
-        ////     (センサの向きに依存しない移動ベクトルになる)
-        //Vector3 worldAccel = sensorRotation * correctedAccel;   // <-- 追加
-
-        //Vector3 motionInput = worldAccel;
-
-        //// accelThreshold以下の値は無視
-        //motionInput = Threshold(motionInput, accelThreshold);
-
-        //// 6') ★ 低域ノイズ除去用ローパス（指数移動平均）
-        //filteredAccel = Vector3.Lerp(filteredAccel, motionInput, 1f - accelLPF);
-
-        //// 6)   LPF 後の線形加速度を m/s² に換算
-        //Vector3 linAcc = filteredAccel * g2ms;
-
-        //// 7) 移動処理
-        //velocity += linAcc * accelGain * Time.deltaTime;   // a → v
-        //velocity *= velocityDamp;
-        ////transform.position += velocity * Time.deltaTime;   // v → x
-
-        //// ◉ 表示
-        //Vector3 gravityWorld = sensorRotation * Vector3.down * Mathf.Abs(gravityCalibration);
-        //Debug.DrawLine(transform.position, transform.position + gravityWorld.normalized * 2f, Color.green);
-
-
-        // ◉ 表示
-        // キャリブレーション前後の加速度と検出した重力を表示
-        //Debug.Log($"Corrected accel: {correctedAccel:F3} | velocity: {velocity:F3} | motionInput: {motionInput:F3} | Gravity: {gravity:F3}");
+        // 緑：加速度方向
+        Debug.DrawLine(transform.position, transform.position + accel.normalized * 2f, Color.green);
+        // 赤：速度方向
+        Debug.DrawLine(transform.position, transform.position + velocity.normalized * 2f, Color.red);
+        // 青：推定重力方向
+        Debug.DrawLine(transform.position, transform.position + estimatedGravity.normalized * 2f, Color.blue);
+        // 紫：補正後の加速度
+        Debug.DrawLine(transform.position, transform.position + correctedAccel.normalized * 2f, Color.magenta);
 
         // Rキーで位置リセット
         if (Input.GetKeyDown(KeyCode.R))
@@ -169,17 +121,6 @@ public class MoveWithAcceleration : MonoBehaviour
             Debug.Log("位置リセットされました。");
         }
 
-    }
-
-    Vector3 ProcessedAccel(Vector3 input)
-    {
-        float mag = input.magnitude;
-
-        if (mag < accelThreshold)
-            return Vector3.zero;
-
-        float normalized = Mathf.InverseLerp(accelThreshold, accelMax, mag);
-        return input.normalized * normalized * accelScale;
     }
 
     Vector3 Threshold(Vector3 value, float threshold)
