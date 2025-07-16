@@ -9,6 +9,8 @@ public class WaveController : MonoBehaviour
     private int currentWave = 0;
     private bool isDisplaying = false;
 
+    public TutorialMessageManager tutorialManager; // Inspectorで設定
+
     private void Start()
     {
         // 最初は非表示（Alpha = 0）
@@ -27,6 +29,9 @@ public class WaveController : MonoBehaviour
 
             // Wave数をGameManagerに伝える
             GameManager.Instance?.SetCurrentWave(currentWave);
+
+            // 次のチュートリアルメッセージを表示
+            tutorialManager?.ShowNextMessage();
 
             StartCoroutine(ShowWaveText());
         }

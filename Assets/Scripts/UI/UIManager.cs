@@ -16,7 +16,7 @@ namespace UI
 
         private string hpPrefix = "HP_";
         private string heartPrefix = "HeartGroup_";
-        
+
         public void InitinalHpPanel(int hp)
         {
             int heartCount = Mathf.CeilToInt(hp / 4f); // 4ごとに1個、切り上げ

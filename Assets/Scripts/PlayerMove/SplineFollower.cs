@@ -32,8 +32,8 @@ public class SplineFollower : MonoBehaviour
         Vector3 rawTangent = splineContainer.Spline.EvaluateTangent(t);
 
         // XとYの符号を反転（Zはそのまま）
-        Vector3 position = new Vector3(-rawPosition.x, -rawPosition.y, -rawPosition.z);
-        Vector3 tangent = new Vector3(-rawTangent.x, -rawTangent.y, rawTangent.z);
+        Vector3 position = new Vector3(-rawPosition.x, -0.22f - rawPosition.y, -20.85492f - rawPosition.z);
+        Vector3 tangent = new Vector3(-rawTangent.x, -rawTangent.y, 180-rawTangent.z);
 
         objectToMove.transform.position = position;
         objectToMove.transform.rotation = Quaternion.LookRotation(tangent);

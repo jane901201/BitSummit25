@@ -220,11 +220,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hpPanel: {fileID: 388727409972314331}
   hp: {fileID: 1353668834450171031, guid: e636ba81170a70b439a07f009c71e645, type: 3}
-  heart_Full: {fileID: 21300000, guid: da67ca5977f3f244d9d77598b9ccf4dc, type: 3}
-  heart_3: {fileID: 21300000, guid: 1c66be72b57a58c4294baa9f6fe20bea, type: 3}
-  heart_2: {fileID: 21300000, guid: 7d1d422ad8f33514fbf13a802a4344ba, type: 3}
-  heart_1: {fileID: 21300000, guid: 699bd9304f41729428cc5dfb0b4fdc3f, type: 3}
-  heart_Empty: {fileID: 21300000, guid: dc60452555491f84c975802570380297, type: 3}
+  heart_Full: {fileID: 21300000, guid: a6488732e5e7fb24087e2953ac5bd907, type: 3}
+  heart_3: {fileID: 21300000, guid: 4542be59e8152644caf257fc46d35903, type: 3}
+  heart_2: {fileID: 21300000, guid: b65d136716231e3448d13e58f67feebd, type: 3}
+  heart_1: {fileID: 21300000, guid: 85811920433d9674bb36dd0a13795fd6, type: 3}
+  heart_Empty: {fileID: 21300000, guid: 42b8db45117dfad4b81cd02d764d096e, type: 3}
 --- !u!1001 &7958158160739968053
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -317,6 +317,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7379149689962070486, guid: e636ba81170a70b439a07f009c71e645, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: a6488732e5e7fb24087e2953ac5bd907, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

@@ -1,32 +1,33 @@
 using UnityEngine;
-using UnityEngine.UI;
 
-public class RankUI : MonoBehaviour
+public class RankModel : MonoBehaviour
 {
-    [SerializeField] private Sprite rankC, rankB, rankA, rankS;
-    [SerializeField] private Image rankImage;
-    
-    
-    
+    [SerializeField] private Sprite rankD, rankC, rankB, rankA, rankS;
+    [SerializeField] private SpriteRenderer rankRenderer; // SpriteRendererÇê›íË
+
     private void Start()
     {
         int score = PhantomSwing.Instance.GameData.GetScore();
-        
+
         if (score <= 10)
         {
-            rankImage.sprite = rankC;
+            rankRenderer.sprite = rankD;
         }
-        else if (score >= 20)
+        else if (score >= 40)
         {
-            rankImage.sprite = rankB;
+            rankRenderer.sprite = rankA;
         }
         else if (score >= 30)
         {
-            rankImage.sprite = rankA;
+            rankRenderer.sprite = rankB;
+        }
+        else if (score >= 20)
+        {
+            rankRenderer.sprite = rankC;
         }
         else
         {
-            rankImage.sprite = rankS;
+            rankRenderer.sprite = rankS;
         }
     }
 }

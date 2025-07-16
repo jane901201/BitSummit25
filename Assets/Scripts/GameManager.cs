@@ -110,8 +110,15 @@ public class GameManager : MonoBehaviour
 
         // 出現割合に従って敵を選ぶ
         GameObject selectedGhost = GetRandomGhostForCurrentWave();
+
         GameObject ghost = Instantiate(selectedGhost, spawnPosition, ghostSpawnPoint.rotation);
+
+        // 親を設定（今のままだと ghostGroup の子になる）
         ghost.transform.SetParent(ghostGroup.transform, true);
+
+        // すぐに親を外す
+        ghost.transform.parent = null;
+
         ghostsList.Add(ghost.GetComponent<IGhost>());
         StartCoroutine(SpawnGhost());
 
