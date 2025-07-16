@@ -17,6 +17,8 @@ public class LoadSceneUI : MonoBehaviour
     
     private bool isTriggered = false;
 
+    public bool IsButtonActive { get; set; } = false; // ←追加
+
     public UIController uiController; // インスペクターで設定
 
     private void Start()
@@ -36,17 +38,18 @@ public class LoadSceneUI : MonoBehaviour
 
     private void Update()
     {
-        if(PhantomSwing.Instance == null)
-            return;
-        if(isTriggered)
-            return;
+        if (PhantomSwing.Instance == null) return;
+        if (isTriggered) return;
+
+        // ボタンが有効な時だけ判定する
+        if (!IsButtonActive) return;
+
         if (PhantomSwing.Instance.CheckVisualOverlaps_Viewport(loadGameSceneButtonSprite))
         {
             isTriggered = true;
             StartCoroutine(LoadSceneTime());
         }
-        if (loadTitleSceneButtonSprite == null)
-            return;
+        if (loadTitleSceneButtonSprite == null) return;
         if (PhantomSwing.Instance.CheckVisualOverlaps_Viewport(loadTitleSceneButtonSprite))
         {
             isTriggered = true;
@@ -54,6 +57,7 @@ public class LoadSceneUI : MonoBehaviour
             StartCoroutine(LoadSceneTime());
         }
     }
+
     private IEnumerator LoadSceneTime()
     {
         GameObject targetButtonSprite = gameSceneName == "Title" ? loadTitleSceneButtonSprite : loadGameSceneButtonSprite;

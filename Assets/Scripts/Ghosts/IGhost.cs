@@ -95,12 +95,30 @@ namespace Ghosts
             if (isStopped)
                 return;
 
-            Vector3 directionToPlayer = (playerTransform.position - transform.position);
-            directionToPlayer.y = 0; // 水平方向だけにする
+            Vector3 directionToPlayer = playerTransform.position - transform.position;
             directionToPlayer.Normalize();
 
+            // 高低差も含めてプレイヤーの方向に向かせる
+            if (directionToPlayer != Vector3.zero)
+            {
+                Quaternion targetRotation = Quaternion.LookRotation(directionToPlayer);
+                // 正面が -Z のモデルなので 180° 回転
+                targetRotation *= Quaternion.Euler(0, 180f, 0);
+
+                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 5f);
+            }
+
+            // 進む方向はXZ平面に限定したほうが自然なら：
+            Vector3 horizontalDirection = playerTransform.position - transform.position;
+            horizontalDirection.y = 0;
+            horizontalDirection.Normalize();
+            rigidbody.MovePosition(rigidbody.position + horizontalDirection * moveSpeed * Time.deltaTime);
+
+            // もし高低差方向にも進ませたいなら、こっち：
             rigidbody.MovePosition(rigidbody.position + directionToPlayer * moveSpeed * Time.deltaTime);
         }
+
+
 
 
         public virtual void AttackAnimation()
