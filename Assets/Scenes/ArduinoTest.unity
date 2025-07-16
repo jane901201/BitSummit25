@@ -370,12 +370,14 @@ MonoBehaviour:
   gyroDeadZoneY: 12
   gyroDeadZoneZ: 17
   flatAngleThreshold: 10
-  flatDurationThreshold: 2
+  flatDurationThreshold: 0.5
   gravityMagnitude: 1
-  accelDeadZoneX: 0.11
-  accelDeadZoneY: 0
-  accelDeadZoneZ: 0.11
-  accelToSpeedScale: 1
+  accelDeadZoneX: 0.05
+  accelDeadZoneY: 0.05
+  accelDeadZoneZ: 0.05
+  accelToSpeedScale: 10000
+  shakeStartThreshold: 0.3
+  shakeEndThreshold: 0.25
 --- !u!114 &1157026591
 MonoBehaviour:
   m_ObjectHideFlags: 0
