@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Controller.PC;
 using Ghosts;
 using UI;
 using UnityEngine;
@@ -92,6 +93,10 @@ public class GameManager : MonoBehaviour
         StartCoroutine(SpawnGhost());
         defaultAttackableTrigger.SetActive(true);
         enhancedAttackableTrigger.SetActive(false);
+        PhantomSwing.Instance.PlayerPointer = playerPointer;
+        JoystickController joystickController = playerPointer.GetComponent<JoystickController>();
+        PCController pcController = playerPointer.GetComponent<PCController>();
+        PhantomSwing.Instance.DeviceSetting(joystickController, pcController);
     }
 
     private IEnumerator SpawnGhost()

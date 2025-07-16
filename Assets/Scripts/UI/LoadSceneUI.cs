@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using Controller.PC;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -22,6 +23,9 @@ public class LoadSceneUI : MonoBehaviour
         else
         {
             PhantomSwing.Instance.PlayerPointer = playerPointer;
+            JoystickController joystickController = playerPointer.GetComponent<JoystickController>();
+            PCController pcController = playerPointer.GetComponent<PCController>();
+            PhantomSwing.Instance.DeviceSetting(joystickController, pcController);
         }
     }
 

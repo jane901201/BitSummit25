@@ -1,4 +1,5 @@
 using System;
+using Controller.PC;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -7,7 +8,8 @@ public class PhantomSwing: MonoBehaviour
     [SerializeField] private float overlapThreshold = 0.1f;
     [SerializeField] private GameObject playerPointer;
     [SerializeField] private GameData gameData;
-
+    [SerializeField] private InputDeviceManager inputDeviceManager;
+    
     public GameData GameData
     {
         get { return gameData; }
@@ -41,20 +43,12 @@ public class PhantomSwing: MonoBehaviour
         SceneManager.LoadScene(sceneName);
     }
 
-    public void LoadGameClearScene()
+    public void DeviceSetting(JoystickController joystickController, PCController pcController)
     {
-        
+        inputDeviceManager.PlayerPointer = playerPointer;
+        inputDeviceManager.DeviceSetting(joystickController, pcController);
     }
 
-    public void LoadGameOverScene()
-    {
-        
-    }
-
-    public void LoadTitleScene()
-    {
-        
-    }
     
     public bool CheckVisualOverlaps_Viewport(GameObject gameObject)
     {
