@@ -8,12 +8,17 @@ public class LoadSceneUI : MonoBehaviour
 {
 
     [SerializeField] private Button loadSceneButton;
-    [SerializeField] private GameObject loadSceneButtonSprite;
+    [SerializeField] private GameObject loadGameSceneButtonSprite;
+
+    [SerializeField] private GameObject loadTitleSceneButtonSprite;
+
     [SerializeField] private GameObject playerPointer;
-    [SerializeField] private String gameSceneName = "GameScene ParametaTyousei";
+    private String gameSceneName = "GameScene ParametaTyousei";
     
     private bool isTriggered = false;
-    
+
+    public UIController uiController; // インスペクターで設定
+
     private void Start()
     {
         if (PhantomSwing.Instance == null)
@@ -35,16 +40,60 @@ public class LoadSceneUI : MonoBehaviour
             return;
         if(isTriggered)
             return;
-        if (PhantomSwing.Instance.CheckVisualOverlaps_Viewport(loadSceneButtonSprite))
+        if (PhantomSwing.Instance.CheckVisualOverlaps_Viewport(loadGameSceneButtonSprite))
         {
             isTriggered = true;
             StartCoroutine(LoadSceneTime());
         }
+        if (loadTitleSceneButtonSprite == null)
+            return;
+        if (PhantomSwing.Instance.CheckVisualOverlaps_Viewport(loadTitleSceneButtonSprite))
+        {
+            isTriggered = true;
+            gameSceneName = "Title";
+            StartCoroutine(LoadSceneTime());
+        }
     }
-
     private IEnumerator LoadSceneTime()
     {
-        yield return new WaitForSeconds(0.2f);
+        GameObject targetButtonSprite = gameSceneName == "Title" ? loadTitleSceneButtonSprite : loadGameSceneButtonSprite;
+
+        if (uiController != null)
+        {
+            uiController.ShowUI();
+        }
+
+        yield return new WaitForSeconds(0.1f);
+
+        if (targetButtonSprite != null)
+        {
+            yield return StartCoroutine(ShakeButton(targetButtonSprite, 0.1f, 1));
+        }
+
         PhantomSwing.Instance.LoadGameScene(gameSceneName);
     }
+
+    /// <summary>
+    /// ボタンを左右に揺らす
+    /// </summary>
+    private IEnumerator ShakeButton(GameObject target, float duration, int repeatCount)
+    {
+        Vector3 originalPosition = target.transform.localPosition;
+        float shakeAmount = 0.1f; // 揺れの大きさ（±10pxなど）
+        float halfDuration = duration / (repeatCount * 2); // 1往復で2回動くので
+
+        for (int i = 0; i < repeatCount; i++)
+        {
+            // 左へ
+            target.transform.localPosition = originalPosition + Vector3.left * shakeAmount;
+            yield return new WaitForSeconds(halfDuration);
+            // 右へ
+            target.transform.localPosition = originalPosition + Vector3.right * shakeAmount;
+            yield return new WaitForSeconds(halfDuration);
+        }
+
+        // 元の位置に戻す
+        target.transform.localPosition = originalPosition;
+    }
+
 }

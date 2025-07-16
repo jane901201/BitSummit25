@@ -2,14 +2,18 @@ using System;
 using Controller.PC;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Collections;
 
 public class PhantomSwing: MonoBehaviour
 {
     [SerializeField] private float overlapThreshold = 0.1f;
     [SerializeField] private GameObject playerPointer;
     [SerializeField] private GameData gameData;
+
+
+    [SerializeField] private RenderPipelineSwitcher pipelineSwitcher;
     [SerializeField] private InputDeviceManager inputDeviceManager;
-    
+
     public GameData GameData
     {
         get { return gameData; }
@@ -40,7 +44,22 @@ public class PhantomSwing: MonoBehaviour
     public void LoadGameScene(String sceneName)
     {
         playerPointer = null;
-        SceneManager.LoadScene(sceneName);
+        StartCoroutine(LoadSceneAndSwitch(sceneName));
+    }
+
+    private IEnumerator LoadSceneAndSwitch(string sceneName)
+    {
+        // 非同期でシーンロードを開始
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
+
+        // ロードが終わるまで待つ
+        while (!asyncLoad.isDone)
+        {
+            yield return null;
+        }
+
+        // シーン切り替え後に呼び出す
+        pipelineSwitcher.SwitchPipeline(sceneName);
     }
 
     public void DeviceSetting(JoystickController joystickController, PCController pcController)

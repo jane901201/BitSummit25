@@ -24,7 +24,8 @@ namespace Controller.PC
         {
             Vector2 mouseScreenPos = Mouse.current.position.ReadValue();
 
-            transform.position = positionClamper.MoveTransformInsideScreen(mouseScreenPos, transform);
+            Vector3 offset = positionClamper.MoveTransformInsideScreen(mouseScreenPos, transform) - transform.position;
+            transform.localPosition += offset;
 
             drawTracker.UpdateTracking(transform.position, Time.deltaTime);
         }

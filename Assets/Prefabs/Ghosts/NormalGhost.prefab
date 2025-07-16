@@ -164,6 +164,7 @@ MonoBehaviour:
   shakeStrength: 0.2
   destroyDelay: 1
   attackHitBox: {fileID: 912048060341336283}
+  playerTransform: {fileID: 0}
 --- !u!1001 &1440643561167908281
 PrefabInstance:
   m_ObjectHideFlags: 0

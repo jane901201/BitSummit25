@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+guid: 83c11156bb3b1e340a5eee143f4e4b87
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - urpVolumetricFogLite: {fileID: 11400000, guid: 8e6fd6ea1b655244ab295c51c881877c, type: 2}
+  - pcRPAsset: {fileID: 11400000, guid: 4b83569d67af61e458304325a23e5dfd, type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -26,6 +26,8 @@ namespace Ghosts
         private bool isStopped = false;
 
         [SerializeField] private AttackHitBox attackHitBox; // 子のAttackHitBoxスクリプト
+        [SerializeField] protected Transform playerTransform;
+
 
 
         //TODO:HPBar 可以直接掛在角色身上嗎? 
@@ -61,7 +63,10 @@ namespace Ghosts
         {
             if(cameraTransform == null)
                 cameraTransform = Camera.main.transform;
-            
+
+            if (playerTransform == null)
+                playerTransform = GameObject.FindWithTag("Player").transform;
+
         } 
         
         protected virtual void Start()
@@ -89,8 +94,14 @@ namespace Ghosts
         {
             if (isStopped)
                 return;
-            rigidbody.MovePosition(rigidbody.position + forward * moveSpeed * Time.deltaTime);
+
+            Vector3 directionToPlayer = (playerTransform.position - transform.position);
+            directionToPlayer.y = 0; // 水平方向だけにする
+            directionToPlayer.Normalize();
+
+            rigidbody.MovePosition(rigidbody.position + directionToPlayer * moveSpeed * Time.deltaTime);
         }
+
 
         public virtual void AttackAnimation()
         {

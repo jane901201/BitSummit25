@@ -33,7 +33,7 @@ public class PointerEffectSwitcher : MonoBehaviour
 
         if (gameManager == null)
         {
-            Debug.LogError("gameManager ‚ª null ‚Å‚·I");
+            //Debug.LogError("gameManager ‚ª null ‚Å‚·I");
             return;
         }
 
