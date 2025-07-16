@@ -85,7 +85,7 @@ namespace Ghosts
             }
         }
 
-        private void FixedUpdate()
+        protected virtual void FixedUpdate()
         {
             Move();
         }
@@ -138,7 +138,7 @@ namespace Ghosts
         {
         }
         
-        public void TakeDamage(int damage)
+        public virtual void TakeDamage(int damage)
         {
             currentHP -= damage;
 
@@ -151,7 +151,7 @@ namespace Ghosts
             //ダメージ受けると置き
         }
 
-        public void Die()
+        public virtual void Die()
         {
             //死ぬとこ
             // スコアとゲージ加算

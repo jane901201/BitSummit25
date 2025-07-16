@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 259624058446561798}
   - component: {fileID: 9101971197409260517}
+  - component: {fileID: 4059132507016024316}
   m_Layer: 0
   m_Name: PhantomSwing
   m_TagString: Untagged
@@ -47,3 +48,20 @@ MonoBehaviour:
   overlapThreshold: 0.1
   playerPointer: {fileID: 0}
   gameData: {fileID: 11400000, guid: 47f61592491292e4b94aff43867b0786, type: 2}
+  inputDeviceManager: {fileID: 4059132507016024316}
+--- !u!114 &4059132507016024316
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8576378144833348440}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce28ea955b5983b46a267f6dc61df996, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  joystickController: {fileID: 0}
+  pcController: {fileID: 0}
+  playerPointer: {fileID: 0}
+  playerInput: {fileID: 0}

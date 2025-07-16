@@ -46,7 +46,7 @@ namespace Controller
                 var swingDir = JudgeDirection(dir);
                 var swingSpeed = JudgeSpeed(speed);
 
-                Debug.Log($"方向: {swingDir}, 速度: {speed:F2} → {swingSpeed}");
+                //Debug.Log($"方向: {swingDir}, 速度: {speed:F2} → {swingSpeed}");
                 if(GameManager.Instance != null)
                     GameManager.Instance.TakeGhostsDamage(swingDir, swingSpeed);
             }

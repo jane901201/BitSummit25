@@ -2,7 +2,7 @@ using Controller;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class JoystickController : MonoBehaviour
+public class JoystickController : IInputDevice
 {
     public LineRenderer lineRenderer;
     public float baseMoveSpeed = 5f;
@@ -12,6 +12,7 @@ public class JoystickController : MonoBehaviour
     private DrawTracker drawTracker;
     private PositionClamper positionClamper;
     private Vector2 moveInput;
+    private IInputDevice _inputDeviceImplementation;
 
     void Start()
     {
@@ -52,5 +53,10 @@ public class JoystickController : MonoBehaviour
         // {
         //     drawTracker.StopTracking();
         // }
+    }
+
+    public override void moveUpdate()
+    {
+        _inputDeviceImplementation.moveUpdate();
     }
 }
