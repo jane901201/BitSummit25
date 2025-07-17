@@ -1,3 +1,15 @@
 fileFormatVersion: 2
 guid: 4216f75b8cba4f98abe64fac19cc95ce
-timeCreated: 1752298706
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - playerPointer: {instanceID: 0}
+  - gameData: {fileID: 11400000, guid: 47f61592491292e4b94aff43867b0786, type: 2}
+  - pipelineSwitcher: {instanceID: 0}
+  - inputDeviceManager: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

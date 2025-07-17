@@ -27,14 +27,25 @@ public class PhantomSwing: MonoBehaviour
         get { return playerPointer; }
         set { playerPointer = value; }
     }
-    
-    
+
+
     private void Awake()
-    { 
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
         Instance = this;
-        gameData.SetScore(0);
         DontDestroyOnLoad(gameObject);
+
+        if (SceneManager.GetActiveScene().name == "GameStartScene")
+        {
+            gameData.SetScore(0);
+        }
     }
+
 
     private void Update()
     {
