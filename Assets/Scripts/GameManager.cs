@@ -396,6 +396,16 @@ public class GameManager : MonoBehaviour
         // 万が一合計が1未満の場合、最後のを返す
         return ghostSpawnInfos[ghostSpawnInfos.Count - 1].ghostPrefab;
     }
+
+    private void BossSpawn()
+    {
+        GameObject boss = ghostSpawnInfos[4].ghostPrefab;
+        BossGhost bossGhost = boss.GetComponent<BossGhost>();
+        ghostsList.Add(bossGhost);
+        ghostsList.AddRange(bossGhost.BossPartsGhosts);
+        
+        //TODO:GameObject boss = Instantiate(bossPrefab, bossSpawnPoint.position, bossSpawnPoint.rotation);
+    }
     
 
     public void CheckGameResult()
