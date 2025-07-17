@@ -28,7 +28,17 @@ namespace Ghosts
         [SerializeField] private AttackHitBox attackHitBox; // 子のAttackHitBoxスクリプト
         [SerializeField] protected Transform playerTransform;
 
+        [SerializeField] protected float floatAmplitude = 0.5f; // 上下移動の振れ幅
+        [SerializeField] protected float floatFrequency = 1f;   // 上下移動の速さ
 
+        private float floatTimer = 0f;
+        private Vector3 initialPosition;
+
+
+        [SerializeField] private bool shouldTiltZ = false;
+        [SerializeField] private float tiltZRotation = -37.504f;
+
+        [SerializeField] private GameObject deathEffectPrefab; // 死亡時のエフェクト
 
         //TODO:HPBar 可以直接掛在角色身上嗎? 
         private Vector3 forward;
@@ -67,12 +77,12 @@ namespace Ghosts
             if (playerTransform == null)
                 playerTransform = GameObject.FindWithTag("Player").transform;
 
-        } 
-        
+        }
+
         protected virtual void Start()
         {
             currentHP = maxHP;
-            if(rigidbody == null)
+            if (rigidbody == null)
                 rigidbody = GetComponent<Rigidbody>();
 
             forward = -cameraTransform.forward;
@@ -83,6 +93,15 @@ namespace Ghosts
             {
                 attackHitBox.ownerGhost = this;
             }
+
+            deathEffectPrefab.SetActive(false); // 念のため有効化
+            initialPosition = transform.position; // ←追加した行
+        }
+
+
+        protected virtual void Update()
+        {
+            //FloatMotion();
         }
 
         protected virtual void FixedUpdate()
@@ -98,31 +117,39 @@ namespace Ghosts
             Vector3 directionToPlayer = playerTransform.position - transform.position;
             directionToPlayer.Normalize();
 
-            // 高低差も含めてプレイヤーの方向に向かせる
             if (directionToPlayer != Vector3.zero)
             {
                 Quaternion targetRotation = Quaternion.LookRotation(directionToPlayer);
-                // 正面が -Z のモデルなので 180° 回転
                 targetRotation *= Quaternion.Euler(0, 180f, 0);
+
+                // Z軸に傾けたい場合だけ追加
+                if (shouldTiltZ)
+                {
+                    targetRotation *= Quaternion.Euler(0, 0, tiltZRotation);
+                }
 
                 transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 5f);
             }
 
-            // 進む方向はXZ平面に限定したほうが自然なら：
+            // 進行方向（XZ or 高低含む）
             Vector3 horizontalDirection = playerTransform.position - transform.position;
             horizontalDirection.y = 0;
             horizontalDirection.Normalize();
+
+            // 必要に応じて下だけ残す
             rigidbody.MovePosition(rigidbody.position + horizontalDirection * moveSpeed * Time.deltaTime);
-
-            // もし高低差方向にも進ませたいなら、こっち：
-            rigidbody.MovePosition(rigidbody.position + directionToPlayer * moveSpeed * Time.deltaTime);
         }
-
 
 
 
         public virtual void AttackAnimation()
         {
+            Vector3 originalPosition = transform.position;
+
+            transform.SetParent(GameManager.Instance.ghostGroup.transform, true);
+
+            transform.position = originalPosition; // 位置を固定する
+
             isStopped = true;
             // 攻撃アニメーション再生（必要ならアンコメント）
             // attackAnimator.SetTrigger("Attack");
@@ -171,16 +198,39 @@ namespace Ghosts
 
         public virtual void Die()
         {
+
+            // 死亡エフェクトを出す
+            if (deathEffectPrefab != null)
+            {
+                GameObject effect = Instantiate(deathEffectPrefab, transform.position, Quaternion.identity);
+                effect.SetActive(true); // 念のため有効化
+                Destroy(effect, 0.5f); // エフェクトも2秒後に自動で削除
+            }
             //死ぬとこ
             // スコアとゲージ加算
             GameManager.Instance.AddScore(scoreValue);
             GameManager.Instance.AddGauge(gaugeValue);
             GameManager.Instance.AddCurrentDeadGhostCount();
+
+            // 1秒後に消える
+            Destroy(gameObject, destroyDelay);
         }
         public void SetOverlapDetected(bool value)
         {
             isOverlapDetected = value;
         }
+
+        private void FloatMotion()
+        {
+            floatTimer += Time.deltaTime * floatFrequency;
+            float newY = Mathf.Sin(floatTimer) * floatAmplitude;
+
+            Vector3 currentPosition = rigidbody.position;
+            currentPosition.y = initialPosition.y + newY;
+
+            rigidbody.MovePosition(currentPosition); // Rigidbodyを使う！
+        }
+
 
     }
 }

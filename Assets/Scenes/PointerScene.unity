@@ -736,10 +736,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1182756672}
+  - component: {fileID: 1182756673}
   - component: {fileID: 1182756671}
   - component: {fileID: 1182756670}
   - component: {fileID: 1182756669}
-  - component: {fileID: 1182756673}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -856,6 +856,17 @@ MonoBehaviour:
   orientation: {x: 0, y: 0, z: 0, w: 0}
   accelerationFactor: 5
   damping: 0.98
+  gyroSensitivity: 60
+  accelToSpeedScale: 200
+  gyroDeadZoneX: 0.1
+  gyroDeadZoneY: 0.2
+  gyroDeadZoneZ: 0.1
+  accelDeadZoneX: 1
+  accelDeadZoneY: 2.5
+  accelDeadZoneZ: 9
+  shakeStartThreshold: 2
+  shakeEndThreshold: 1.78
+  highpassFactor: 0.9
 --- !u!1 &1384427393
 GameObject:
   m_ObjectHideFlags: 0

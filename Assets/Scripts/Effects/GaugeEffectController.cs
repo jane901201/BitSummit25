@@ -5,8 +5,6 @@ public class GaugeEffectController : MonoBehaviour
     [Header("エフェクトの参照（A, B = MAX用 / C, D = 0用）")]
     [SerializeField] private GameObject effectA;
     [SerializeField] private GameObject effectB;
-    [SerializeField] private GameObject effectC;
-    [SerializeField] private GameObject effectD;
 
     private GameManager gameManager;
     private bool Iskakusei;
@@ -18,8 +16,6 @@ public class GaugeEffectController : MonoBehaviour
         // 全エフェクトを非表示に
         effectA.SetActive(false);
         effectB.SetActive(false);
-        effectC.SetActive(false);
-        effectD.SetActive(false);
     }
 
     void Update()
@@ -43,8 +39,6 @@ public class GaugeEffectController : MonoBehaviour
     {
         effectA.SetActive(a);
         effectB.SetActive(b);
-        effectC.SetActive(c);
-        effectD.SetActive(d);
     }
 
     public void KakuseiEffects()

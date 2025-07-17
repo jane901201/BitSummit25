@@ -1,23 +1,25 @@
 using UnityEngine;
-using TMPro;
+using UnityEngine.UI; // ← 追加
 using System.Collections;
 
 public class WaveController : MonoBehaviour
 {
-    public TextMeshProUGUI waveText;
+    public Image waveImage; // 表示するImage UI
+    public Sprite[] waveSprites; // 5つのWave画像 (waveSprites[0]がWave1)
+
     public int maxWave = 5;
     private int currentWave = 0;
     private bool isDisplaying = false;
 
-    public TutorialMessageManager tutorialManager; // Inspectorで設定
+    public TutorialMessageManager tutorialManager;
 
     private void Start()
     {
-        // 最初は非表示（Alpha = 0）
-        if (waveText != null)
+        // 最初は非表示
+        if (waveImage != null)
         {
-            Color c = waveText.color;
-            waveText.color = new Color(c.r, c.g, c.b, 0f);
+            Color c = waveImage.color;
+            waveImage.color = new Color(c.r, c.g, c.b, 0f);
         }
     }
 
@@ -27,42 +29,43 @@ public class WaveController : MonoBehaviour
         {
             currentWave++;
 
-            // Wave数をGameManagerに伝える
             GameManager.Instance?.SetCurrentWave(currentWave);
-
-            // 次のチュートリアルメッセージを表示
             tutorialManager?.ShowNextMessage();
 
-            StartCoroutine(ShowWaveText());
+            StartCoroutine(ShowWaveImage());
         }
     }
 
-
-    private IEnumerator ShowWaveText()
+    private IEnumerator ShowWaveImage()
     {
         isDisplaying = true;
 
-        waveText.text = $"Wave {currentWave}";
-        yield return StartCoroutine(FadeTextAlpha(0f, 1f, 0.5f)); // フェードイン
-        yield return new WaitForSeconds(1.5f);                    // 通常表示
-        yield return StartCoroutine(FadeTextAlpha(1f, 0f, 0.5f)); // フェードアウト
+        // 画像をセット
+        if (waveImage != null && waveSprites.Length >= currentWave)
+        {
+            waveImage.sprite = waveSprites[currentWave - 1];
+        }
+
+        yield return StartCoroutine(FadeImageAlpha(0f, 1f, 0.5f)); // フェードイン
+        yield return new WaitForSeconds(1.5f);
+        yield return StartCoroutine(FadeImageAlpha(1f, 0f, 0.5f)); // フェードアウト
 
         isDisplaying = false;
     }
 
-    private IEnumerator FadeTextAlpha(float from, float to, float duration)
+    private IEnumerator FadeImageAlpha(float from, float to, float duration)
     {
         float elapsed = 0f;
-        Color color = waveText.color;
+        Color color = waveImage.color;
 
         while (elapsed < duration)
         {
             float alpha = Mathf.Lerp(from, to, elapsed / duration);
-            waveText.color = new Color(color.r, color.g, color.b, alpha);
+            waveImage.color = new Color(color.r, color.g, color.b, alpha);
             elapsed += Time.deltaTime;
             yield return null;
         }
 
-        waveText.color = new Color(color.r, color.g, color.b, to);
+        waveImage.color = new Color(color.r, color.g, color.b, to);
     }
 }
