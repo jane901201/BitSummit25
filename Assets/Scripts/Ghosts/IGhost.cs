@@ -38,6 +38,7 @@ namespace Ghosts
         [SerializeField] private bool shouldTiltZ = false;
         [SerializeField] private float tiltZRotation = -37.504f;
 
+        [SerializeField] private GameObject deathEffectPrefab; // 死亡時のエフェクト
 
         //TODO:HPBar 可以直接掛在角色身上嗎? 
         private Vector3 forward;
@@ -93,6 +94,7 @@ namespace Ghosts
                 attackHitBox.ownerGhost = this;
             }
 
+            deathEffectPrefab.SetActive(false); // 念のため有効化
             initialPosition = transform.position; // ←追加した行
         }
 
@@ -196,11 +198,22 @@ namespace Ghosts
 
         public virtual void Die()
         {
+
+            // 死亡エフェクトを出す
+            if (deathEffectPrefab != null)
+            {
+                GameObject effect = Instantiate(deathEffectPrefab, transform.position, Quaternion.identity);
+                effect.SetActive(true); // 念のため有効化
+                Destroy(effect, 0.5f); // エフェクトも2秒後に自動で削除
+            }
             //死ぬとこ
             // スコアとゲージ加算
             GameManager.Instance.AddScore(scoreValue);
             GameManager.Instance.AddGauge(gaugeValue);
             GameManager.Instance.AddCurrentDeadGhostCount();
+
+            // 1秒後に消える
+            Destroy(gameObject, destroyDelay);
         }
         public void SetOverlapDetected(bool value)
         {
