@@ -35,6 +35,10 @@ namespace Ghosts
         private Vector3 initialPosition;
 
 
+        [SerializeField] private bool shouldTiltZ = false;
+        [SerializeField] private float tiltZRotation = -37.504f;
+
+
         //TODO:HPBar 可以直接掛在角色身上嗎? 
         private Vector3 forward;
         protected bool isOverlapDetected;
@@ -95,7 +99,7 @@ namespace Ghosts
 
         protected virtual void Update()
         {
-            FloatMotion();
+            //FloatMotion();
         }
 
         protected virtual void FixedUpdate()
@@ -111,26 +115,28 @@ namespace Ghosts
             Vector3 directionToPlayer = playerTransform.position - transform.position;
             directionToPlayer.Normalize();
 
-            // 高低差も含めてプレイヤーの方向に向かせる
             if (directionToPlayer != Vector3.zero)
             {
                 Quaternion targetRotation = Quaternion.LookRotation(directionToPlayer);
-                // 正面が -Z のモデルなので 180° 回転
                 targetRotation *= Quaternion.Euler(0, 180f, 0);
+
+                // Z軸に傾けたい場合だけ追加
+                if (shouldTiltZ)
+                {
+                    targetRotation *= Quaternion.Euler(0, 0, tiltZRotation);
+                }
 
                 transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 5f);
             }
 
-            // 進む方向はXZ平面に限定したほうが自然なら：
+            // 進行方向（XZ or 高低含む）
             Vector3 horizontalDirection = playerTransform.position - transform.position;
             horizontalDirection.y = 0;
             horizontalDirection.Normalize();
+
+            // 必要に応じて下だけ残す
             rigidbody.MovePosition(rigidbody.position + horizontalDirection * moveSpeed * Time.deltaTime);
-
-            // もし高低差方向にも進ませたいなら、こっち：
-            rigidbody.MovePosition(rigidbody.position + directionToPlayer * moveSpeed * Time.deltaTime);
         }
-
 
 
 
