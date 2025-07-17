@@ -226,8 +226,8 @@ public class GameManager : MonoBehaviour
                         Vector3 ghostJ = Camera.main.WorldToViewportPoint(ghostsList[j].gameObject.transform.position);
                         
                         float dist = Vector2.Distance(
-                            new Vector2(ghostI.x, ghostJ.y),
-                            new Vector2(ghostI.x, ghostJ.y)
+                            new Vector2(ghostI.x, ghostI.y),
+                            new Vector2(ghostJ.x, ghostJ.y)
                         );
                         
                         // float distanceX = 
@@ -315,7 +315,7 @@ public class GameManager : MonoBehaviour
     //プレイヤーのポインターが鬼から外れた
     public void ResetOverlapDetectedFlag()
     {
-        Debug.Log("ResetOverlapDetectedFlag");
+        //Debug.Log("ResetOverlapDetectedFlag");
         foreach (var ghost in ghostsList)
         {
             ghost.IsOverlapDetected = false;
