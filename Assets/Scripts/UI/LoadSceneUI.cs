@@ -42,7 +42,9 @@ public class LoadSceneUI : MonoBehaviour
         if (isTriggered) return;
 
         // ƒ{ƒ^ƒ“‚ª—LŒø‚ÈŽž‚¾‚¯”»’è‚·‚é
-        if (!IsButtonActive) return;
+        //if (!IsButtonActive) return;
+
+        if (loadGameSceneButtonSprite == null) return;
 
         if (PhantomSwing.Instance.CheckVisualOverlaps_Viewport(loadGameSceneButtonSprite))
         {

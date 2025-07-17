@@ -76,14 +76,14 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 6202637143529411349, guid: 3e0af15d8cdc35f4b9f3a9f0df418b3d, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 3071722054073381869}
+      addedObject: {fileID: 1023207986628705456}
   m_SourcePrefab: {fileID: 100100000, guid: 3e0af15d8cdc35f4b9f3a9f0df418b3d, type: 3}
 --- !u!1 &6380899317308937555 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6202637143529411349, guid: 3e0af15d8cdc35f4b9f3a9f0df418b3d, type: 3}
   m_PrefabInstance: {fileID: 1052069356093933126}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &3071722054073381869
+--- !u!114 &1023207986628705456
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -92,7 +92,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6380899317308937555}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 34a9fb29122c42acac9a06258bf573e0, type: 3}
+  m_Script: {fileID: 11500000, guid: 509c5ade7f614382922ee359dea6edd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   maxHP: 100
@@ -100,15 +100,18 @@ MonoBehaviour:
   scoreValue: 10
   gaugeValue: 5
   attackPower: 1
-  moveSpeed: 2
+  moveSpeed: 0.5
   cameraTransform: {fileID: 0}
   rigidbody: {fileID: 0}
   isInAttackableRange: 0
-  attackAnimator: {fileID: 0}
+  attackAnimator: {fileID: 6665615695162732774}
   shakeDuration: 0.5
   shakeStrength: 0.2
   destroyDelay: 1
   attackHitBox: {fileID: 0}
+  playerTransform: {fileID: 0}
+  floatAmplitude: 0.5
+  floatFrequency: 1
 --- !u!4 &8088229099186271466 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 9126151030305993388, guid: 3e0af15d8cdc35f4b9f3a9f0df418b3d, type: 3}
@@ -174,5 +177,10 @@ PrefabInstance:
 --- !u!4 &1291359253517704460 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5731246997154659858, guid: 38148e8fb68b0e745987f9246f507009, type: 3}
+  m_PrefabInstance: {fileID: 6801190395511005982}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &6665615695162732774 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 208195317396018168, guid: 38148e8fb68b0e745987f9246f507009, type: 3}
   m_PrefabInstance: {fileID: 6801190395511005982}
   m_PrefabAsset: {fileID: 0}

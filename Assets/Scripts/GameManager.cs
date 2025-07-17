@@ -15,8 +15,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int currentPlayerHp = 0;
     [SerializeField] private Transform attackOriginalRangePoint;
 
-    [Header("Ghost")] 
-    [SerializeField] private GameObject ghostGroup;
+    [Header("Ghost")]
+    [SerializeField] public GameObject ghostGroup;
+
     [SerializeField] private float ghostSpawnTime = 4f;
     [SerializeField] private Transform ghostSpawnPoint;
     [SerializeField] private Vector3 spawnRange = new Vector3(5f, 0f, 5f);

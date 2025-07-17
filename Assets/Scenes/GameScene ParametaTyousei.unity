@@ -17862,6 +17862,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerPointer
       objectReference: {fileID: 0}
+    - target: {fileID: 6694668316814881852, guid: 7a1578ad4f014ff40bdf4dd707a16d0e, type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -18074,7 +18078,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1120688943821564796, guid: feb987746ff0e4e48afa125e3d8e8d61, type: 3}
       propertyPath: 'ghostSpawnInfos.Array.data[0].spawnRatesPerWave.Array.data[0]'
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1120688943821564796, guid: feb987746ff0e4e48afa125e3d8e8d61, type: 3}
       propertyPath: 'ghostSpawnInfos.Array.data[0].spawnRatesPerWave.Array.data[1]'
@@ -18094,7 +18098,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1120688943821564796, guid: feb987746ff0e4e48afa125e3d8e8d61, type: 3}
       propertyPath: 'ghostSpawnInfos.Array.data[1].spawnRatesPerWave.Array.data[0]'
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1120688943821564796, guid: feb987746ff0e4e48afa125e3d8e8d61, type: 3}
       propertyPath: 'ghostSpawnInfos.Array.data[1].spawnRatesPerWave.Array.data[1]'
@@ -18374,7 +18378,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9206668444471165195, guid: 927ee905d8e78534dbb4534a422be96d, type: 3}
       propertyPath: m_TagString
-      value: Player
+      value: Untagged
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

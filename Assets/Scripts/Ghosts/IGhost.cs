@@ -28,6 +28,11 @@ namespace Ghosts
         [SerializeField] private AttackHitBox attackHitBox; // 子のAttackHitBoxスクリプト
         [SerializeField] protected Transform playerTransform;
 
+        [SerializeField] protected float floatAmplitude = 0.5f; // 上下移動の振れ幅
+        [SerializeField] protected float floatFrequency = 1f;   // 上下移動の速さ
+
+        private float floatTimer = 0f;
+        private Vector3 initialPosition;
 
 
         //TODO:HPBar 可以直接掛在角色身上嗎? 
@@ -67,12 +72,12 @@ namespace Ghosts
             if (playerTransform == null)
                 playerTransform = GameObject.FindWithTag("Player").transform;
 
-        } 
-        
+        }
+
         protected virtual void Start()
         {
             currentHP = maxHP;
-            if(rigidbody == null)
+            if (rigidbody == null)
                 rigidbody = GetComponent<Rigidbody>();
 
             forward = -cameraTransform.forward;
@@ -83,6 +88,14 @@ namespace Ghosts
             {
                 attackHitBox.ownerGhost = this;
             }
+
+            initialPosition = transform.position; // ←追加した行
+        }
+
+
+        protected virtual void Update()
+        {
+            FloatMotion();
         }
 
         protected virtual void FixedUpdate()
@@ -123,6 +136,12 @@ namespace Ghosts
 
         public virtual void AttackAnimation()
         {
+            Vector3 originalPosition = transform.position;
+
+            transform.SetParent(GameManager.Instance.ghostGroup.transform, true);
+
+            transform.position = originalPosition; // 位置を固定する
+
             isStopped = true;
             // 攻撃アニメーション再生（必要ならアンコメント）
             // attackAnimator.SetTrigger("Attack");
@@ -181,6 +200,18 @@ namespace Ghosts
         {
             isOverlapDetected = value;
         }
+
+        private void FloatMotion()
+        {
+            floatTimer += Time.deltaTime * floatFrequency;
+            float newY = Mathf.Sin(floatTimer) * floatAmplitude;
+
+            Vector3 currentPosition = rigidbody.position;
+            currentPosition.y = initialPosition.y + newY;
+
+            rigidbody.MovePosition(currentPosition); // Rigidbodyを使う！
+        }
+
 
     }
 }
