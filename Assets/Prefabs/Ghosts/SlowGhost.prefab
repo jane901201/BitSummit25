@@ -234,7 +234,7 @@ MonoBehaviour:
   scoreValue: 10
   gaugeValue: 5
   attackPower: 1
-  moveSpeed: 2
+  moveSpeed: 7
   cameraTransform: {fileID: 0}
   rigidbody: {fileID: 0}
   isInAttackableRange: 0
@@ -244,7 +244,7 @@ MonoBehaviour:
   destroyDelay: 1
   attackHitBox: {fileID: 0}
   playerTransform: {fileID: 0}
-  floatAmplitude: 1
+  floatAmplitude: 0.3
   floatFrequency: 1
   shouldTiltZ: 0
   tiltZRotation: -37.504

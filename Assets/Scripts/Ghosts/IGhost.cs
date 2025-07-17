@@ -101,7 +101,7 @@ namespace Ghosts
 
         protected virtual void Update()
         {
-            //FloatMotion();
+            FloatMotion();
         }
 
         protected virtual void FixedUpdate()
