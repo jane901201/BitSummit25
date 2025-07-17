@@ -9,21 +9,21 @@ public class RankModel : MonoBehaviour
     {
         int score = PhantomSwing.Instance.GameData.GetScore();
 
-        if (score <= 10)
+        if (score < 700)
         {
             rankRenderer.sprite = rankD;
         }
-        else if (score >= 40)
+        else if (score < 800)
         {
-            rankRenderer.sprite = rankA;
+            rankRenderer.sprite = rankC;
         }
-        else if (score >= 30)
+        else if (score < 900)
         {
             rankRenderer.sprite = rankB;
         }
-        else if (score >= 20)
+        else if (score < 1000)
         {
-            rankRenderer.sprite = rankC;
+            rankRenderer.sprite = rankA;
         }
         else
         {

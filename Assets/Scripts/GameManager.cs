@@ -285,6 +285,8 @@ public class GameManager : MonoBehaviour
             {
                 ghostsList[i].Die();
                 deadGhostsList.Add(ghostsList[i]);
+
+                AddCurrentDeadGhostCount(); // ゴーストの撃破数をカウント
             }
         }
         ghostsList.RemoveAll(ghost => ghost.IsDead());
@@ -429,8 +431,30 @@ public class GameManager : MonoBehaviour
             return ghostSpawnTime; // fallback
         }
 
-        // ゴースト数によってリニアに補間
-        float t = (float)ghostsList.Count / maxGhostCount; // 0（少ない）〜1（多い）
+        int half = maxGhostCount / 2;
+        int count = ghostsList.Count;
+
+        // 0のときは最大のスポーン時間にする（遅く）
+        if (count == 0)
+        {
+            return waveSetting.maxSpawnTime;
+        }
+
+        float t;
+
+        if (count <= half)
+        {
+            // count が小さいほど t は大きくなる (例: count=1なら t=1, count=halfなら t=1/half)
+            t = 1f / count;
+        }
+        else
+        {
+            // half超えたら0から1の範囲に正規化
+            // countがhalfの時に0、maxGhostCountの時に1になるようにする
+            t = (float)(count - half) / (maxGhostCount - half);
+        }
+
+        // tは0〜1の間の数値になっている想定で補間
         return Mathf.Lerp(waveSetting.minSpawnTime, waveSetting.maxSpawnTime, t);
     }
 
@@ -450,6 +474,12 @@ public class GameManager : MonoBehaviour
         }
 
         Victory();
+    }
+
+    public void HealPlayer(int amount)
+    {
+        currentPlayerHp = Mathf.Min(currentPlayerHp + amount, maxPlayerHp);
+        uiManager.SetHpPanel(currentPlayerHp);
     }
 
 }
