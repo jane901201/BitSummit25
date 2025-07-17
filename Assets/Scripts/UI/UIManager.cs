@@ -1,9 +1,12 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 namespace UI
 {
-    public class UIManager: MonoBehaviour
+    public class UIManager : MonoBehaviour
     {
         [SerializeField] private GameObject hpPanel;
         [SerializeField] private GameObject hp;
@@ -14,20 +17,25 @@ namespace UI
         [SerializeField] private Sprite heart_1;
         [SerializeField] private Sprite heart_Empty;
 
+        [SerializeField] private TextMeshProUGUI countdownText;
+
         private string hpPrefix = "HP_";
         private string heartPrefix = "HeartGroup_";
 
+        private void Start()
+        {
+            countdownText.gameObject.SetActive(false);
+        }
+
         public void InitinalHpPanel(int hp)
         {
-            int heartCount = Mathf.CeilToInt(hp / 4f); // 4ごとに1個、切り上げ
+            int heartCount = Mathf.CeilToInt(hp / 4f);
 
-            // 古いアイコンを削除（再初期化用）
             foreach (Transform child in hpPanel.transform)
             {
                 Destroy(child.gameObject);
             }
 
-            // 新しく生成
             for (int i = 0; i < heartCount; i++)
             {
                 Instantiate(this.hp, hpPanel.transform);
@@ -38,7 +46,6 @@ namespace UI
         {
             if (hp <= 0)
             {
-                // HPが0以下のとき：全てEmptyにして終了
                 foreach (Transform child in hpPanel.transform)
                 {
                     var image = child.GetComponent<UnityEngine.UI.Image>();
@@ -77,6 +84,20 @@ namespace UI
 
                 remainingHp -= 4;
             }
+        }
+
+        public void ShowCountdownText(int seconds)
+        {
+            countdownText.gameObject.SetActive(true);
+            countdownText.text = seconds.ToString();
+
+            StartCoroutine(HideCountdownAfterDelay(1f));
+        }
+
+        private IEnumerator HideCountdownAfterDelay(float delay)
+        {
+            yield return new WaitForSeconds(delay);
+            countdownText.gameObject.SetActive(false);
         }
     }
 }

@@ -59,6 +59,9 @@ public class GameManager : MonoBehaviour
    
     public bool IsEnhanced => isEnhanced;
 
+    [Header("Material")]
+    [SerializeField] private List<AwakeningVisualSwitcher> awakeningObjects; // Inspectorで対象を設定
+
     [System.Serializable]
     public class GhostSpawnInfo
     {
@@ -71,6 +74,24 @@ public class GameManager : MonoBehaviour
     private List<GhostSpawnInfo> ghostSpawnInfos;
 
     private int currentWave = 0; // Wave数をGameManagerにも保持
+
+    [System.Serializable]
+    public class WaveSpawnSettings
+    {
+        public int waveNumber;
+        public float maxSpawnTime;  // このWaveの最大SpawnTime
+        public float minSpawnTime;  // ゴーストが0体のときの最小SpawnTime
+    }
+
+    [Header("Spawn Timing Settings")]
+    [SerializeField]
+    private List<WaveSpawnSettings> waveSpawnSettingsList;
+
+    [Header("Game Clear Settings")]
+    private float clearCountdownDuration = 30f;
+    private float countdownWarningStart = 5f;
+    private bool isClearCountdownStarted = false;
+
 
     private void Awake()
     {
@@ -103,32 +124,32 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator SpawnGhost()
     {
-        yield return new WaitForSeconds(ghostSpawnTime);
-        int index = Random.Range(0, ghosts.Count);
-        
+        float spawnTime = GetDynamicSpawnTime();
+        yield return new WaitForSeconds(spawnTime);
+
+        if (ghostsList.Count >= maxGhostCount)
+        {
+            StartCoroutine(SpawnGhost());
+            yield break;
+        }
+
         Vector3 randomOffset = new Vector3(
             Random.Range(-spawnRange.x, spawnRange.x),
             Random.Range(-spawnRange.y, spawnRange.y),
             Random.Range(-spawnRange.z, spawnRange.z)
         );
 
-        // 基準点からオフセットを加えた位置に生成
         Vector3 spawnPosition = ghostSpawnPoint.position + randomOffset;
-
-        // 出現割合に従って敵を選ぶ
         GameObject selectedGhost = GetRandomGhostForCurrentWave();
 
         GameObject ghost = Instantiate(selectedGhost, spawnPosition, ghostSpawnPoint.rotation);
-
         ghost.transform.SetParent(ghostGroup.transform, true);
-
-        // すぐに親を外す
         ghost.transform.parent = null;
 
         ghostsList.Add(ghost.GetComponent<IGhost>());
         StartCoroutine(SpawnGhost());
-
     }
+
 
     private void Update()
     {
@@ -143,28 +164,38 @@ public class GameManager : MonoBehaviour
     private IEnumerator GaugeCoroutine()
     {
         isEnhanced = true;
-
-        // 強化状態に切り替え
         currentAttackPower = enhancedAttackPower;
         defaultAttackableTrigger.SetActive(false);
         enhancedAttackableTrigger.SetActive(true);
+
+        // 覚醒ビジュアルON
+        foreach (var obj in awakeningObjects)
+        {
+            obj.SetAwakeningState(true);
+        }
 
         Debug.Log("強化モード突入！");
 
         yield return new WaitForSeconds(gaugeTime);
 
-        // 元に戻す
         currentAttackPower = attackPower;
         defaultAttackableTrigger.SetActive(true);
         enhancedAttackableTrigger.SetActive(false);
         currentGauge = 0;
         isEnhanced = false;
 
+        // 覚醒ビジュアルOFF
+        foreach (var obj in awakeningObjects)
+        {
+            obj.SetAwakeningState(false);
+        }
+
         Debug.Log("強化モード終了");
     }
 
+
     #region UI
-    
+
     public void ScoreUpdate()
     {
         
@@ -329,11 +360,17 @@ public class GameManager : MonoBehaviour
         //Debug.Log("Overlap Detected!");
         ghost.IsOverlapDetected = true;
     }
-
     public void SetCurrentWave(int wave)
     {
         currentWave = wave;
+        //ここをコメントアウトすれば現状のクリア条件消せる
+        if (wave == 5 && !isClearCountdownStarted)
+        {
+            StartCoroutine(ClearCountdownCoroutine());
+            isClearCountdownStarted = true;
+        }
     }
+
 
     private GameObject GetRandomGhostForCurrentWave()
     {
@@ -367,10 +404,6 @@ public class GameManager : MonoBehaviour
         {
             GameOver();
         }
-        else if(currentDeadGhostCount == maxGhostCount)
-        {
-            Victory();
-        }
     }
 
     public void Victory()
@@ -385,4 +418,38 @@ public class GameManager : MonoBehaviour
         Debug.Log("GameOver");
         PhantomSwing.Instance.LoadGameScene("GameOverScene");
     }
+
+    private float GetDynamicSpawnTime()
+    {
+        // 現在のWaveに対応する設定を取得
+        WaveSpawnSettings waveSetting = waveSpawnSettingsList.Find(w => w.waveNumber == currentWave);
+        if (waveSetting == null)
+        {
+            Debug.LogWarning("Wave設定が見つかりません。デフォルト値を使用します。");
+            return ghostSpawnTime; // fallback
+        }
+
+        // ゴースト数によってリニアに補間
+        float t = (float)ghostsList.Count / maxGhostCount; // 0（少ない）〜1（多い）
+        return Mathf.Lerp(waveSetting.minSpawnTime, waveSetting.maxSpawnTime, t);
+    }
+
+    private IEnumerator ClearCountdownCoroutine()
+    {
+        float timer = clearCountdownDuration;
+
+        while (timer > 0)
+        {
+            if (timer <= countdownWarningStart && timer <= 5f)
+            {
+                uiManager.ShowCountdownText(Mathf.CeilToInt(timer)); // 5〜1の整数表示
+            }
+
+            yield return new WaitForSeconds(1f);
+            timer -= 1f;
+        }
+
+        Victory();
+    }
+
 }
