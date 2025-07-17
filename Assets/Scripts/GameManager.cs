@@ -137,7 +137,6 @@ public class GameManager : MonoBehaviour
             StartCoroutine(GaugeCoroutine());
         }
         
-        //CheckVisualOverlaps();
         CheckVisualOverlaps_Viewport();
     }
 
@@ -231,9 +230,10 @@ public class GameManager : MonoBehaviour
                             new Vector2(ghostJ.x, ghostJ.y)
                         );
                         
-                        // float distanceX = 
-                        //     Math.Abs(ghostI.x - 
-                        //     ghostJ.x);
+                        Debug.Log("distance " + dist + "isAttackableDistanceBetweenGhosts " +
+                                  isAttackableDistanceBetweenGhosts + 
+                                 "Attaced ghost " + ghostsList[i].gameObject.transform.position.z + 
+                                  " Formor ghost " + ghostsList[j].gameObject.transform.position.z);
                         
                         if (dist <= isAttackableDistanceBetweenGhosts
                             && ghostsList[i].gameObject.transform.position.z
@@ -326,7 +326,7 @@ public class GameManager : MonoBehaviour
     //プレイヤーのポインターが鬼に当たっている
     private void OnOverlapDetected(IGhost ghost)
     {
-        Debug.Log("Overlap Detected!");
+        //Debug.Log("Overlap Detected!");
         ghost.IsOverlapDetected = true;
     }
 
