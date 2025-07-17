@@ -115,15 +115,15 @@ public class JoyConCube : MonoBehaviour
                 }
             }
             Vector3 correctedAccel = Vector3.zero;
-            //if (isShaking)
-            //{
+            if (isShaking)
+            {
                 // 重力除去後の加速度を使って移動方向に速度を加える
                 correctedAccel = ApplySoftDeadZone(accelFiltered, accelDeadZoneX, accelDeadZoneY, accelDeadZoneZ);
                 // 加速度ベクトルを shakeDirection に射影
                 Vector3 projectedAccel = Vector3.Project(correctedAccel, shakeDirection);
                 velocity = correctedAccel * accelToSpeedScale * Time.deltaTime;
                 transform.position += velocity * Time.deltaTime;
-            //}
+            }
 
             // 緑：加速度方向
             Debug.DrawLine(transform.position, transform.position + correctedAccel.normalized * 2f, Color.green);
@@ -138,7 +138,7 @@ public class JoyConCube : MonoBehaviour
             Debug.Log($"JoyconAccel : {j.GetAccel()},JoyconGyro : {j.GetGyro()}");
 
             // Bボタンでセンター位置のリセット
-            if (j.GetButtonDown(Joycon.Button.DPAD_DOWN)|| Input.GetKeyDown(KeyCode.R))
+            if (j.GetButtonDown(Joycon.Button.DPAD_DOWN) || Input.GetKeyDown(KeyCode.R))
             {
                 Recenter();
                 transform.position = Vector3.zero; // Reset position to origin

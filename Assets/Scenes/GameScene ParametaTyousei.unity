@@ -21910,6 +21910,76 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4771847797647690468, guid: 7a1578ad4f014ff40bdf4dd707a16d0e, type: 3}
   m_PrefabInstance: {fileID: 1622031687753964386}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2074308151
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2074308148}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8451f0bfe9461664bad7d90308ee8f6c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gyroSensitivity: 1
+  gyroDeadZoneX: 13
+  gyroDeadZoneY: 12
+  gyroDeadZoneZ: 17
+  flatAngleThreshold: 8
+  flatDurationThreshold: 1.5
+  gravityMagnitude: 1.043
+  accelDeadZoneX: 13
+  accelDeadZoneY: 12
+  accelDeadZoneZ: 17
+  accelToSpeedScale: 200
+  shakeStartThreshold: 1.2
+  shakeEndThreshold: 0.3
+--- !u!114 &2074308152
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2074308148}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3cfb3334ed4a80543949394d1af92ccf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  portName: COM4
+  baudRate: 9600
+--- !u!114 &2074308153
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2074308148}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44dea27b758dc6048902a3feb9eb5c50, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stick: []
+  gyro: {x: 0, y: 0, z: 0}
+  accel: {x: 0, y: 0, z: 0}
+  startGyro: {x: 0, y: 0, z: 0}
+  jc_ind: 0
+  orientation: {x: 0, y: 0, z: 0, w: 0}
+  accelerationFactor: 5
+  damping: 0.98
+  gyroSensitivity: 1
+  accelToSpeedScale: 200
+  gyroDeadZoneX: 0.1
+  gyroDeadZoneY: 0.2
+  gyroDeadZoneZ: 0.1
+  accelDeadZoneX: 13
+  accelDeadZoneY: 12
+  accelDeadZoneZ: 17
+  shakeStartThreshold: 1.2
+  shakeEndThreshold: 0.3
+  highpassFactor: 0.9
 --- !u!1001 &2081975656
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -22563,7 +22633,16 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6694668316814881852, guid: 7a1578ad4f014ff40bdf4dd707a16d0e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2074308153}
+    - targetCorrespondingSourceObject: {fileID: 6694668316814881852, guid: 7a1578ad4f014ff40bdf4dd707a16d0e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2074308152}
+    - targetCorrespondingSourceObject: {fileID: 6694668316814881852, guid: 7a1578ad4f014ff40bdf4dd707a16d0e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2074308151}
   m_SourcePrefab: {fileID: 100100000, guid: 7a1578ad4f014ff40bdf4dd707a16d0e, type: 3}
 --- !u!1001 &2469320682807217286
 PrefabInstance:
