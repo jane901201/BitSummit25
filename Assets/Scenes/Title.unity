@@ -214,6 +214,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   urpVolumetricFogLite: {fileID: 11400000, guid: 8e6fd6ea1b655244ab295c51c881877c, type: 2}
   pcRPAsset: {fileID: 11400000, guid: 4b83569d67af61e458304325a23e5dfd, type: 2}
+--- !u!114 &443622201
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 443622197}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3085c90ec3051140884af005480e841, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &464999274
 GameObject:
   m_ObjectHideFlags: 0
@@ -1284,6 +1296,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8576378144833348440, guid: 77db7265b4ab23a4189d136c255cbccd, type: 3}
       insertIndex: 1
       addedObject: {fileID: 443622200}
+    - targetCorrespondingSourceObject: {fileID: 8576378144833348440, guid: 77db7265b4ab23a4189d136c255cbccd, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 443622201}
   m_SourcePrefab: {fileID: 100100000, guid: 77db7265b4ab23a4189d136c255cbccd, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

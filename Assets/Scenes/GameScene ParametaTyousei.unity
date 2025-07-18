@@ -1148,18 +1148,6 @@ MonoBehaviour:
     faceSprite: {fileID: 21300000, guid: 1bf3a3d6726f04a4fadfb25a58646a60, type: 3}
     delayBeforeShow: 0
     displayDuration: 7
-  - triggerTime: 1
-    message: "\u4ECA\u307E\u3067\u306E\u3092\u6D3B\u7528\u3057\u3088\u3046\uFF01"
-    englishMessage: "Let\u2019s use what we\u2019ve learned so far!"
-    faceSprite: {fileID: 21300000, guid: 15d807909595df24e9bbc8c2256982d7, type: 3}
-    delayBeforeShow: 0
-    displayDuration: 3
-  - triggerTime: 1
-    message: "\u3042\u308C\u304C\u6575\u306E\u89AA\u7389\u306D...\uFF01"
-    englishMessage: That must be the boss...!
-    faceSprite: {fileID: 21300000, guid: b7c72e4a3564f4240a1c4b35d32e0cea, type: 3}
-    delayBeforeShow: 0
-    displayDuration: 2
   characterImage: {fileID: 922497999}
   panel: {fileID: 439185370}
   messageText: {fileID: 432152693}
@@ -22318,7 +22306,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   splineContainer: {fileID: 1450850292}
   objectToMove: {fileID: 2114797522}
-  moveSpeed: 1
+  moveSpeed: 3
   loop: 0
 --- !u!1001 &2118171852
 PrefabInstance:
@@ -22967,11 +22955,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1120688943821564796, guid: feb987746ff0e4e48afa125e3d8e8d61, type: 3}
       propertyPath: 'ghostSpawnInfos.Array.data[0].spawnRatesPerWave.Array.data[3]'
-      value: 0.15
+      value: 0.19
       objectReference: {fileID: 0}
     - target: {fileID: 1120688943821564796, guid: feb987746ff0e4e48afa125e3d8e8d61, type: 3}
       propertyPath: 'ghostSpawnInfos.Array.data[0].spawnRatesPerWave.Array.data[4]'
-      value: 0.1
+      value: 0.13
       objectReference: {fileID: 0}
     - target: {fileID: 1120688943821564796, guid: feb987746ff0e4e48afa125e3d8e8d61, type: 3}
       propertyPath: 'ghostSpawnInfos.Array.data[1].spawnRatesPerWave.Array.data[0]'
@@ -23139,11 +23127,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1120688943821564796, guid: feb987746ff0e4e48afa125e3d8e8d61, type: 3}
       propertyPath: 'ghostSpawnInfos.Array.data[9].spawnRatesPerWave.Array.data[3]'
-      value: 0.05
+      value: 0.01
       objectReference: {fileID: 0}
     - target: {fileID: 1120688943821564796, guid: feb987746ff0e4e48afa125e3d8e8d61, type: 3}
       propertyPath: 'ghostSpawnInfos.Array.data[9].spawnRatesPerWave.Array.data[4]'
-      value: 0.04
+      value: 0.01
       objectReference: {fileID: 0}
     - target: {fileID: 7627666358162503938, guid: feb987746ff0e4e48afa125e3d8e8d61, type: 3}
       propertyPath: m_LocalPosition.x

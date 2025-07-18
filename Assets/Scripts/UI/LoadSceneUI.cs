@@ -76,8 +76,16 @@ public class LoadSceneUI : MonoBehaviour
             yield return StartCoroutine(ShakeButton(targetButtonSprite, 0.1f, 1));
         }
 
+        if (gameSceneName == "Title")
+        {
+            if (TutorialStateManager.Instance != null)
+                TutorialStateManager.Instance.ResetTutorial();
+        }
+
+
         PhantomSwing.Instance.LoadGameScene(gameSceneName);
     }
+
 
     /// <summary>
     /// ƒ{ƒ^ƒ“‚ğ¶‰E‚É—h‚ç‚·

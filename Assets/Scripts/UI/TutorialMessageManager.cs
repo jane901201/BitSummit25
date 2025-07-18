@@ -36,11 +36,21 @@ public class TutorialMessageManager : MonoBehaviour
     private float startTime;
     private int currentMessageIndex = 0;
 
+    private static bool hasShownTutorial = false;
+
     void Start()
     {
+        // シーン切り替え後でもこのフラグで表示制御
+        if (TutorialStateManager.Instance != null && TutorialStateManager.Instance.HasShownTutorial)
+        {
+            this.enabled = false;
+            return;
+        }
+
         startTime = Time.time;
-        panel.gameObject.SetActive(false); // 最初は非表示
+        panel.gameObject.SetActive(false);
     }
+
 
     IEnumerator ShowMessage(TutorialMessage tutorialMessage)
     {
@@ -121,25 +131,26 @@ public class TutorialMessageManager : MonoBehaviour
 
     public void ShowNextMessage()
     {
-        Debug.Log("ShowNextMessage called. isDisplaying: " + isDisplaying + " currentMessageIndex: " + currentMessageIndex);
+        if (TutorialStateManager.Instance != null && TutorialStateManager.Instance.HasShownTutorial)
+            return;
 
-        if (currentCoroutine != null)
+        if (currentMessageIndex >= messages.Count)
         {
-            StopCoroutine(currentCoroutine);
-            isDisplaying = false;
+            TutorialStateManager.Instance?.MarkTutorialShown(); // フラグを立てる
+            return;
         }
 
         if (!isDisplaying && currentMessageIndex < messages.Count)
         {
-            Debug.Log("Start showing message: " + messages[currentMessageIndex].message);
             currentCoroutine = StartCoroutine(ShowMessage(messages[currentMessageIndex]));
             currentMessageIndex++;
         }
-        else
-        {
-            Debug.Log("Cannot show message: isDisplaying=" + isDisplaying + " or no more messages");
-        }
     }
 
+
+    public static void ResetTutorial()
+    {
+        hasShownTutorial = false;
+    }
 
 }
