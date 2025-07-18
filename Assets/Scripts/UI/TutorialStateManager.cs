@@ -4,11 +4,10 @@ public class TutorialStateManager : MonoBehaviour
 {
     public static TutorialStateManager Instance;
 
-    public bool HasShownTutorial { get; private set; } = false;
+    public bool HasShownTutorial { get; private set; }
 
     private void Awake()
     {
-        // シングルトンパターン
         if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
@@ -16,16 +15,18 @@ public class TutorialStateManager : MonoBehaviour
         }
 
         Instance = this;
-        DontDestroyOnLoad(gameObject); // シーン遷移しても残す
+        DontDestroyOnLoad(gameObject);
     }
 
     public void MarkTutorialShown()
     {
         HasShownTutorial = true;
+        Debug.Log("[Tutorial] Marked as shown.");
     }
 
     public void ResetTutorial()
     {
         HasShownTutorial = false;
+        Debug.Log("[Tutorial] Reset tutorial.");
     }
 }

@@ -78,8 +78,7 @@ public class LoadSceneUI : MonoBehaviour
 
         if (gameSceneName == "Title")
         {
-            if (TutorialStateManager.Instance != null)
-                TutorialStateManager.Instance.ResetTutorial();
+            TutorialStateManager.Instance?.ResetTutorial();
         }
 
 

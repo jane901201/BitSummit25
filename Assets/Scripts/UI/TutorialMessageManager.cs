@@ -40,16 +40,18 @@ public class TutorialMessageManager : MonoBehaviour
 
     void Start()
     {
-        // シーン切り替え後でもこのフラグで表示制御
         if (TutorialStateManager.Instance != null && TutorialStateManager.Instance.HasShownTutorial)
         {
+            Debug.Log("[Tutorial] Already shown. Skipping.");
             this.enabled = false;
             return;
         }
 
+        Debug.Log("[Tutorial] Will show tutorial.");
         startTime = Time.time;
         panel.gameObject.SetActive(false);
     }
+
 
 
     IEnumerator ShowMessage(TutorialMessage tutorialMessage)
@@ -132,11 +134,14 @@ public class TutorialMessageManager : MonoBehaviour
     public void ShowNextMessage()
     {
         if (TutorialStateManager.Instance != null && TutorialStateManager.Instance.HasShownTutorial)
+        {
+            Debug.Log("[Tutorial] Skipped show next message.");
             return;
+        }
 
         if (currentMessageIndex >= messages.Count)
         {
-            TutorialStateManager.Instance?.MarkTutorialShown(); // フラグを立てる
+            TutorialStateManager.Instance?.MarkTutorialShown();
             return;
         }
 
@@ -146,6 +151,7 @@ public class TutorialMessageManager : MonoBehaviour
             currentMessageIndex++;
         }
     }
+
 
 
     public static void ResetTutorial()
