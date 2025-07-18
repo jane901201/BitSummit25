@@ -43,6 +43,8 @@ public class TutorialMessageManager : MonoBehaviour
         if (TutorialStateManager.Instance != null && TutorialStateManager.Instance.HasShownTutorial)
         {
             Debug.Log("[Tutorial] Already shown. Skipping.");
+            //キャンバスを強制的に非表示にする
+            panel.gameObject.SetActive(false);
             this.enabled = false;
             return;
         }
