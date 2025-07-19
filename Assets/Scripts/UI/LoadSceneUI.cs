@@ -17,9 +17,9 @@ public class LoadSceneUI : MonoBehaviour
     
     private bool isTriggered = false;
 
-    public bool IsButtonActive { get; set; } = false; // ©’Ç‰Á
+    public bool IsButtonActive { get; set; } = false; // ï¿½ï¿½ï¿½Ç‰ï¿½
 
-    public UIController uiController; // ƒCƒ“ƒXƒyƒNƒ^[‚Åİ’è
+    public UIController uiController; // ï¿½Cï¿½ï¿½ï¿½Xï¿½yï¿½Nï¿½^ï¿½[ï¿½Åİ’ï¿½
 
     private void Start()
     {
@@ -32,7 +32,12 @@ public class LoadSceneUI : MonoBehaviour
             PhantomSwing.Instance.PlayerPointer = playerPointer;
             JoystickController joystickController = playerPointer.GetComponent<JoystickController>();
             PCController pcController = playerPointer.GetComponent<PCController>();
-            PhantomSwing.Instance.DeviceSetting(joystickController, pcController);
+            AccelerometerReader accelerometerReader = playerPointer.GetComponent<AccelerometerReader>();
+            MoveWithAcceleration moveWithAcceleration = playerPointer.GetComponent<MoveWithAcceleration>();
+            JoyconManager joyconManager = playerPointer.GetComponent<JoyconManager>();
+            JoyconCursorMover joyconCursorMover = playerPointer.GetComponent<JoyconCursorMover>();
+            
+            PhantomSwing.Instance.DeviceSetting(joystickController, pcController, accelerometerReader, moveWithAcceleration, joyconManager, joyconCursorMover);
         }
     }
 
@@ -41,7 +46,7 @@ public class LoadSceneUI : MonoBehaviour
         if (PhantomSwing.Instance == null) return;
         if (isTriggered) return;
 
-        // ƒ{ƒ^ƒ“‚ª—LŒø‚È‚¾‚¯”»’è‚·‚é
+        // ï¿½{ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½Lï¿½ï¿½ï¿½Èï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½è‚·ï¿½ï¿½
         //if (!IsButtonActive) return;
 
         if (loadGameSceneButtonSprite == null) return;
@@ -87,25 +92,25 @@ public class LoadSceneUI : MonoBehaviour
 
 
     /// <summary>
-    /// ƒ{ƒ^ƒ“‚ğ¶‰E‚É—h‚ç‚·
+    /// ï¿½{ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Eï¿½É—hï¿½ç‚·
     /// </summary>
     private IEnumerator ShakeButton(GameObject target, float duration, int repeatCount)
     {
         Vector3 originalPosition = target.transform.localPosition;
-        float shakeAmount = 0.1f; // —h‚ê‚Ì‘å‚«‚³i}10px‚È‚Çj
-        float halfDuration = duration / (repeatCount * 2); // 1‰•œ‚Å2‰ñ“®‚­‚Ì‚Å
+        float shakeAmount = 0.1f; // ï¿½hï¿½ï¿½Ì‘å‚«ï¿½ï¿½ï¿½iï¿½}10pxï¿½È‚Çj
+        float halfDuration = duration / (repeatCount * 2); // 1ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½2ï¿½ñ“®‚ï¿½ï¿½Ì‚ï¿½
 
         for (int i = 0; i < repeatCount; i++)
         {
-            // ¶‚Ö
+            // ï¿½ï¿½ï¿½ï¿½
             target.transform.localPosition = originalPosition + Vector3.left * shakeAmount;
             yield return new WaitForSeconds(halfDuration);
-            // ‰E‚Ö
+            // ï¿½Eï¿½ï¿½
             target.transform.localPosition = originalPosition + Vector3.right * shakeAmount;
             yield return new WaitForSeconds(halfDuration);
         }
 
-        // Œ³‚ÌˆÊ’u‚É–ß‚·
+        // ï¿½ï¿½ï¿½ÌˆÊ’uï¿½É–ß‚ï¿½
         target.transform.localPosition = originalPosition;
     }
 

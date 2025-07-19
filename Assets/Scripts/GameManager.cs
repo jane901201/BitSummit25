@@ -119,7 +119,11 @@ public class GameManager : MonoBehaviour
         PhantomSwing.Instance.PlayerPointer = playerPointer;
         JoystickController joystickController = playerPointer.GetComponent<JoystickController>();
         PCController pcController = playerPointer.GetComponent<PCController>();
-        PhantomSwing.Instance.DeviceSetting(joystickController, pcController);
+        AccelerometerReader accelerometerReader = playerPointer.GetComponent<AccelerometerReader>();
+        MoveWithAcceleration moveWithAcceleration = playerPointer.GetComponent<MoveWithAcceleration>();
+        JoyconManager joyconManager = playerPointer.GetComponent<JoyconManager>();
+        JoyconCursorMover joyconCursorMover = playerPointer.GetComponent<JoyconCursorMover>();
+        PhantomSwing.Instance.DeviceSetting(joystickController, pcController, accelerometerReader, moveWithAcceleration, joyconManager, joyconCursorMover);
     }
 
     private IEnumerator SpawnGhost()

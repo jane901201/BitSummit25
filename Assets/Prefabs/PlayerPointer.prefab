@@ -24634,6 +24634,12 @@ GameObject:
   - component: {fileID: 4359392557822666400}
   - component: {fileID: 5082273835437256137}
   - component: {fileID: 2123200602384644902}
+  - component: {fileID: 6145616624641418693}
+  - component: {fileID: 2110659676223414143}
+  - component: {fileID: 7653774459657877855}
+  - component: {fileID: 5940746427925027293}
+  - component: {fileID: 8297788357967688246}
+  - component: {fileID: 2004214051552227437}
   m_Layer: 0
   m_Name: PlayerPointer
   m_TagString: Untagged
@@ -25034,6 +25040,118 @@ MonoBehaviour:
   lineRenderer: {fileID: 8325850637897464821}
   fastSwingThreshold: 10
   analysisInterval: 0.1
+--- !u!114 &6145616624641418693
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6694668316814881852}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 405bad29b2b998c408059182c189d9e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EnableIMU: 1
+  EnableLocalize: 1
+--- !u!114 &2110659676223414143
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6694668316814881852}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44dea27b758dc6048902a3feb9eb5c50, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stick: []
+  gyro: {x: 0, y: 0, z: 0}
+  accel: {x: 0, y: 0, z: 0}
+  startGyro: {x: 0, y: 0, z: 0}
+  jc_ind: 0
+  orientation: {x: 0, y: 0, z: 0, w: 0}
+  accelerationFactor: 5
+  damping: 0.98
+  gyroSensitivity: 1
+  accelToSpeedScale: 200
+  gyroDeadZoneX: 0.1
+  gyroDeadZoneY: 0.2
+  gyroDeadZoneZ: 0.1
+  accelDeadZoneX: 13
+  accelDeadZoneY: 12
+  accelDeadZoneZ: 17
+  shakeStartThreshold: 1.2
+  shakeEndThreshold: 0.3
+  highpassFactor: 0.9
+--- !u!114 &7653774459657877855
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6694668316814881852}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83b0aef1c89636149bd53c135fca3859, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sensitivity: 10
+  maxSpeed: 100
+--- !u!114 &5940746427925027293
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6694668316814881852}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3cfb3334ed4a80543949394d1af92ccf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  portName: COM5
+  baudRate: 9600
+--- !u!114 &8297788357967688246
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6694668316814881852}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8451f0bfe9461664bad7d90308ee8f6c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gyroSensitivity: 1
+  gyroDeadZoneX: 13
+  gyroDeadZoneY: 12
+  gyroDeadZoneZ: 17
+  flatAngleThreshold: 8
+  flatDurationThreshold: 1.5
+  gravityMagnitude: 1.043
+  accelDeadZoneX: 0
+  accelDeadZoneY: 0
+  accelDeadZoneZ: 1000
+  accelToSpeedScale: 5000
+  shakeStartThreshold: 0.1
+  shakeEndThreshold: 0.01
+--- !u!114 &2004214051552227437
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6694668316814881852}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83b0aef1c89636149bd53c135fca3859, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sensitivity: 5
+  maxSpeed: 10
 --- !u!1 &7799386396216850511
 GameObject:
   m_ObjectHideFlags: 0

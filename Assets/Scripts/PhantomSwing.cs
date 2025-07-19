@@ -45,13 +45,7 @@ public class PhantomSwing: MonoBehaviour
             gameData.SetScore(0);
         }
     }
-
-
-    private void Update()
-    {
-        
-    }
-
+    
     public void LoadGameScene(String sceneName)
     {
         playerPointer = null;
@@ -74,10 +68,10 @@ public class PhantomSwing: MonoBehaviour
     }
 
     public void DeviceSetting(JoystickController joystickController, PCController pcController, AccelerometerReader accelerometerReader
-        , MoveWithAcceleration moveWithAcceleration, JoyConCube joyConCube)
+        , MoveWithAcceleration moveWithAcceleration, JoyconManager joyconManager, JoyconCursorMover joyconCursorMover)
     {
         inputDeviceManager.PlayerPointer = playerPointer;
-        inputDeviceManager.DeviceSetting(joystickController, pcController, accelerometerReader, moveWithAcceleration, joyConCube);
+        inputDeviceManager.DeviceSetting(joystickController, pcController, accelerometerReader, moveWithAcceleration, joyconManager, joyconCursorMover);
     }
 
     
