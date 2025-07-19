@@ -46,7 +46,16 @@ public class JoyconCursorMover : MonoBehaviour
         // スピード制限
         delta = Vector2.ClampMagnitude(delta, maxSpeed * Time.deltaTime);
 
-        Debug.Log(gyro + " " + quaternion);
+        //Debug.Log(gyro + " " + quaternion);
+
+        if (joycon.GetButtonDown(Joycon.Button.SHOULDER_2))
+        {
+            Debug.Log("LL");
+            if(GameManager.Instance != null)
+            {
+                GameManager.Instance.ResetPlayerPosition();
+            }
+        }
 
         // スクリーン座標を更新
         //screenPosition += delta;

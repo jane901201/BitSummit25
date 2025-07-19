@@ -25102,7 +25102,7 @@ MonoBehaviour:
   lineRenderer: {fileID: 8325850637897464821}
   baseMoveSpeed: 5
   fastSwingThreshold: 5
-  analysisInterval: 2
+  analysisInterval: 0.1
 --- !u!114 &5940746427925027293
 MonoBehaviour:
   m_ObjectHideFlags: 0
