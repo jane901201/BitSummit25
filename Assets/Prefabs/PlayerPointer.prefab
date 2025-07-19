@@ -24639,7 +24639,6 @@ GameObject:
   - component: {fileID: 7653774459657877855}
   - component: {fileID: 5940746427925027293}
   - component: {fileID: 8297788357967688246}
-  - component: {fileID: 2004214051552227437}
   m_Layer: 0
   m_Name: PlayerPointer
   m_TagString: Untagged
@@ -25138,20 +25137,6 @@ MonoBehaviour:
   accelToSpeedScale: 5000
   shakeStartThreshold: 0.1
   shakeEndThreshold: 0.01
---- !u!114 &2004214051552227437
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6694668316814881852}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 83b0aef1c89636149bd53c135fca3859, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sensitivity: 5
-  maxSpeed: 10
 --- !u!1 &7799386396216850511
 GameObject:
   m_ObjectHideFlags: 0
