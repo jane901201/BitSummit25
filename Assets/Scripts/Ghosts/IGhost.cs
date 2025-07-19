@@ -179,10 +179,6 @@ namespace Ghosts
             //Debug.Log(isInAttackableRange);
         }
         
-        public void HpBarUpdate()
-        {
-        }
-        
         public virtual void TakeDamage(int damage)
         {
             currentHP -= damage;

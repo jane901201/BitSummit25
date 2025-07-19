@@ -22,12 +22,17 @@ namespace Controller.PC
 
         private void Update()
         {
-            if (!enabled) return; // © –³Œø‚Íˆ—‚ğ‚µ‚È‚¢
+            if (!enabled) return; // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Íï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½
 
             Vector2 mouseScreenPos = Mouse.current.position.ReadValue();
 
             Vector3 offset = positionClamper.MoveTransformInsideScreen(mouseScreenPos, transform) - transform.position;
             transform.localPosition += offset;
+
+            // if (Mouse.current.leftButton.wasPressedThisFrame && GameManager.Instance != null)
+            // {
+            //     GameManager.Instance.Gauge();
+            // }
 
             drawTracker.UpdateTracking(transform.position, Time.deltaTime);
         }

@@ -160,14 +160,24 @@ public class GameManager : MonoBehaviour
         // ゲージが最大、かつまだ覚醒していない、かつ左クリックされた場合に覚醒
         if (!isEnhanced && currentGauge >= maxGauge && Input.GetMouseButtonDown(0))
         {
+            
             StartCoroutine(GaugeCoroutine());
         }
 
         CheckVisualOverlaps_Viewport();
     }
 
+    public void Gauge()
+    {
+        if (!isEnhanced && currentGauge >= maxGauge)
+        {
+            
+            StartCoroutine(GaugeCoroutine());
+        }
+    }
 
-    private IEnumerator GaugeCoroutine()
+
+    public IEnumerator GaugeCoroutine()
     {
         isEnhanced = true;
         currentAttackPower = enhancedAttackPower;
