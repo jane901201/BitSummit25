@@ -73,10 +73,11 @@ public class PhantomSwing: MonoBehaviour
         pipelineSwitcher.SwitchPipeline(sceneName);
     }
 
-    public void DeviceSetting(JoystickController joystickController, PCController pcController)
+    public void DeviceSetting(JoystickController joystickController, PCController pcController, AccelerometerReader accelerometerReader
+        , MoveWithAcceleration moveWithAcceleration, JoyConCube joyConCube)
     {
         inputDeviceManager.PlayerPointer = playerPointer;
-        inputDeviceManager.DeviceSetting(joystickController, pcController);
+        inputDeviceManager.DeviceSetting(joystickController, pcController, accelerometerReader, moveWithAcceleration, joyConCube);
     }
 
     

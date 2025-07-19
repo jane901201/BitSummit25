@@ -22,6 +22,8 @@ namespace Controller.PC
 
         private void Update()
         {
+            if (!enabled) return; // © –³Œø‚Íˆ—‚ğ‚µ‚È‚¢
+
             Vector2 mouseScreenPos = Mouse.current.position.ReadValue();
 
             Vector3 offset = positionClamper.MoveTransformInsideScreen(mouseScreenPos, transform) - transform.position;

@@ -8,9 +8,14 @@ public class InputDeviceManager : MonoBehaviour
     [SerializeField] private JoystickController joystickController;
     [SerializeField] private PCController pcController;
     [SerializeField] private GameObject playerPointer;
+    [SerializeField] private AccelerometerReader accelerometerReader;
+    [SerializeField] private MoveWithAcceleration moveWithAcceleration;
+    [SerializeField] private JoyConCube joyConCube;
     [SerializeField] private PlayerInput playerInput;
 
     private Device device = Device.PC;
+
+
 
     public GameObject PlayerPointer
     {
@@ -18,26 +23,42 @@ public class InputDeviceManager : MonoBehaviour
         set => playerPointer = value;
     }
     
-    public void DeviceSetting(JoystickController joystickController, PCController pcController)
+    public void DeviceSetting(JoystickController joystickController, PCController pcController, AccelerometerReader accelerometerReader
+        , MoveWithAcceleration moveWithAcceleration, JoyConCube joyConCube)
     {
         this.joystickController = joystickController;
         this.pcController = pcController;
+        //this.accelerometerReader = accelerometerReader;
+        //this.moveWithAcceleration = moveWithAcceleration; 
+        //this.joyConCube = joyConCube;
+
+
         if (device == Device.PC)
         {
             
             joystickController.enabled = false;
             pcController.enabled = true;
+            //accelerometerReader.enabled = false;
+            //moveWithAcceleration.enabled = false;
+            //joyConCube.enabled = false;
         }
         else if (device == Device.JoyStick)
         {
             joystickController.enabled = true;
             pcController.enabled = false;
+            //accelerometerReader.enabled = false;
+            //moveWithAcceleration.enabled = false;
+            //joyConCube.enabled = false;
         }
     }
 
     private void Update()
     {
-        if(playerPointer == null)
+        if(joystickController.enabled == true)
+        {
+            joystickController.enabled = false;
+        }
+        if (playerPointer == null)
             return;
         if (Input.GetKeyDown(KeyCode.Q))
         {
@@ -45,6 +66,11 @@ public class InputDeviceManager : MonoBehaviour
             {
                 joystickController.enabled = true;
                 pcController.enabled = false;
+                accelerometerReader.enabled false;
+                moveWithAcceleration.enabled = false;
+                joyConCube.enabled = false;
+
+
                 device = Device.JoyStick;
                 Debug.Log("JoyStick");
             }
@@ -52,6 +78,34 @@ public class InputDeviceManager : MonoBehaviour
             {
                 joystickController.enabled = false;
                 pcController.enabled = true;
+                accelerometerReader.enabled false;
+                moveWithAcceleration.enabled = false;
+                joyConCube.enabled = true;
+
+                device = Device.JoyCon;
+                Debug.Log("PC");
+            }
+            else if(device == Device.JoyCon)
+            {
+                joystickController.enabled = false;
+                pcController.enabled = false;
+                accelerometerReader.enabled true;
+                moveWithAcceleration.enabled = true;
+                joyConCube.enabled = false;
+
+                device = Device.Arduino;
+                Debug.Log("Arduino");
+
+            }
+            else if(device == Device.Arduino)
+            {
+                joystickController.enabled = false;
+                pcController.enabled = true;
+                accelerometerReader.enabled false;
+                moveWithAcceleration.enabled = false;
+                joyConCube.enabled = false;
+
+
                 device = Device.PC;
                 Debug.Log("PC");
             }
@@ -83,5 +137,7 @@ public class InputDeviceManager : MonoBehaviour
 public enum Device
 {
     PC,
-    JoyStick
+    JoyStick,
+    JoyCon,
+    Arduino,
 }
