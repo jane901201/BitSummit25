@@ -514,65 +514,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 6694668316814881852, guid: 7a1578ad4f014ff40bdf4dd707a16d0e, type: 3}
   m_PrefabInstance: {fileID: 1031739128}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &791209756
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 791209747}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 405bad29b2b998c408059182c189d9e9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  EnableIMU: 1
-  EnableLocalize: 1
---- !u!114 &791209757
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 791209747}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 44dea27b758dc6048902a3feb9eb5c50, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  stick: []
-  gyro: {x: 0, y: 0, z: 0}
-  accel: {x: 0, y: 0, z: 0}
-  startGyro: {x: 0, y: 0, z: 0}
-  jc_ind: 0
-  orientation: {x: 0, y: 0, z: 0, w: 0}
-  accelerationFactor: 5
-  damping: 0.98
-  gyroSensitivity: 1
-  accelToSpeedScale: 200
-  gyroDeadZoneX: 0.1
-  gyroDeadZoneY: 0.2
-  gyroDeadZoneZ: 0.1
-  accelDeadZoneX: 13
-  accelDeadZoneY: 12
-  accelDeadZoneZ: 17
-  shakeStartThreshold: 1.2
-  shakeEndThreshold: 0.3
-  highpassFactor: 0.9
---- !u!114 &791209763
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 791209747}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 83b0aef1c89636149bd53c135fca3859, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sensitivity: 10
-  maxSpeed: 100
 --- !u!1 &845810214
 GameObject:
   m_ObjectHideFlags: 0
@@ -1092,16 +1033,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 6694668316814881852, guid: 7a1578ad4f014ff40bdf4dd707a16d0e, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 791209756}
-    - targetCorrespondingSourceObject: {fileID: 6694668316814881852, guid: 7a1578ad4f014ff40bdf4dd707a16d0e, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 791209757}
-    - targetCorrespondingSourceObject: {fileID: 6694668316814881852, guid: 7a1578ad4f014ff40bdf4dd707a16d0e, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 791209763}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7a1578ad4f014ff40bdf4dd707a16d0e, type: 3}
 --- !u!1 &1709683008
 GameObject:
