@@ -153,13 +153,15 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if (!isEnhanced && currentGauge >= maxGauge)
+        // ゲージが最大、かつまだ覚醒していない、かつ左クリックされた場合に覚醒
+        if (!isEnhanced && currentGauge >= maxGauge && Input.GetMouseButtonDown(0))
         {
             StartCoroutine(GaugeCoroutine());
         }
-        
+
         CheckVisualOverlaps_Viewport();
     }
+
 
     private IEnumerator GaugeCoroutine()
     {
