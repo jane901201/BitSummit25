@@ -25097,7 +25097,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sensitivity: 10
-  maxSpeed: 100
+  maxSpeed: 30
+  shakeStartThreshold: 1.2
+  lineRenderer: {fileID: 8325850637897464821}
+  baseMoveSpeed: 5
+  fastSwingThreshold: 5
+  analysisInterval: 2
 --- !u!114 &5940746427925027293
 MonoBehaviour:
   m_ObjectHideFlags: 0

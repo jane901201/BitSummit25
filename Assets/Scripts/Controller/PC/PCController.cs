@@ -26,6 +26,9 @@ namespace Controller.PC
 
             Vector2 mouseScreenPos = Mouse.current.position.ReadValue();
 
+
+            Debug.Log(Mouse.current.position.ReadValue());
+
             Vector3 offset = positionClamper.MoveTransformInsideScreen(mouseScreenPos, transform) - transform.position;
             transform.localPosition += offset;
 

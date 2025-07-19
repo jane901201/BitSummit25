@@ -1,9 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using Controller;
 using Controller.PC;
 using Ghosts;
 using UI;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.Splines;
 using Random = UnityEngine.Random;
 
 public class GameManager : MonoBehaviour
@@ -48,6 +51,9 @@ public class GameManager : MonoBehaviour
     public int CurrentAttackPower => currentAttackPower;
     public int CurrentGauge => currentGauge;
     public int TotalScore => totalScore;
+
+    private PositionClamper positionClamper;
+
 
 
     [SerializeField]
@@ -106,6 +112,8 @@ public class GameManager : MonoBehaviour
         }
         
         ghostGroup = GameObject.Find("Ghosts").gameObject;
+        positionClamper = new PositionClamper(Camera.main);
+        //playerPointer.transform.localPosition = new Vector3(0f, 0f, -3.15785027f);
     } 
 
     private void Start()
@@ -113,7 +121,6 @@ public class GameManager : MonoBehaviour
         uiManager.InitinalHpPanel(maxPlayerHp);
         currentAttackPower = attackPower;
         currentPlayerHp = maxPlayerHp;
-        StartCoroutine(SpawnGhost());
         defaultAttackableTrigger.SetActive(true);
         enhancedAttackableTrigger.SetActive(false);
         PhantomSwing.Instance.PlayerPointer = playerPointer;
@@ -124,6 +131,24 @@ public class GameManager : MonoBehaviour
         JoyconManager joyconManager = playerPointer.GetComponent<JoyconManager>();
         JoyconCursorMover joyconCursorMover = playerPointer.GetComponent<JoyconCursorMover>();
         PhantomSwing.Instance.DeviceSetting(joystickController, pcController, accelerometerReader, moveWithAcceleration, joyconManager, joyconCursorMover);
+        StartCoroutine(SpawnGhost());
+        ResetPlayerPosition();
+    }
+
+    public void ResetPlayerPosition()
+    {
+        //// 視窗内に制限された座標を取得
+        //Vector3 clampedPosition = PositionClamper.ClampToViewport(new Vector3(0f, 0f, -3.15785027f), Camera.main);
+
+        //// Z座標を維持して位置を更新
+        //transform.position = new Vector3(clampedPosition.x, clampedPosition.y, transform.position.z);
+
+        //playerPointer.transform.localPosition = new Vector3(0f, 0f, -3.15785027f);
+
+        Vector2 mouseScreenPos = Mouse.current.position.ReadValue();
+
+        Vector3 offset = positionClamper.MoveTransformInsideScreen(mouseScreenPos, playerPointer.transform) - playerPointer.transform.position;
+        playerPointer.transform.localPosition += offset;
     }
 
     private IEnumerator SpawnGhost()
@@ -165,6 +190,11 @@ public class GameManager : MonoBehaviour
         }
 
         CheckVisualOverlaps_Viewport();
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            ResetPlayerPosition();
+        }
     }
 
     public void Gauge()

@@ -53,6 +53,16 @@ public class InputDeviceManager : MonoBehaviour
             joyconManager.enabled = false;
             joyconCursorMover.enabled = false;
         }
+        else if(device == Device.JoyCon)
+        {
+            joystickController.enabled = false;
+            pcController.enabled = false;
+            accelerometerReader.enabled = true;
+            moveWithAcceleration.enabled = true;
+            joyconManager.enabled = false;
+            joyconCursorMover.enabled = false;
+        }
+
     }
 
     private void Update()
@@ -63,18 +73,6 @@ public class InputDeviceManager : MonoBehaviour
         {
             if (device == Device.PC)
             {
-                joystickController.enabled = true;
-                pcController.enabled = false;
-                accelerometerReader.enabled = false;
-                moveWithAcceleration.enabled = false;
-                joyconManager.enabled = false;
-                joyconCursorMover.enabled = false;
-
-                device = Device.JoyStick;
-                Debug.Log("JoyStick");
-            }
-            else if(device == Device.JoyStick)
-            {
                 joystickController.enabled = false;
                 pcController.enabled = false;
                 accelerometerReader.enabled = false;
@@ -83,8 +81,20 @@ public class InputDeviceManager : MonoBehaviour
                 joyconCursorMover.enabled = true;
 
                 device = Device.JoyCon;
-                Debug.Log("JoyCon");
+                Debug.Log("JoyStick");
             }
+            //else if(device == Device.JoyStick)
+            //{
+            //    joystickController.enabled = false;
+            //    pcController.enabled = false;
+            //    accelerometerReader.enabled = false;
+            //    moveWithAcceleration.enabled = false;
+            //    joyconManager.enabled = true;
+            //    joyconCursorMover.enabled = true;
+
+            //    device = Device.JoyCon;
+            //    Debug.Log("JoyCon");
+            //}
             else if(device == Device.JoyCon)
             {
                 joystickController.enabled = false;
