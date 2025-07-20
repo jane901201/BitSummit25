@@ -148,7 +148,25 @@ public class GameManager : MonoBehaviour
         Vector2 mouseScreenPos = Mouse.current.position.ReadValue();
 
         Vector3 offset = positionClamper.MoveTransformInsideScreen(mouseScreenPos, playerPointer.transform) - playerPointer.transform.position;
+        //offset.z = -3.15785f;
+        Debug.Log(offset);
         playerPointer.transform.localPosition += offset;
+    }
+
+    private void LateUpdate()
+    {
+        StartCoroutine(FixTransformZ());
+    }
+
+    private IEnumerator FixTransformZ()
+    {
+        yield return new WaitForSeconds(3f);
+        if (playerPointer.transform.localPosition.z != -3.15785f)
+        {
+            Vector3 pos = playerPointer.transform.localPosition;
+            pos.z = -3.15785f;
+            playerPointer.transform.localPosition = pos;
+        }
     }
 
     private IEnumerator SpawnGhost()

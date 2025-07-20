@@ -46,8 +46,8 @@ public class JoyconCursorMover : MonoBehaviour
         // スピード制限
         delta = Vector2.ClampMagnitude(delta, maxSpeed * Time.deltaTime);
 
-        Debug.Log(gyro + " " + quaternion);
-        Debug.Log(Quaternion.Inverse(quaternion));
+        //Debug.Log(gyro + " " + quaternion);
+        //Debug.Log(Quaternion.Inverse(quaternion));
 
         if (joycon.GetButtonDown(Joycon.Button.SHOULDER_2))
         {
