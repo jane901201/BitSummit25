@@ -147,13 +147,13 @@ public class MoveWithAcceleration : MonoBehaviour
         Debug.Log($"ハイパス加速度: {accel}");
 
         // Rキーで位置リセット
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            transform.position = Vector3.zero;
-            velocity = Vector3.zero; // 同時に慣性もリセット
-            transform.rotation = Quaternion.identity; // 姿勢もリセット
-            Debug.Log("位置リセットされました。");
-        }
+        //if (Input.GetKeyDown(KeyCode.R))
+        //{
+        //    transform.position = Vector3.zero;
+        //    velocity = Vector3.zero; // 同時に慣性もリセット
+        //    transform.rotation = Quaternion.identity; // 姿勢もリセット
+        //    Debug.Log("位置リセットされました。");
+        //}
 
     }
 

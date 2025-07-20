@@ -1,21 +1,21 @@
 using UnityEngine;
-using UnityEngine.UI; // © ’Ç‰Á
+using UnityEngine.UI; // ï¿½ï¿½ ï¿½Ç‰ï¿½
 using System.Collections;
 
 public class WaveController : MonoBehaviour
 {
-    public Image waveImage; // •\¦‚·‚éImage UI
-    public Sprite[] waveSprites; // 5‚Â‚ÌWave‰æ‘œ (waveSprites[0]‚ªWave1)
+    public Image waveImage; // ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Image UI
+    public Sprite[] waveSprites; // 5ï¿½Â‚ï¿½Waveï¿½æ‘œ (waveSprites[0]ï¿½ï¿½Wave1)
 
     public int maxWave = 5;
-    private int currentWave = 0;
+    private int currentWave = 4;//TODO:Temp
     private bool isDisplaying = false;
 
     public TutorialMessageManager tutorialManager;
 
     private void Start()
     {
-        // Å‰‚Í”ñ•\¦
+        // ï¿½Åï¿½ï¿½Í”ï¿½\ï¿½ï¿½
         if (waveImage != null)
         {
             Color c = waveImage.color;
@@ -40,15 +40,15 @@ public class WaveController : MonoBehaviour
     {
         isDisplaying = true;
 
-        // ‰æ‘œ‚ğƒZƒbƒg
+        // ï¿½æ‘œï¿½ï¿½ï¿½Zï¿½bï¿½g
         if (waveImage != null && waveSprites.Length >= currentWave)
         {
             waveImage.sprite = waveSprites[currentWave - 1];
         }
 
-        yield return StartCoroutine(FadeImageAlpha(0f, 1f, 0.5f)); // ƒtƒF[ƒhƒCƒ“
+        yield return StartCoroutine(FadeImageAlpha(0f, 1f, 0.5f)); // ï¿½tï¿½Fï¿½[ï¿½hï¿½Cï¿½ï¿½
         yield return new WaitForSeconds(1.5f);
-        yield return StartCoroutine(FadeImageAlpha(1f, 0f, 0.5f)); // ƒtƒF[ƒhƒAƒEƒg
+        yield return StartCoroutine(FadeImageAlpha(1f, 0f, 0.5f)); // ï¿½tï¿½Fï¿½[ï¿½hï¿½Aï¿½Eï¿½g
 
         isDisplaying = false;
     }

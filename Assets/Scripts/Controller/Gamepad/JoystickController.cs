@@ -23,18 +23,16 @@ public class JoystickController : IInputDevice
     void Update()
     {
         Vector3 movement = new Vector3(moveInput.x, moveInput.y, 0) * baseMoveSpeed * moveInput.magnitude * Time.deltaTime;
-        //transform.position += movement;
-        //transform.position = positionClamper.MoveTransformInsideScreen(position, transform);
-        
         Vector3 newPosition = transform.position + movement;
 
         // 視窗内に制限された座標を取得
         Vector3 clampedPosition = PositionClamper.ClampToViewport(newPosition, Camera.main);
 
-        // 位置を更新
-        transform.position = clampedPosition;
+        // Z座標を維持して位置を更新
+        transform.position = new Vector3(clampedPosition.x, clampedPosition.y, transform.position.z);
 
-        
+
+
         drawTracker.UpdateTracking(transform.position, Time.deltaTime);
     }
 

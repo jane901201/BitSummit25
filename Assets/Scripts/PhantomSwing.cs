@@ -27,20 +27,25 @@ public class PhantomSwing: MonoBehaviour
         get { return playerPointer; }
         set { playerPointer = value; }
     }
-    
-    
+
+
     private void Awake()
-    { 
-        Instance = this;
-        gameData.SetScore(0);
-        DontDestroyOnLoad(gameObject);
-    }
-
-    private void Update()
     {
-        
-    }
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
 
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
+
+        if (SceneManager.GetActiveScene().name == "GameStartScene")
+        {
+            gameData.SetScore(0);
+        }
+    }
+    
     public void LoadGameScene(String sceneName)
     {
         playerPointer = null;
@@ -62,10 +67,11 @@ public class PhantomSwing: MonoBehaviour
         pipelineSwitcher.SwitchPipeline(sceneName);
     }
 
-    public void DeviceSetting(JoystickController joystickController, PCController pcController)
+    public void DeviceSetting(JoystickController joystickController, PCController pcController, AccelerometerReader accelerometerReader
+        , MoveWithAcceleration moveWithAcceleration, JoyconManager joyconManager, JoyconCursorMover joyconCursorMover)
     {
         inputDeviceManager.PlayerPointer = playerPointer;
-        inputDeviceManager.DeviceSetting(joystickController, pcController);
+        inputDeviceManager.DeviceSetting(joystickController, pcController, accelerometerReader, moveWithAcceleration, joyconManager, joyconCursorMover);
     }
 
     

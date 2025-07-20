@@ -4290,11 +4290,6 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 419476755}
   m_SourcePrefab: {fileID: 100100000, guid: a5148c1c651dcf043810bc811bb3188f, type: 3}
---- !u!1 &427259266 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3280519133390621005, guid: a71be3e7990efb040a07565c43cbb198, type: 3}
-  m_PrefabInstance: {fileID: 564707155}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &427259270 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3280519133390621042, guid: a71be3e7990efb040a07565c43cbb198, type: 3}
@@ -14122,11 +14117,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 124767499446534002, guid: fb468437ddd8f1b4fa857e505c8400af, type: 3}
   m_PrefabInstance: {fileID: 335818715}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1605178891 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3280519133390621005, guid: a71be3e7990efb040a07565c43cbb198, type: 3}
-  m_PrefabInstance: {fileID: 1233743168}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1605178895 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3280519133390621042, guid: a71be3e7990efb040a07565c43cbb198, type: 3}
@@ -15745,7 +15735,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bfae9f26dd5c8bd4ba7bf8870d0667e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waveText: {fileID: 1940818884}
+  waveImage: {fileID: 0}
+  waveSprites: []
   maxWave: 5
   tutorialManager: {fileID: 114415980}
 --- !u!114 &1798844124 stripped
@@ -16669,8 +16660,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   effectA: {fileID: 180974447}
   effectB: {fileID: 1975453827}
-  effectC: {fileID: 1605178891}
-  effectD: {fileID: 427259266}
 --- !u!4 &1911779966 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 9126151030305993388, guid: 3e0af15d8cdc35f4b9f3a9f0df418b3d, type: 3}
@@ -18805,6 +18794,14 @@ PrefabInstance:
       propertyPath: ghostSpawnInfos.Array.data[6].ghostPrefab
       value: 
       objectReference: {fileID: 6380899317308937555, guid: c1200e516fb73b3418e1e54fdcbf200f, type: 3}
+    - target: {fileID: 1120688943821564796, guid: feb987746ff0e4e48afa125e3d8e8d61, type: 3}
+      propertyPath: waveSpawnSettingsList.Array.data[3].maxSpawnTime
+      value: 1.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1120688943821564796, guid: feb987746ff0e4e48afa125e3d8e8d61, type: 3}
+      propertyPath: waveSpawnSettingsList.Array.data[3].minSpawnTime
+      value: 0.3
+      objectReference: {fileID: 0}
     - target: {fileID: 1120688943821564796, guid: feb987746ff0e4e48afa125e3d8e8d61, type: 3}
       propertyPath: ghostSpawnInfos.Array.data[0].spawnRatesPerWave.Array.size
       value: 5

@@ -76,6 +76,12 @@ namespace Ghosts
 
         }
 
+        public override void Die()
+        {
+            base.Die();
+            //GameManager.Instance.Victory();
+        }
+
         public override void TakeDamage(int damage)
         {
             base.TakeDamage(damage);

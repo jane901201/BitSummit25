@@ -1,9 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using Controller;
 using Controller.PC;
 using Ghosts;
 using UI;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.Splines;
 using Random = UnityEngine.Random;
 
 public class GameManager : MonoBehaviour
@@ -47,6 +50,9 @@ public class GameManager : MonoBehaviour
     public int CurrentAttackPower => currentAttackPower;
     public int CurrentGauge => currentGauge;
     public int TotalScore => totalScore;
+
+    private PositionClamper positionClamper;
+
 
 
     [SerializeField]
@@ -107,6 +113,8 @@ public class GameManager : MonoBehaviour
         }
         
         ghostGroup = GameObject.Find("Ghosts").gameObject;
+        positionClamper = new PositionClamper(Camera.main);
+        //playerPointer.transform.localPosition = new Vector3(0f, 0f, -3.15785027f);
     } 
 
     private void Start()
@@ -114,13 +122,52 @@ public class GameManager : MonoBehaviour
         uiManager.InitinalHpPanel(maxPlayerHp);
         currentAttackPower = attackPower;
         currentPlayerHp = maxPlayerHp;
-        //StartCoroutine(SpawnGhost());
         defaultAttackableTrigger.SetActive(true);
         enhancedAttackableTrigger.SetActive(false);
         PhantomSwing.Instance.PlayerPointer = playerPointer;
         JoystickController joystickController = playerPointer.GetComponent<JoystickController>();
         PCController pcController = playerPointer.GetComponent<PCController>();
-        PhantomSwing.Instance.DeviceSetting(joystickController, pcController);
+        AccelerometerReader accelerometerReader = playerPointer.GetComponent<AccelerometerReader>();
+        MoveWithAcceleration moveWithAcceleration = playerPointer.GetComponent<MoveWithAcceleration>();
+        JoyconManager joyconManager = playerPointer.GetComponent<JoyconManager>();
+        JoyconCursorMover joyconCursorMover = playerPointer.GetComponent<JoyconCursorMover>();
+        PhantomSwing.Instance.DeviceSetting(joystickController, pcController, accelerometerReader, moveWithAcceleration, joyconManager, joyconCursorMover);
+        StartCoroutine(SpawnGhost());
+        ResetPlayerPosition();
+    }
+
+    public void ResetPlayerPosition()
+    {
+        //// 視窗内に制限された座標を取得
+        //Vector3 clampedPosition = PositionClamper.ClampToViewport(new Vector3(0f, 0f, -3.15785027f), Camera.main);
+
+        //// Z座標を維持して位置を更新
+        //transform.position = new Vector3(clampedPosition.x, clampedPosition.y, transform.position.z);
+
+        //playerPointer.transform.localPosition = new Vector3(0f, 0f, -3.15785027f);
+
+        Vector2 mouseScreenPos = Mouse.current.position.ReadValue();
+
+        Vector3 offset = positionClamper.MoveTransformInsideScreen(mouseScreenPos, playerPointer.transform) - playerPointer.transform.position;
+        //offset.z = -3.15785f;
+        Debug.Log(offset);
+        playerPointer.transform.localPosition += offset;
+    }
+
+    private void LateUpdate()
+    {
+        StartCoroutine(FixTransformZ());
+    }
+
+    private IEnumerator FixTransformZ()
+    {
+        yield return new WaitForSeconds(3f);
+        if (playerPointer.transform.localPosition.z != -3.15785f)
+        {
+            Vector3 pos = playerPointer.transform.localPosition;
+            pos.z = -3.15785f;
+            playerPointer.transform.localPosition = pos;
+        }
     }
 
     private IEnumerator SpawnGhost()
@@ -154,15 +201,32 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if (!isEnhanced && currentGauge >= maxGauge)
+        // ゲージが最大、かつまだ覚醒していない、かつ左クリックされた場合に覚醒
+        if (!isEnhanced && currentGauge >= maxGauge && Input.GetMouseButtonDown(0))
         {
+            
             StartCoroutine(GaugeCoroutine());
         }
-        
+
         CheckVisualOverlaps_Viewport();
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            ResetPlayerPosition();
+        }
     }
 
-    private IEnumerator GaugeCoroutine()
+    public void Gauge()
+    {
+        if (!isEnhanced && currentGauge >= maxGauge)
+        {
+            
+            StartCoroutine(GaugeCoroutine());
+        }
+    }
+
+
+    public IEnumerator GaugeCoroutine()
     {
         isEnhanced = true;
         currentAttackPower = enhancedAttackPower;
@@ -454,8 +518,30 @@ public class GameManager : MonoBehaviour
             return ghostSpawnTime; // fallback
         }
 
-        // ゴースト数によってリニアに補間
-        float t = (float)ghostsList.Count / maxGhostCount; // 0（少ない）〜1（多い）
+        int half = maxGhostCount / 2;
+        int count = ghostsList.Count;
+
+        // 0のときは最大のスポーン時間にする（遅く）
+        if (count == 0)
+        {
+            return waveSetting.maxSpawnTime;
+        }
+
+        float t;
+
+        if (count <= half)
+        {
+            // count が小さいほど t は大きくなる (例: count=1なら t=1, count=halfなら t=1/half)
+            t = 1f / count;
+        }
+        else
+        {
+            // half超えたら0から1の範囲に正規化
+            // countがhalfの時に0、maxGhostCountの時に1になるようにする
+            t = (float)(count - half) / (maxGhostCount - half);
+        }
+
+        // tは0〜1の間の数値になっている想定で補間
         return Mathf.Lerp(waveSetting.minSpawnTime, waveSetting.maxSpawnTime, t);
     }
 
@@ -475,6 +561,12 @@ public class GameManager : MonoBehaviour
         }
 
         Victory();
+    }
+
+    public void HealPlayer(int amount)
+    {
+        currentPlayerHp = Mathf.Min(currentPlayerHp + amount, maxPlayerHp);
+        uiManager.SetHpPanel(currentPlayerHp);
     }
 
 }
