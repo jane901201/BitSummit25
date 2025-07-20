@@ -17,7 +17,6 @@ public class GameManager : MonoBehaviour
 
     [Header("Ghost")]
     [SerializeField] public GameObject ghostGroup;
-
     [SerializeField] private float ghostSpawnTime = 4f;
     [SerializeField] private Transform ghostSpawnPoint;
     [SerializeField] private Vector3 spawnRange = new Vector3(5f, 0f, 5f);
@@ -73,6 +72,8 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private List<GhostSpawnInfo> ghostSpawnInfos;
 
+    [SerializeField] private List<GhostSpawnInfo> bossGhostSpawnInfos;
+
     private int currentWave = 0; // Wave数をGameManagerにも保持
 
     [System.Serializable]
@@ -113,7 +114,7 @@ public class GameManager : MonoBehaviour
         uiManager.InitinalHpPanel(maxPlayerHp);
         currentAttackPower = attackPower;
         currentPlayerHp = maxPlayerHp;
-        StartCoroutine(SpawnGhost());
+        //StartCoroutine(SpawnGhost());
         defaultAttackableTrigger.SetActive(true);
         enhancedAttackableTrigger.SetActive(false);
         PhantomSwing.Instance.PlayerPointer = playerPointer;
@@ -315,7 +316,8 @@ public class GameManager : MonoBehaviour
             }
         }
     }
-    
+
+    #region Overlap
     public void CheckVisualOverlaps_Viewport()
     {
         // Pointer の Viewport 座標（x: 横方向の割合, y: 縦方向の割合, z: カメラからの距離）
@@ -360,14 +362,27 @@ public class GameManager : MonoBehaviour
         //Debug.Log("Overlap Detected!");
         ghost.IsOverlapDetected = true;
     }
+
+    
+
+    #endregion
     public void SetCurrentWave(int wave)
     {
         currentWave = wave;
         //ここをコメントアウトすれば現状のクリア条件消せる
-        if (wave == 5 && !isClearCountdownStarted)
+        // if (wave == 5 && !isClearCountdownStarted)
+        // {
+        //     StartCoroutine(ClearCountdownCoroutine());
+        //     isClearCountdownStarted = true;
+        // }
+
+        if (wave == 5)
         {
-            StartCoroutine(ClearCountdownCoroutine());
-            isClearCountdownStarted = true;
+            GameObject boss = bossGhostSpawnInfos[0].ghostPrefab;
+            GameObject bossInstance = Instantiate(boss, ghostSpawnPoint.position, ghostSpawnPoint.rotation);
+            BossGhost bossGhost = boss.GetComponent<BossGhost>();
+            ghostsList.Add(bossGhost);
+            ghostsList.AddRange(bossGhost.BossPartsGhosts);
         }
     }
 
